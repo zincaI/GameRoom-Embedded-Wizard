@@ -1,0 +1,833 @@
+﻿$version 13.04
+
+// This is the root component of the entire GUI application.
+$rect <-20,10,180,50>
+$output false
+class Application : Core::Root
+{
+  $rect <30,1030,230,1070>
+  inherited property Bounds = <0,0,800,480>;
+
+  // To do:
+  // 
+  // - Adjust the visible size of your application (the thick blue border). It should \
+  // correspond to the size of your target display.
+  // 
+  // - The simplest way to compose the appearance of the application is to use the \
+  // 'Views' and 'Widgets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  note legend Note1
+  {
+    attr Bounds = <-920,920,-140,1150>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <0,0,800,480>;
+    preset Bitmap = Application::BackgroudGamingRoom;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton WordGuessingButton
+  {
+    preset Bounds = <114,174,246,307>;
+    preset OnLeave = null;
+    preset OnEnter = null;
+    preset OnRelease = null;
+    preset OnPress = null;
+    preset OnActivate = EffectWordGuessing;
+    preset IconFrameActive = 2;
+    preset IconFrameFocused = -1;
+    preset IconFrameDisabled = -1;
+    preset IconFrameDefault = -1;
+    preset Icon = Application::WordGuessingLogo;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-480,20,-240,60>
+  object WidgetSet::PushButtonConfig PushButtonConfig;
+
+  $rect <-480,140,-250,180>
+  slot OpenGuessingWordGame
+  {
+
+
+    if ( IsDialog(false))
+      Owner.DismissDialog( this, null, null, null, null, null, false );
+
+    if ( IsActiveDialog( true ))
+    {
+      GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
+
+    }
+
+
+    WordGuessingButton.Visible=false;
+  }
+
+  // Starting games
+  note group StartingGames
+  {
+    attr Bounds = <-520,90,-220,290>;
+  }
+
+  $rect <-480,370,-280,410>
+  slot EffectWordGuessing
+  {
+    Timer.Enabled=true;
+    WordGuessingButton.Enabled=false;
+  }
+
+  // Effects handling
+  note group Effects
+  {
+    attr Bounds = <-520,330,-220,530>;
+  }
+
+  // Other elements
+  note group OtherElements
+  {
+    attr Bounds = <-520,570,-220,770>;
+  }
+
+  $rect <-470,610,-270,650>
+  object Core::Timer Timer
+  {
+    preset OnTrigger = OpenGuessingWordGame;
+    preset Period = 0;
+    preset Begin = 1000;
+  }
+}
+
+$rect <230,20,430,60>
+$output false
+resource Resources::Font Font
+{
+  attr fontname FontName = Roboto;
+  attr fontheight Height = 38;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <470,0,700,40>
+$output false
+resource Resources::Bitmap BackgroudGamingRoom
+{
+  attr bitmapfile FileName = .\background_entry_room.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+// Images
+note group Note
+{
+  attr Bounds = <430,-40,1960,390>;
+}
+
+$rect <470,50,700,90>
+$output false
+resource Resources::Bitmap WordGuessingLogo
+{
+  attr bitmapfile FileName = .\button_guess_words_game2.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+// Classes
+note group Note1
+{
+  attr Bounds = <-70,-30,230,350>;
+}
+
+$rect <-20,60,180,100>
+$output false
+class GuessTheWord : Core::Group
+{
+  $rect <10,630,210,670>
+  inherited property Bounds = <0,0,800,599>;
+
+  $rect <10,790,210,830>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <10,750,210,790>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your component (the thick blue border).
+  // 
+  // - The simplest way to compose the appearance of the component is to use the \
+  // 'Views' and 'Widget Sets' from the Gallery.
+  // 
+  // - To react to touch or keyboard events use the templates from the Gallery folder \
+  // 'Event Handlers'.
+  // 
+  // - To perform transitions (animations) use the templates from the Gallery folder \
+  // 'Effects'.
+  // 
+  // - To implement the interface of the component use the 'Property' template from \
+  // the Gallery folder 'Chora'.
+  // 
+  // - To store values use the 'Variable' and 'Array' templates available in the \
+  // Gallery folder 'Chora'.
+  // 
+  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
+  // in the Gallery folder 'Chora'.
+  // 
+  // - In the method 'UpdateViewState()' you can put code to update the state of \
+  // views enclosed in your component.
+  // 
+  // - In the method 'UpdateLayout()' you can put code to perform sophisticated layout \
+  // calculation for enclosed views.
+  note legend Note1
+  {
+    attr Bounds = <220,630,1000,950>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <191,69,277,145>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image1
+  {
+    preset Bounds = <307,69,393,145>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image2
+  {
+    preset Bounds = <427,69,513,145>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image3
+  {
+    preset Bounds = <548,69,634,145>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstLetter
+  {
+    preset Bounds = <199,76,271,139>;
+    preset String = "";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text SecondLetter
+  {
+    preset Bounds = <314,76,386,139>;
+    preset String = "";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text ThirdLetter
+  {
+    preset Bounds = <434,76,506,139>;
+    preset String = "";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text ForthLetter
+  {
+    preset Bounds = <555,76,627,139>;
+    preset String = "";
+    preset Font = Resources::DefaultFont;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton q
+  {
+    preset Bounds = <81,222,128,275>;
+    preset Icon = Application::q;
+    preset Label = "Caption";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-420,170,-180,210>
+  object WidgetSet::PushButtonConfig PushButtonConfig;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton m
+  {
+    preset Bounds = <147,381,195,436>;
+    preset Icon = Application::m;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton w
+  {
+    preset Bounds = <144,223,199,278>;
+    preset Icon = Application::w;
+    preset Label = "Caption";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton e
+  {
+    preset Bounds = <209,223,262,281>;
+    preset Icon = Application::e;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton r
+  {
+    preset Bounds = <277,220,325,275>;
+    preset Icon = Application::r;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton t
+  {
+    preset Bounds = <338,220,386,275>;
+    preset Icon = Application::t;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton y
+  {
+    preset Bounds = <393,220,441,275>;
+    preset Icon = Application::y;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton u
+  {
+    preset Bounds = <458,221,506,276>;
+    preset Icon = Application::u;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton y1
+  {
+    preset Bounds = <524,220,572,275>;
+    preset Icon = Application::i;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton y2
+  {
+    preset Bounds = <591,220,639,275>;
+    preset Icon = Application::o;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton y3
+  {
+    preset Bounds = <657,220,705,275>;
+    preset Icon = Application::p;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton a
+  {
+    preset Bounds = <104,299,152,381>;
+    preset Icon = Application::a;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton s
+  {
+    preset Bounds = <161,310,209,371>;
+    preset Icon = Application::s;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton d
+  {
+    preset Bounds = <223,313,271,368>;
+    preset Icon = Application::d;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton f
+  {
+    preset Bounds = <290,313,338,368>;
+    preset Icon = Application::f;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton g
+  {
+    preset Bounds = <350,313,398,371>;
+    preset Icon = Application::g;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton h
+  {
+    preset Bounds = <410,313,458,368>;
+    preset Icon = Application::h;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton j
+  {
+    preset Bounds = <476,313,524,368>;
+    preset Icon = Application::j;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton k
+  {
+    preset Bounds = <531,313,579,368>;
+    preset Icon = Application::k;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton l
+  {
+    preset Bounds = <591,313,639,368>;
+    preset Icon = Application::l;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+}
+
+$rect <470,100,710,140>
+$output false
+resource Resources::Bitmap PlaceholderGuessingGame
+{
+  attr bitmapfile FileName = .\placeholder_guessing_game2.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+// Letters
+note group Letters
+{
+  attr Bounds = <820,20,1780,360>;
+}
+
+$rect <860,60,1060,100>
+$output false
+resource Resources::Bitmap q
+{
+  attr bitmapfile FileName = .\q.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,110,1060,150>
+$output false
+resource Resources::Bitmap m
+{
+  attr bitmapfile FileName = .\m.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,160,1060,200>
+$output false
+resource Resources::Bitmap w
+{
+  attr bitmapfile FileName = .\w.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,210,1060,250>
+$output false
+resource Resources::Bitmap e
+{
+  attr bitmapfile FileName = .\e.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,260,1060,300>
+$output false
+resource Resources::Bitmap r
+{
+  attr bitmapfile FileName = .\r.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,310,1060,350>
+$output false
+resource Resources::Bitmap t
+{
+  attr bitmapfile FileName = .\t.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,60,1290,100>
+$output false
+resource Resources::Bitmap y
+{
+  attr bitmapfile FileName = .\y.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,110,1290,150>
+$output false
+resource Resources::Bitmap u
+{
+  attr bitmapfile FileName = .\u.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,160,1290,200>
+$output false
+resource Resources::Bitmap i
+{
+  attr bitmapfile FileName = .\i.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,210,1290,250>
+$output false
+resource Resources::Bitmap o
+{
+  attr bitmapfile FileName = .\o.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,260,1290,300>
+$output false
+resource Resources::Bitmap p
+{
+  attr bitmapfile FileName = .\p.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,310,1290,350>
+$output false
+resource Resources::Bitmap a
+{
+  attr bitmapfile FileName = .\a.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,60,1500,100>
+$output false
+resource Resources::Bitmap s
+{
+  attr bitmapfile FileName = .\s.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,110,1500,150>
+$output false
+resource Resources::Bitmap d
+{
+  attr bitmapfile FileName = .\d.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,160,1500,200>
+$output false
+resource Resources::Bitmap f
+{
+  attr bitmapfile FileName = .\f.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,210,1500,250>
+$output false
+resource Resources::Bitmap g
+{
+  attr bitmapfile FileName = .\g.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,260,1500,300>
+$output false
+resource Resources::Bitmap h
+{
+  attr bitmapfile FileName = .\h.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,310,1500,350>
+$output false
+resource Resources::Bitmap j
+{
+  attr bitmapfile FileName = .\j.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,70,1710,110>
+$output false
+resource Resources::Bitmap k
+{
+  attr bitmapfile FileName = .\k.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,120,1710,160>
+$output false
+resource Resources::Bitmap l
+{
+  attr bitmapfile FileName = .\l.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
