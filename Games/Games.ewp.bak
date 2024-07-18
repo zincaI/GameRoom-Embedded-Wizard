@@ -1,4 +1,4 @@
-$version 13.04
+﻿$version 13.04
 
 // This unit is a part of the Embedded Wizard class library 'Mosaic20'
 $rect <40,70,240,110>
@@ -113,10 +113,14 @@ profile Profile : Windows.Software.RGBA8888
   attr FontConversion = Windows;
   attr OutputFileNameExtension = c;
   attr ScreenOrientation = Normal;
-  attr ModeOfBitmapResources = Compressed;
-  attr ModeOfStringConstants = Compressed;
   attr OutputDirectory = .\GeneratedCode;
 
   $rect <10,10,154,50>
   macro Author = "Dipl. Ing. Paul Banach and Dipl. Ing. Manfred Schweyer, Copyright (C) TARA Systems GmbH";
+}
+
+$rect <40,270,240,310>
+unit WidgetSet
+{
+  attr Directory = $Mosaic\;
 }

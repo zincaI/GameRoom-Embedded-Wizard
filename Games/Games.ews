@@ -1,8 +1,9 @@
 $version 1.0
 
-attr active = Application::GuessTheWord;
+attr active = Application::MemoryGame;
 attr callStackMonitor_Show = false;
-attr connectInspectors = true;
+attr connectInspectors = false;
+attr currentCodeInspector = Application::MemoryGame.WinMessage;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -29,10 +30,9 @@ view Project
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
-  attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-7,-7>;
-  attr zoom = 1.0;
+  attr scrollTo = <143,-351>;
+  attr zoom = 0.5;
 }
 
 view unit Application
@@ -41,36 +41,43 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <1386,-80>;
+  attr scrollTo = <-910,-8>;
   attr zoom = 0.75;
 }
 
 view class Application::Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-335,-60>;
-  attr zoom = 0.75;
+  attr scrollTo = <-398,224>;
+  attr zoom = 1.25;
+}
+
+view class Application::MemoryGame
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-588,-205>;
+  attr zoom = 0.5;
 }
 
 view class Application::GuessTheWord
 {
   attr enableWireMode = false;
-  attr scrollTo = <-129,56>;
+  attr scrollTo = <-11,39>;
   attr zoom = 1.0;
 }
 
-codeview Application::Application.OpenGuessingWordGame
+codeview Application::MemoryGame.WinMessage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <0,0>;
-  attr codeSelStart = <0,0>;
+  attr codeSelEnd = <31,2>;
+  attr codeSelStart = <31,2>;
 }
 
-codeview Application::Application.EffectWordGuessing
+codeview Application::MemoryGame.VerifyCards
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <33,1>;
-  attr codeSelStart = <33,1>;
+  attr codeSelEnd = <10,49>;
+  attr codeSelStart = <10,49>;
 }

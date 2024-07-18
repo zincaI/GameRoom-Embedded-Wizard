@@ -124,3 +124,9 @@ unit WidgetSet
 {
   attr Directory = $Mosaic\;
 }
+
+$rect <40,310,240,350>
+unit Templates
+{
+  attr Directory = $Mosaic\;
+}

@@ -1,36 +1,12 @@
 ﻿$version 13.04
 
 // This is the root component of the entire GUI application.
-$rect <-20,10,180,50>
+$rect <-550,10,-350,50>
 $output false
 class Application : Core::Root
 {
-  $rect <30,1030,230,1070>
+  $rect <-470,850,-270,890>
   inherited property Bounds = <0,0,800,480>;
-
-  // To do:
-  // 
-  // - Adjust the visible size of your application (the thick blue border). It should \
-  // correspond to the size of your target display.
-  // 
-  // - The simplest way to compose the appearance of the application is to use the \
-  // 'Views' and 'Widgets' from the Gallery.
-  // 
-  // - To react to touch or keyboard events use the templates from the Gallery folder \
-  // 'Event Handlers'.
-  // 
-  // - To perform transitions (animations) use the templates from the Gallery folder \
-  // 'Effects'.
-  // 
-  // - To store values use the 'Variable', 'Array' and 'Property' templates available \
-  // in the Gallery folder 'Chora'.
-  // 
-  // - To implement behavior use the 'Method' and 'Slot Method' templates available \
-  // in the Gallery folder 'Chora'.
-  note legend Note1
-  {
-    attr Bounds = <-920,920,-140,1150>;
-  }
 
   $rect <20,20,160,60>
   object Views::Image Image
@@ -46,8 +22,8 @@ class Application : Core::Root
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
-    preset OnPress = null;
-    preset OnActivate = EffectWordGuessing;
+    preset OnPress = OnPressGuessingWordGame;
+    preset OnActivate = null;
     preset IconFrameActive = 2;
     preset IconFrameFocused = -1;
     preset IconFrameDisabled = -1;
@@ -63,32 +39,26 @@ class Application : Core::Root
   $rect <-480,140,-250,180>
   slot OpenGuessingWordGame
   {
-
-
     if ( IsDialog(false))
       Owner.DismissDialog( this, null, null, null, null, null, false );
 
     if ( IsActiveDialog( true ))
     {
-      GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
+
+      GetRoot().PresentDialog( new Application::GuessTheWord,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
+      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
 
     }
 
+    var slot sl=this.DisableButtons;
+    signal sl;
 
-    WordGuessingButton.Visible=false;
   }
 
   // Starting games
   note group StartingGames
   {
-    attr Bounds = <-520,90,-220,290>;
-  }
-
-  $rect <-480,370,-280,410>
-  slot EffectWordGuessing
-  {
-    Timer.Enabled=true;
-    WordGuessingButton.Enabled=false;
+    attr Bounds = <-520,90,-220,300>;
   }
 
   // Effects handling
@@ -97,22 +67,99 @@ class Application : Core::Root
     attr Bounds = <-520,330,-220,530>;
   }
 
-  // Other elements
-  note group OtherElements
+  // Timers for the effects
+  note group Timers
   {
     attr Bounds = <-520,570,-220,770>;
   }
 
   $rect <-470,610,-270,650>
-  object Core::Timer Timer
+  object Core::Timer TimerGuessingGame
   {
     preset OnTrigger = OpenGuessingWordGame;
     preset Period = 0;
-    preset Begin = 1000;
+    preset Begin = 1300;
+  }
+
+  $rect <-490,380,-240,420>
+  slot OnPressGuessingWordGame
+  {
+    WordGuessingButton.Icon=Application::OnPressWordGuessingLogo;
+
+
+    TimerGuessingGame.Enabled=true;
+
+
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton MemoryGameButton
+  {
+    preset Bounds = <297,174,429,307>;
+    preset OnLeave = null;
+    preset OnEnter = null;
+    preset OnRelease = null;
+    preset OnPress = OnPressMemoryGame;
+    preset OnActivate = null;
+    preset IconFrameActive = 2;
+    preset IconFrameFocused = -1;
+    preset IconFrameDisabled = -1;
+    preset IconFrameDefault = -1;
+    preset Icon = Application::MemoryGameLogo;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-480,190,-250,230>
+  slot OpenMemoryGame
+  {
+    if ( IsDialog(false))
+      Owner.DismissDialog( this, null, null, null, null, null, false );
+
+    if ( IsActiveDialog( true ))
+    {
+
+      GetRoot().PresentDialog( new Application::MemoryGame,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
+      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
+
+    }
+
+    var slot sl=this.DisableButtons;
+    signal sl;
+
+
+  }
+
+  $rect <-490,430,-240,470>
+  slot OnPressMemoryGame
+  {
+    MemoryGameButton.Icon=Application::OnPressMemoryGameLogo;
+
+
+    TimerMemoryGame.Enabled=true;
+
+
+  }
+
+  $rect <-470,660,-270,700>
+  object Core::Timer TimerMemoryGame
+  {
+    preset OnTrigger = OpenMemoryGame;
+    preset Period = 0;
+    preset Begin = 1300;
+  }
+
+  $rect <-470,790,-270,830>
+  slot DisableButtons
+  {
+    WordGuessingButton.Enabled=false;
+    WordGuessingButton.Visible=false;
+    MemoryGameButton.Enabled=false;
+    MemoryGameButton.Visible=false;
   }
 }
 
-$rect <230,20,430,60>
+$rect <130,240,370,280>
 $output false
 resource Resources::Font Font
 {
@@ -128,7 +175,7 @@ resource Resources::Font Font
   attr fontrowdistance RowDistance;
 }
 
-$rect <470,0,700,40>
+$rect <480,10,710,50>
 $output false
 resource Resources::Bitmap BackgroudGamingRoom
 {
@@ -143,10 +190,10 @@ resource Resources::Bitmap BackgroudGamingRoom
 // Images
 note group Note
 {
-  attr Bounds = <430,-40,1960,390>;
+  attr Bounds = <430,-40,2300,420>;
 }
 
-$rect <470,50,700,90>
+$rect <480,160,720,200>
 $output false
 resource Resources::Bitmap WordGuessingLogo
 {
@@ -161,14 +208,14 @@ resource Resources::Bitmap WordGuessingLogo
 // Classes
 note group Note1
 {
-  attr Bounds = <-70,-30,230,350>;
+  attr Bounds = <-580,-30,40,200>;
 }
 
-$rect <-20,60,180,100>
+$rect <-550,60,-350,100>
 $output false
 class GuessTheWord : Core::Group
 {
-  $rect <10,630,210,670>
+  $rect <-420,650,-220,690>
   inherited property Bounds = <0,0,800,599>;
 
   $rect <10,790,210,830>
@@ -298,6 +345,3562 @@ class GuessTheWord : Core::Group
     */
   }
 
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <160,95,246,171>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image1
+  {
+    preset Bounds = <276,95,362,171>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image2
+  {
+    preset Bounds = <396,95,482,171>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image3
+  {
+    preset Bounds = <517,95,603,171>;
+    preset Bitmap = Application::PlaceholderGuessingGame;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text FirstLetter
+  {
+    preset Bounds = <168,102,240,165>;
+    preset String = "";
+    preset Font = Application::WordGuessingGameFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text SecondLetter
+  {
+    preset Bounds = <283,102,355,165>;
+    preset String = "";
+    preset Font = Application::WordGuessingGameFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text ThirdLetter
+  {
+    preset Bounds = <403,102,475,165>;
+    preset String = "";
+    preset Font = Application::WordGuessingGameFont;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text ForthLetter
+  {
+    preset Bounds = <524,102,596,165>;
+    preset OnUpdate = null;
+    preset String = "";
+    preset Font = Application::WordGuessingGameFont;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton q
+  {
+    preset Bounds = <91,243,138,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::q;
+    preset Label = "Q";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-720,650,-480,690>
+  object WidgetSet::PushButtonConfig PushButtonConfig;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton m
+  {
+    preset Bounds = <528,381,576,436>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::m;
+    preset Label = "M";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton w
+  {
+    preset Bounds = <154,244,209,299>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::w;
+    preset Label = "W";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton e
+  {
+    preset Bounds = <219,244,272,302>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::e;
+    preset Label = "E";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton r
+  {
+    preset Bounds = <287,241,335,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::r;
+    preset Label = "R";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton t
+  {
+    preset Bounds = <348,241,396,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::t;
+    preset Label = "T";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton y
+  {
+    preset Bounds = <403,241,451,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::y;
+    preset Label = "Y";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton u
+  {
+    preset Bounds = <468,242,516,297>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::u;
+    preset Label = "U";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton i
+  {
+    preset Bounds = <534,241,582,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::i;
+    preset Label = "I";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton o
+  {
+    preset Bounds = <601,241,649,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::o;
+    preset Label = "O";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton p
+  {
+    preset Bounds = <667,241,715,296>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::p;
+    preset Label = "P";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton A
+  {
+    preset Bounds = <105,297,153,379>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::a;
+    preset Label = "A";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton s
+  {
+    preset Bounds = <153,312,201,373>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::s;
+    preset Label = "S";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton d
+  {
+    preset Bounds = <219,314,267,369>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::d;
+    preset Label = "D";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton f
+  {
+    preset Bounds = <287,311,335,366>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::f;
+    preset Label = "F";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton g
+  {
+    preset Bounds = <348,308,396,366>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::g;
+    preset Label = "G";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton h
+  {
+    preset Bounds = <403,310,451,365>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::h;
+    preset Label = "H";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton j
+  {
+    preset Bounds = <468,315,516,370>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::j;
+    preset Label = "J";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton k
+  {
+    preset Bounds = <530,311,578,366>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::k;
+    preset Label = "K";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-670,590,-490,630>
+  inherited method Init()
+  {
+    var int32 wordChoice=0;
+    RandomChoice.String=string(wordChoice);
+
+    //wordChoice = math_rand(0, 3);
+
+  }
+
+  // The disclaimer with the guessed letters that were not yet placed in the correct \
+  // spot.
+  $rect <20,20,160,60>
+  object Views::Text LettersToUse
+  {
+    preset Bounds = <-122,451,603,538>;
+    preset ColorTR = #FFCC2DFF;
+    preset ColorTL = #FFDEB9FF;
+    preset String = "Don't forget to use these letters:";
+    preset Font = Application::WordGuessingGameFont;
+    preset Visible = false;
+  }
+
+  // Game logic
+  note group NoteGameLogic
+  {
+    attr Bounds = <-760,140,-150,640>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text GuessedText
+  {
+    preset StackingPriority = 2;
+    preset Bounds = <224,220,556,397>;
+    preset Padding = 0;
+    preset ColorBR = #D27129FF;
+    preset ColorTR = #D27129FF;
+    preset ColorTL = #070707FF;
+    preset String = "You won!";
+    preset Font = Application::WordGuessingGameFontWin;
+    preset Visible = false;
+  }
+
+  $rect <-400,230,-200,270>
+  slot GuessWord
+  {
+    var string firstOption="0";
+    if(ForthLetter.String=="")
+    {
+        var slot sl = this.UnfilledSpacesSlot;
+        signal sl;
+    }          
+    else
+    {
+    if(RandomChoice.String==firstOption)
+    {
+        var slot sl = this.GuessWordGame;
+        signal sl;
+        if(FirstLetter.Color!=#111111ff)
+        FirstLetter.String="";
+        
+            if(SecondLetter.Color!=#111111ff)
+        SecondLetter.String="";
+        
+            if(ThirdLetter.Color!=#111111ff)
+        ThirdLetter.String="";
+
+            if(ForthLetter.Color!=#111111ff)
+        ForthLetter.String="";
+
+    }
+    //else if(wordChoice==1)
+    //{
+    //}
+    //else if(wordChoice==2)
+    //{
+    //}
+    //else if(wordChoice==3)
+    //{
+    //}
+    }
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text RandomChoice
+  {
+    preset Bounds = <-307,80,-207,110>;
+    preset String = "Text";
+    preset Font = Resources::DefaultFont;
+  }
+
+  // Keyboard (for Enter see GuessWord)
+  note group Keyboard
+  {
+    attr Bounds = <-700,180,-440,370>;
+  }
+
+  $rect <-400,280,-200,320>
+  slot GuessWordGame
+  {
+        if(FirstLetter.String=="G")
+        {
+           FirstLetter.Color=#111111ff;
+           if(GuessedLetters.String!="")
+           {
+     
+           var int32 poz=GuessedLetters.String.find( 'G', 0 );
+           if(poz !=0)
+             GuessedLetters.String=GuessedLetters.String.remove( poz, 1 );
+           
+           }
+        }
+        else if(SecondLetter.String=="G" || ThirdLetter.String=="G" || ForthLetter.String=="G")
+        {
+                LettersToUse.Visible=true;
+                            if(GuessedLetters.String[0]!='G' && GuessedLetters.String[1]!='G' && GuessedLetters.String[2]!='G' && GuessedLetters.String[3]!='G')
+                {
+                GuessedLetters.String=GuessedLetters.String+" G";   
+                }
+                GuessedLetters.Visible=true;
+        }
+
+            if(SecondLetter.String=="A")
+        {
+           SecondLetter.Color=#111111ff;
+            if(GuessedLetters.String!="")
+           {
+     
+           var int32 poz=GuessedLetters.String.find( 'A', 0 );
+           if(poz !=0)
+             GuessedLetters.String=GuessedLetters.String.remove( poz, 1 );
+           
+           }
+        }
+            else if(FirstLetter.String=="A" || ThirdLetter.String=="A" || ForthLetter.String=="A")
+        {
+                LettersToUse.Visible=true;
+                if(GuessedLetters.String[0]!='A' && GuessedLetters.String[1]!='A' && GuessedLetters.String[2]!='A' && GuessedLetters.String[3]!='A')
+                {
+                GuessedLetters.String=GuessedLetters.String+" A";
+                }
+                GuessedLetters.Visible=true;
+        }
+
+            if(ThirdLetter.String=="M")
+        {
+           ThirdLetter.Color=#111111ff;
+                  var int32 poz=GuessedLetters.String.find( 'M', 0 );
+           if(poz !=0)
+             GuessedLetters.String=GuessedLetters.String.remove( poz, 1 );
+           
+        }
+        else if(SecondLetter.String=="M" || FirstLetter.String=="M" || ForthLetter.String=="M")
+        {
+                LettersToUse.Visible=true;            
+                if(GuessedLetters.String[0]!='M' && GuessedLetters.String[1]!='M' && GuessedLetters.String[2]!='M' && GuessedLetters.String[3]!='M')
+                 {
+                GuessedLetters.String=GuessedLetters.String+" M";   
+                }
+                GuessedLetters.Visible=true;
+        }
+
+            if(ForthLetter.String=="E")
+        {
+           ForthLetter.Color=#111111ff;
+                  var int32 poz=GuessedLetters.String.find( 'E', 0 );
+           if(poz !=0)
+             GuessedLetters.String=GuessedLetters.String.remove( poz, 1 );
+           
+        }
+            else if(SecondLetter.String=="E" || ThirdLetter.String=="E" || FirstLetter.String=="E")
+        {
+                LettersToUse.Visible=true;
+                if(GuessedLetters.String[0]!='E' && GuessedLetters.String[1]!='E' && GuessedLetters.String[2]!='E' && GuessedLetters.String[3]!='E')
+                {
+                GuessedLetters.String=GuessedLetters.String+" E";
+                }
+                GuessedLetters.Visible=true;
+        }
+        
+        if(FirstLetter.String=="G" && SecondLetter.String=="A" && ThirdLetter.String=="M" && ForthLetter.String=="E")
+    {
+                 GuessedText.Visible=true;
+                 FilterKeyboard.Visible=true;
+                 var slot sl=this.DisableKeyboard;
+                 signal sl;
+                 LettersToUse.Visible=false;
+    }
+
+  }
+
+  // Word choices
+  note group WordChoices
+  {
+    attr Bounds = <-430,180,-180,370>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text GuessedLetters
+  {
+    preset Bounds = <478,479,578,509>;
+    preset ColorTR = #FFCC2DFF;
+    preset ColorTL = #FFDEB9FF;
+    preset String = "";
+    preset Font = Application::WordGuessingGameFont;
+    preset Visible = false;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton delete_key
+  {
+    preset Bounds = <592,311,742,361>;
+    preset OnPress = PressDelete;
+    preset Icon = Application::delete_key;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton enter
+  {
+    preset Bounds = <592,381,742,431>;
+    preset OnPress = GuessWord;
+    preset Icon = Application::enter;
+    preset Label = "Caption";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton l
+  {
+    preset Bounds = <111,376,160,441>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::l;
+    preset Label = "L";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton z
+  {
+    preset Bounds = <160,383,208,433>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::z;
+    preset Label = "Z";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton x
+  {
+    preset Bounds = <224,381,272,431>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::x;
+    preset Label = "X";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton c
+  {
+    preset Bounds = <290,379,332,429>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::c;
+    preset Label = "C";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton v
+  {
+    preset Bounds = <348,381,388,431>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::v;
+    preset Label = "V";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton b
+  {
+    preset Bounds = <413,383,453,433>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::b;
+    preset Label = "B";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton n
+  {
+    preset Bounds = <468,386,517,436>;
+    preset OnPress = PressLetter;
+    preset Icon = Application::n;
+    preset Label = "N";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text UnfilledSpaces
+  {
+    preset Bounds = <-8,88,752,178>;
+    preset ColorTR = #FF7403FF;
+    preset String = "Fill all the spaces";
+    preset Font = Application::WordGuessingGameFont;
+    preset Visible = false;
+  }
+
+  $rect <-650,530,-480,570>
+  object Core::Timer TimerUnfilledSpaces
+  {
+    preset OnTrigger = DismissUnfilledSpacesWarning;
+    preset Period = 0;
+    preset Begin = 1000;
+  }
+
+  $rect <-650,480,-480,520>
+  slot UnfilledSpacesSlot
+  {
+    UnfilledSpaces.Visible=true;
+    UnfilledSpaces.Color=UnfilledSpacesGradient.Value;
+    TimerUnfilledSpaces.Enabled=true;
+
+  }
+
+  $rect <-650,430,-480,470>
+  slot DismissUnfilledSpacesWarning
+  {
+    UnfilledSpaces.Visible=false;
+
+  }
+
+  $rect <-670,310,-470,350>
+  slot PressDelete
+  {
+    if(ForthLetter.String!="" && ForthLetter.Color!=#111111ff)
+    {
+    ForthLetter.String="";
+    }
+    else if(ThirdLetter.String!="" && ThirdLetter.Color!=#111111ff)
+    {
+    ThirdLetter.String="";
+    }
+    else if(SecondLetter.String!="" && SecondLetter.Color!=#111111ff)
+    {
+    SecondLetter.String="";
+    }
+    else if(FirstLetter.Color!=#111111ff) FirstLetter.String="";
+  }
+
+  $rect <-670,260,-470,300>
+  slot PressLetter
+  {
+    sender; /* the method is called from the sender object */
+    var WidgetSet::PushButton currentSender = (WidgetSet::PushButton )sender;
+
+    if(FirstLetter.String=="")
+    {
+    FirstLetter.String=currentSender.Label;
+    }
+    else if(SecondLetter.String=="")
+    {
+    SecondLetter.String=currentSender.Label;
+    }
+    else if(ThirdLetter.String=="")
+    {
+    ThirdLetter.String=currentSender.Label;
+    }
+    else if(ForthLetter.String=="")
+    {
+    ForthLetter.String=currentSender.Label;
+    }
+    FilterKeyboard.Visible=true;
+    var slot sl = this.DisableKeyboard;
+    signal sl;
+    ButtonPressed.Enabled=true;
+
+
+
+  }
+
+  $rect <-1090,190,-850,230>
+  object Effects::ColorEffect UnfilledSpacesGradient
+  {
+    preset CycleDuration = 2000;
+    preset Enabled = true;
+  }
+
+  // Special effects
+  note group SpecialEffects
+  {
+    attr Bounds = <-1120,140,-820,340>;
+  }
+
+  $rect <-400,440,-200,480>
+  object Core::Timer ButtonPressed
+  {
+    preset OnTrigger = PressButtonEffect;
+    preset Period = 0;
+    preset Begin = 300;
+  }
+
+  // Handling unfilled spaces
+  note group HandlingUnfilledSpaces
+  {
+    attr Bounds = <-700,380,-440,580>;
+  }
+
+  // Handling unfilled spaces(also see keyboard above)
+  note group HandlingButtonPressed
+  {
+    attr Bounds = <-430,380,-170,580>;
+  }
+
+  $rect <-400,490,-200,530>
+  slot PressButtonEffect
+  {
+    FilterKeyboard.Visible=false;
+    var slot sl = this.EnableKeyboard;
+    signal sl;
+  }
+
+  $rect <20,20,160,60>
+  object Views::FilterImage FilterKeyboard
+  {
+    preset Bounds = <81,234,742,447>;
+    preset Bitmap = Application::BackgroudGamingRoom;
+    preset TintColor = #CCC0AFFF;
+    preset TintIntensity = 5.0;
+    preset TintMode = Graphics::TintMode.TintByOpacity;
+    preset Opacity = 140;
+    preset Visible = false;
+  }
+
+  $rect <-1070,290,-870,330>
+  slot DisableKeyboard
+  {
+     k.Enabled=false;
+                 A.Enabled=false;
+                 b.Enabled=false;
+                 c.Enabled=false;
+                 e.Enabled=false;
+                 f.Enabled=false;
+                 g.Enabled=false;
+                 h.Enabled=false;
+                 i.Enabled=false;
+                 j.Enabled=false;
+                 l.Enabled=false;
+                 m.Enabled=false;
+                 n.Enabled=false;
+                 o.Enabled=false;
+                 p.Enabled=false;
+                 q.Enabled=false;
+                 r.Enabled=false;
+                 d.Enabled=false;
+                 t.Enabled=false;
+                 w.Enabled=false;
+                 x.Enabled=false;
+                 y.Enabled=false;
+                 z.Enabled=false;
+                 s.Enabled=false;
+                 u.Enabled=false;
+                 v.Enabled=false;
+                 enter.Enabled=false;
+                 delete_key.Enabled=false;
+  }
+
+  $rect <-1070,240,-870,280>
+  slot EnableKeyboard
+  {
+     k.Enabled=true;
+                 A.Enabled=true;
+                 b.Enabled=true;
+                 c.Enabled=true;
+                 e.Enabled=true;
+                 f.Enabled=true;
+                 g.Enabled=true;
+                 h.Enabled=true;
+                 i.Enabled=true;
+                 j.Enabled=true;
+                 l.Enabled=true;
+                 m.Enabled=true;
+                 n.Enabled=true;
+                 o.Enabled=true;
+                 p.Enabled=true;
+                 q.Enabled=true;
+                 r.Enabled=true;
+                 d.Enabled=true;
+                 t.Enabled=true;
+                 w.Enabled=true;
+                 x.Enabled=true;
+                 y.Enabled=true;
+                 z.Enabled=true;
+                 s.Enabled=true;
+                 u.Enabled=true;
+                 v.Enabled=true;
+                 enter.Enabled=true;
+                 delete_key.Enabled=true; 
+  }
+
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member UpdateLayout
+  $member UpdateViewState
+  $member Image
+  $member Image1
+  $member Image2
+  $member Image3
+  $member FirstLetter
+  $member SecondLetter
+  $member ThirdLetter
+  $member ForthLetter
+  $member q
+  $member PushButtonConfig
+  $member m
+  $member w
+  $member e
+  $member r
+  $member t
+  $member y
+  $member u
+  $member i
+  $member o
+  $member p
+  $member A
+  $member s
+  $member d
+  $member f
+  $member g
+  $member h
+  $member j
+  $member k
+  $member LettersToUse
+  $member NoteGameLogic
+  $member GuessedText
+  $member GuessWord
+  $member RandomChoice
+  $member Keyboard
+  $member GuessWordGame
+  $member WordChoices
+  $member GuessedLetters
+  $member delete_key
+  $member enter
+  $member l
+  $member z
+  $member x
+  $member c
+  $member v
+  $member b
+  $member n
+  $member UnfilledSpaces
+  $member TimerUnfilledSpaces
+  $member UnfilledSpacesSlot
+  $member DismissUnfilledSpacesWarning
+  $member PressDelete
+  $member PressLetter
+  $member UnfilledSpacesGradient
+  $member SpecialEffects
+  $member ButtonPressed
+  $member HandlingUnfilledSpaces
+  $member HandlingButtonPressed
+  $member PressButtonEffect
+  $member FilterKeyboard
+  $member DisableKeyboard
+  $member EnableKeyboard
+}
+
+$rect <480,60,720,100>
+$output false
+resource Resources::Bitmap PlaceholderGuessingGame
+{
+  attr bitmapfile FileName = .\placeholder_guessing_game2.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+// Keyboard
+note group Keyboard
+{
+  attr Bounds = <780,20,1930,360>;
+}
+
+$rect <860,60,1060,100>
+$output false
+resource Resources::Bitmap q
+{
+  attr bitmapfile FileName = .\q.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1720,110,1920,150>
+$output false
+resource Resources::Bitmap m
+{
+  attr bitmapfile FileName = .\m.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,110,1060,150>
+$output false
+resource Resources::Bitmap w
+{
+  attr bitmapfile FileName = .\w.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,160,1060,200>
+$output false
+resource Resources::Bitmap e
+{
+  attr bitmapfile FileName = .\e.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,210,1060,250>
+$output false
+resource Resources::Bitmap r
+{
+  attr bitmapfile FileName = .\r.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,260,1060,300>
+$output false
+resource Resources::Bitmap t
+{
+  attr bitmapfile FileName = .\t.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <860,310,1060,350>
+$output false
+resource Resources::Bitmap y
+{
+  attr bitmapfile FileName = .\y.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,60,1290,100>
+$output false
+resource Resources::Bitmap u
+{
+  attr bitmapfile FileName = .\u.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,110,1290,150>
+$output false
+resource Resources::Bitmap i
+{
+  attr bitmapfile FileName = .\i.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,160,1290,200>
+$output false
+resource Resources::Bitmap o
+{
+  attr bitmapfile FileName = .\o.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,210,1290,250>
+$output false
+resource Resources::Bitmap p
+{
+  attr bitmapfile FileName = .\p.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,260,1290,300>
+$output false
+resource Resources::Bitmap a
+{
+  attr bitmapfile FileName = .\a.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,310,1290,350>
+$output false
+resource Resources::Bitmap s
+{
+  attr bitmapfile FileName = .\s.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,60,1500,100>
+$output false
+resource Resources::Bitmap d
+{
+  attr bitmapfile FileName = .\d.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,110,1500,150>
+$output false
+resource Resources::Bitmap f
+{
+  attr bitmapfile FileName = .\f.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,160,1500,200>
+$output false
+resource Resources::Bitmap g
+{
+  attr bitmapfile FileName = .\g.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,210,1500,250>
+$output false
+resource Resources::Bitmap h
+{
+  attr bitmapfile FileName = .\h.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,260,1500,300>
+$output false
+resource Resources::Bitmap j
+{
+  attr bitmapfile FileName = .\j.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1300,310,1500,350>
+$output false
+resource Resources::Bitmap k
+{
+  attr bitmapfile FileName = .\k.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,60,1710,100>
+$output false
+resource Resources::Bitmap l
+{
+  attr bitmapfile FileName = .\l.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,110,1710,150>
+$output false
+resource Resources::Bitmap z
+{
+  attr bitmapfile FileName = .\z.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,160,1710,200>
+$output false
+resource Resources::Bitmap x
+{
+  attr bitmapfile FileName = .\x.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,210,1710,250>
+$output false
+resource Resources::Bitmap c
+{
+  attr bitmapfile FileName = .\c.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,260,1710,300>
+$output false
+resource Resources::Bitmap v
+{
+  attr bitmapfile FileName = .\v.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1510,310,1710,350>
+$output false
+resource Resources::Bitmap b
+{
+  attr bitmapfile FileName = .\b.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1720,60,1920,100>
+$output false
+resource Resources::Bitmap n
+{
+  attr bitmapfile FileName = .\n.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1720,160,1920,200>
+$output false
+resource Resources::Bitmap delete_key
+{
+  attr bitmapfile FileName = .\delete.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1720,210,1920,250>
+$output false
+resource Resources::Bitmap enter
+{
+  attr bitmapfile FileName = .\enter.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <130,290,370,330>
+$output false
+resource Resources::Font WordGuessingGameFont
+{
+  attr fontname FontName = Constantia;
+  attr fontheight Height = 32;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = false;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+$rect <480,210,720,250>
+$output false
+resource Resources::Bitmap OnPressWordGuessingLogo
+{
+  attr bitmapfile FileName = .\icon_guessinggame_for_pressed.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <130,340,370,380>
+$output false
+resource Resources::Font WordGuessingGameFontWin
+{
+  attr fontname FontName = Constantia;
+  attr fontheight Height = 50;
+  attr fontheightmode HeightMode = Popular;
+  attr fontquality Quality = High;
+  attr fontranges Ranges = 0x20-0xFF;
+  attr fontaspectratio AspectRatio = 1.0;
+  attr fontbold Bold = true;
+  attr fontitalic Italic = false;
+  attr fontkerning Kerning = true;
+  attr fontrowdistance RowDistance;
+}
+
+// Fonts
+note group Fonts
+{
+  attr Bounds = <100,200,400,390>;
+}
+
+// This component implements a generic menu.
+$rect <140,-90,340,-50>
+$output false
+class Menu : Templates::Menu
+{
+  $rect <20,410,220,450>
+  inherited property Bounds = <0,0,300,220>;
+
+  $rect <480,290,680,330>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    // This method is called always when something has changed in the
+    // layout of the menu. In particular when items are added, removed,
+    // hidden or shown. It is also called when the menu itself changes
+    // its size.
+
+    // In our template we want the menu to adjust its size automatically
+    // to the number of available items. Doing this however directly in
+    // context of the UpdateLayout() method would cause the UpdateLayout()
+    // method to be executed recursively.
+
+    // Therefore, we delay the adjust operation by using the 'postsignal'.
+    // The adjust operation takes place in the slot method 'autoResize'.
+
+    postsignal autoResize;
+  }
+
+  $rect <250,290,450,330>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the menu.
+    //
+    // isEnabled --> the menu can react to user inputs.
+    // isModal   --> the menu is actually modal (it grabs all user inputs).
+    // isFocused --> the menu can receive keyboard events.
+    //
+    var bool isEnabled = aState.contains( Core::ViewState[ Enabled ]);
+    var bool isModal   = aState.contains( Core::ViewState[ Modal   ]);
+    var bool isFocused = aState.contains( Core::ViewState[ Focused ]);
+
+
+    /*
+
+      TO DO:
+
+      Depending on your menu design, you have surely added some new views
+      to your menu. In the below code you should update the properties of
+      these views. For example, when your menu has two images to appear
+      exclusively for a focused or not focused menu, following can be done:
+
+        imageFocused.Visible    =  isFocused;
+        imageNotFocused.Visible = !isFocused;
+
+      Depending on the state of the menu, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the menu
+      (e.g. 'isFocused') with its preceding state (e.g. variable 'focused').
+
+      Assuming you have already added to your menu component a new effect
+      member, named it 'focusedEffect' and configured it to animate e.g. the
+      opacity of an image within the menu. Then following is sufficient to
+      trigger the animation:
+
+        if ( isFocused && !focused )
+        {
+          focusedEffect.Reversed = false;
+          focusedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          focusedEffect.Reversed = true;
+          focusedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color  = #AAAAAAFF;
+      Border.Color      = #444444FF;
+      Border.Width      = 1;
+      CaptionText.Color = #888888FF;
+    }
+
+    else if ( isFocused )
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #000000FF;
+      Border.Width      = 3;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Enabled but actually not focused for user interaction.
+    else
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #000000FF;
+      Border.Width      = 1;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // focused <<-->> not focused transition.
+    enabled = isEnabled;
+    focused = isFocused;
+    modal   = isModal;
+  }
+
+  // To do:
+  // 
+  // - If necessary adjust the visible size of your menu (the thick blue border).
+  // - Move and resize the members 'Outline' and 'SlideTouchHandler' so they determine \
+  // the area where the menu items are displayed..
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your menu.
+  // - If you don't want the caption text to be shown, remove also the members 'CaptionText' \
+  // and the property 'Caption' together with its 'OnSetCaption' method.
+  // - According to your desired menu design add and configure new views (e.g. an \
+  // image view to show an icon in the menu, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the menu's current state.
+  // - You can also add and configure animation effects to your menu. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your menu.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the menu itself is resized.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // menu to be activated with other keys than the 'Up', 'Down', etc. keys.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard navigation.
+  // - From the Gallery folder 'Chora' add properties to your menu. One property \
+  // for every menu specific setting (e.g. 'Icon', 'Color', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your menu where \
+  // the icon is shown).
+  // - Take a look inside the 'autoResize' method. It calculates from the actual \
+  // number of items the size of the entire menu. In this manner the menu can adjust \
+  // its size automatically. This method can also calculate the position of the menu \
+  // within its owner. Modify the method to your particular menu design.
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  // - The menu arranges the items vertically. For a horizontal layout configure \
+  // the property 'Formation' of the 'Outline' member to the value e.g. 'LeftToRight' \
+  // and in the 'SlideTouchHandler' enable the property 'SlideHorz' and disable the \
+  // property 'SlideVert'. IMPORTANT: when changing to the horizontal layout, you \
+  // will also need to adapt the GetMinimalSize() methods found in the item components.
+  note legend Note4
+  {
+    attr Bounds = <10,470,990,950>;
+  }
+
+  // Layout management
+  note group Note3
+  {
+    attr Bounds = <470,250,690,380>;
+  }
+
+  // State management
+  note group Note2
+  {
+    attr Bounds = <240,250,460,460>;
+  }
+
+  // Keyboard events
+  note group Note1
+  {
+    attr Bounds = <10,250,230,380>;
+  }
+
+  // This variable stores the current state of the menu. Please see the comments \
+  // inside UpdateViewState().
+  $rect <250,410,450,450>
+  var bool focused;
+
+  // This variable stores the current state of the menu. Please see the comments \
+  // inside UpdateViewState().
+  $rect <250,370,450,410>
+  var bool modal;
+
+  // This variable stores the current state of the menu. Please see the comments \
+  // inside UpdateViewState().
+  $rect <250,330,450,370>
+  var bool enabled;
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <20,290,220,330>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.CursorKeys;
+    preset OnHold = onPressKey;
+  }
+
+  // This slot method is called at the runtime after items have been added, removed, \
+  // etc. Its job is to adapt the menu size to the of the items. In this manner the \
+  // menu can resize itself according to the number of items within the menu.
+  $rect <480,330,680,370>
+  slot autoResize
+  {
+    // When you are editing the menu content in Composer, the automatic
+    // adjustment would probably confuse you. Therefore, we test whether
+    // 'this' component is actually opened in Composer. If 'true', we
+    // leave the method immediately.
+
+    $if $composer
+      // Do we edit 'this' component in Composer? EwIsPrimaryObject() is
+      // an internal function of Prototyper permitting to test whether
+      // 'this' component is actually edited in Composer.
+      if ( EwIsPrimaryObject( this ))
+        return;
+    $endif
+
+    // In order to estimate the smallest possible size of the menu ...
+    var point      size;
+    var Core::View view;
+
+    // iterate over all visible items 
+    while ( !!( view = Outline.FindNextView( view, Core::ViewState[ Visible ])))
+    {
+      var Core::Group item  = (Core::Group)view;
+      size = math_max( size, item? item.GetMinimalSize() : <0,0>);
+    }
+
+    // Determine the area occupied by all items
+    var point s = Outline.GetContentArea( Core::ViewState[ Visible ]).size;
+
+    // Depending on the formation of the items (horizontal or vertical) adjust the
+    // items area to be large enought for the highest or widest item.
+    if (( Outline.Formation == Core::Formation.LeftToRight ) ||
+        ( Outline.Formation == Core::Formation.RightToLeft ))
+      s.y = size.y;
+    else
+      s.x = size.x;
+
+    // Take in account the area occupied by caption and borders. This can be
+    // calculated from the difference between the actual size of the complete
+    // menu and the size of the Outline area.
+    s = s + Bounds.size - Outline.Bounds.size;
+
+    // Ensure the menu is large enough to display at least the caption text
+    // with an additional border around it.
+    var point ts = CaptionText.GetContentArea().size + <20,20>;
+
+    if ( s.x < ts.x ) s.x = ts.x;
+    if ( s.y < ts.y ) s.y = ts.y;
+
+    // Limit the max. menu size to e.g. 60% size of the screen size
+    var int32 maxW = ( $ScreenSize.x * 3 ) / 5;
+    var int32 maxH = ( $ScreenSize.y * 3 ) / 5;
+
+    if ( s.x > maxW ) s.x = maxW;
+    if ( s.y > maxH ) s.y = maxH;
+
+    // Change the size of the menu
+    Bounds.size = s;
+
+    /*
+
+      TO DO:
+
+      If desired, you can also adjust the position of the menu so that it, for example,
+      appears screen centered.
+
+        Bounds = rect(<0,0>, s ) + point(( $ScreenSize.x - s.x ) / 2,
+                                         ( $ScreenSize.y - s.y ) / 2 ); 
+
+      NOTE: If you plan to present the menu as dialog (e.g. by PresetDialog()), the
+            position of the menu is determined by the transition object provided in
+            the PresentDialog() invocation.
+
+    */
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <20,330,220,370>
+  slot onPressKey
+  {
+    var Core::Direction dir  = Core::Direction.None;
+    var Core::View      item = Focus;
+
+    // Determine the direction to look for other items to select
+    switch ( KeyHandler.Code )
+    {
+      case Core::KeyCode.Left  : dir = Core::Direction.Left;
+      case Core::KeyCode.Right : dir = Core::Direction.Right;
+      case Core::KeyCode.Up    : dir = Core::Direction.Top;
+      case Core::KeyCode.Down  : dir = Core::Direction.Bottom;
+      default:;
+    }
+
+    // Look for the neighbor item accordingly the determined direction
+    item = FindViewInDirection( item, dir, Core::ViewState[ Enabled, Focusable ]);
+
+    // If found -> pass the focus to it
+    // In case of large menus - scroll to the item with an animation effect
+    if ( item != null )
+    {
+      Focus = item;
+
+      // Prepare the animation effect. If you don't want the scroll animation,
+      // just remove the following 3 lines and pass 'null' in the EnsureVisible()
+      // method instead of 'effect'.
+      var Effects::PointEffect effect = new Effects::PointEffect;
+
+      effect.Timing        = Effects::Timing.FastIn_EaseOut;
+      effect.CycleDuration = 100;
+
+      // Scroll to the item
+      Outline.EnsureVisible( item, true, effect, null );
+    }
+  }
+
+  $rect <330,50,530,90>
+  onset Caption
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caption == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caption = value;
+
+    // ... and update the text displayed in the menu
+    CaptionText.String = value;
+
+    // Changing the caption can also affect the width of the
+    // menu itself. Therefore trigger the routine to recalculate
+    // the menu size
+    InvalidateLayout();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,300,220>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,300,220>;
+    preset Width = 3;
+  }
+
+  // This is a slide gesture handler. It allows the user to scroll the items within \
+  // a large menu by touching the menu with the mouse or with the finger on a touch \
+  // screen.
+  $rect <20,20,160,60>
+  object Core::SlideTouchHandler SlideTouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,40,290,210>;
+    preset SlideHorz = false;
+    preset Friction = 0.01;
+  }
+
+  // This is an outline view to group and scroll the items together.
+  $rect <20,20,160,60>
+  object Core::Outline Outline
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,40,290,210>;
+    preset SlideHandler = SlideTouchHandler;
+    preset Formation = Core::Formation.TopToBottom;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CaptionText
+  {
+    preset Layout = Core::Layout[AlignToLeft, AlignToRight, AlignToTop, ResizeHorz];
+    preset Bounds = <10,0,290,40>;
+    preset String = "Menu";
+    preset Font = Resources::FontMedium;
+    preset Color = #000000FF;
+  }
+
+  // The property 'Caption' stores the text to display within the menu. 
+  $rect <330,10,530,50>
+  property string Caption = "Menu";
+}
+
+// This component implements a simple menu item.
+$rect <140,-40,340,0>
+$output false
+class MenuItem : Templates::MenuItem
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <0,0,220,40>;
+
+  $rect <940,190,1140,230>
+  inherited method GetMinimalSize()
+  {
+    /*
+       Calculate the minimum size of the item so the complete caption is visible.
+
+       TO DO:
+
+       If you have modified the appearance of the menu item, added some views or
+       changed the layout of the item - adapt the following code and calculate the
+       minimum width for the item.
+
+    */
+
+    // We assume: the item requires space for the caption and 20 pixel margin on
+    // the left and on the right of the caption. Important: perform the calculation
+    // without the caption text being evtl. truncated and replaced by an ellipsis
+    // sign.
+    var bool  ellipsis   = CaptionText.Ellipsis;
+    CaptionText.Ellipsis = false;
+    var point size       = point( CaptionText.GetContentArea().w + 20, 0 );
+    CaptionText.Ellipsis = ellipsis;
+
+    // Assume the min. height corresponds to the actual design height of the item.
+    size.y = 40;
+
+    return size;
+  }
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the item.
+    //
+    // isEnabled  --> the item can react to user inputs.
+    // isSelected --> the item can receive keyboard events.
+    // isPressed  --> the item should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your item design, you have surely added some new views
+      to your item. In the below code you should update the properties of
+      these views. For example, when your item has two images to appear
+      exclusively for released and pressed item state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the item, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the item
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your item component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the item. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color  = #AAAAAAFF;
+      Border.Visible    = false;
+      CaptionText.Color = #888888FF;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color  = #FF0000FF;
+      Border.Color      = #000000FF;
+      Border.Visible    = true;
+      CaptionText.Color = #FFFFFFFF;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #444444FF;
+      Border.Visible    = true;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Visible    = false;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+  }
+
+  // Layout management
+  note group Note6
+  {
+    attr Bounds = <930,150,1150,240>;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your item (the thick blue border). This will be \
+  // the item's default size.
+  // - Resize the member 'TouchHandler' so it still fills the items's new area.
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your item.
+  // - If you don't want the caption text to be shown, remove also the members 'CaptionText' \
+  // and the property 'Caption' together with its 'OnSetCaption' method.
+  // - According to your desired item design add and configure new views (e.g. an \
+  // image view to show an icon in the item, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the item's current state.
+  // - You can also add and configure animation effects to your item. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your item.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the item itself is resized.
+  // - Adapt the method GetMinimalSize(). The method should calculate the minimal \
+  // width the item will occupy within the menu.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // item to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your item. One property \
+  // for every item specific setting (e.g. 'Icon', 'Color', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your item where \
+  // the icon is shown).
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  // - If the content of the item changes, invoke Owner.InvalidateLayout() to trigger \
+  // the superior menu to update the arrangement and size of the items.
+  note legend Note5
+  {
+    attr Bounds = <10,370,990,800>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,360>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the item when the user has tapped it very \
+  // quickly or the item has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the item to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the item is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the item via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Pressing the key flashes the item for a short period. This is a kind of 
+    // feedback effect. Request the item to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the item or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the item. This only updates the item to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the item or drags the finger inside/outside
+    // the item's area request the item update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the item's area. This activates the item.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the item's area? In such case
+    // the item is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The touch interaction has been passed over to another touch handler.
+    // The item is not activated in such case.
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the item for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The item can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the item very quickly. Defer the item activation
+    // to give the user first a short visual feedback that the item has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the item's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // Clicking on a menu item focuses (selects) the item. If you don't want it,
+    // remove the following code line.
+    Owner.Focus = this;
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the item in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <250,50,450,90>
+  onset Caption
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caption == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caption = value;
+
+    // ... and update the text displayed in the item
+    CaptionText.String = value;
+
+    // Changing the caption may affect the size of the item. Request the
+    // superior menu to recalculate its layout
+    if ( Owner )
+      Owner.InvalidateLayout();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+    preset Width = 3;
+  }
+
+  // This is a generic touch handler.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,39>;
+    preset Point3 = <219,39>;
+    preset Point2 = <219,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CaptionText
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,0,210,40>;
+    preset Ellipsis = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Caption";
+    preset Font = Resources::FontMedium;
+    preset Color = #000000FF;
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated (pressed and released) the item. Thereupon \
+  // the method's logic will be executed.
+  $rect <480,10,680,50>
+  property slot OnActivate = null;
+
+  // The property 'Caption' stores the text to display within the item. 
+  $rect <250,10,450,50>
+  property string Caption = "Caption";
+}
+
+// This component implements a simple menu item.
+$rect <140,10,340,50>
+$output false
+class MenuItem1 : Templates::MenuItem
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <0,0,220,40>;
+
+  $rect <940,190,1140,230>
+  inherited method GetMinimalSize()
+  {
+    /*
+       Calculate the minimum size of the item so the complete caption is visible.
+
+       TO DO:
+
+       If you have modified the appearance of the menu item, added some views or
+       changed the layout of the item - adapt the following code and calculate the
+       minimum width for the item.
+
+    */
+
+    // We assume: the item requires space for the caption and 20 pixel margin on
+    // the left and on the right of the caption. Important: perform the calculation
+    // without the caption text being evtl. truncated and replaced by an ellipsis
+    // sign.
+    var bool  ellipsis   = CaptionText.Ellipsis;
+    CaptionText.Ellipsis = false;
+    var point size       = point( CaptionText.GetContentArea().w + 20, 0 );
+    CaptionText.Ellipsis = ellipsis;
+
+    // Assume the min. height corresponds to the actual design height of the item.
+    size.y = 40;
+
+    return size;
+  }
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the item.
+    //
+    // isEnabled  --> the item can react to user inputs.
+    // isSelected --> the item can receive keyboard events.
+    // isPressed  --> the item should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your item design, you have surely added some new views
+      to your item. In the below code you should update the properties of
+      these views. For example, when your item has two images to appear
+      exclusively for released and pressed item state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the item, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the item
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your item component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the item. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color  = #AAAAAAFF;
+      Border.Visible    = false;
+      CaptionText.Color = #888888FF;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color  = #FF0000FF;
+      Border.Color      = #000000FF;
+      Border.Visible    = true;
+      CaptionText.Color = #FFFFFFFF;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #444444FF;
+      Border.Visible    = true;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Visible    = false;
+      CaptionText.Color = #000000FF;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+  }
+
+  // Layout management
+  note group Note6
+  {
+    attr Bounds = <930,150,1150,240>;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your item (the thick blue border). This will be \
+  // the item's default size.
+  // - Resize the member 'TouchHandler' so it still fills the items's new area.
+  // - Remove the 'Background' and 'Border' members if you want other views to be \
+  // shown instead these in your item.
+  // - If you don't want the caption text to be shown, remove also the members 'CaptionText' \
+  // and the property 'Caption' together with its 'OnSetCaption' method.
+  // - According to your desired item design add and configure new views (e.g. an \
+  // image view to show an icon in the item, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the item's current state.
+  // - You can also add and configure animation effects to your item. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your item.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the item itself is resized.
+  // - Adapt the method GetMinimalSize(). The method should calculate the minimal \
+  // width the item will occupy within the menu.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // item to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your item. One property \
+  // for every item specific setting (e.g. 'Icon', 'Color', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your item where \
+  // the icon is shown).
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  // - If the content of the item changes, invoke Owner.InvalidateLayout() to trigger \
+  // the superior menu to update the arrangement and size of the items.
+  note legend Note5
+  {
+    attr Bounds = <10,370,990,800>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,360>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the item when the user has tapped it very \
+  // quickly or the item has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the item to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the item is activated.
+    postsignal OnActivate;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the item via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Pressing the key flashes the item for a short period. This is a kind of 
+    // feedback effect. Request the item to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the item or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the item. This only updates the item to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the item or drags the finger inside/outside
+    // the item's area request the item update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the item's area. This activates the item.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the item's area? In such case
+    // the item is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The touch interaction has been passed over to another touch handler.
+    // The item is not activated in such case.
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the item for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The item can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal OnActivate;
+
+    // The user has tapped the item very quickly. Defer the item activation
+    // to give the user first a short visual feedback that the item has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the item's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // Clicking on a menu item focuses (selects) the item. If you don't want it,
+    // remove the following code line.
+    Owner.Focus = this;
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the item in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal OnActivate;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <250,50,450,90>
+  onset Caption
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caption == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caption = value;
+
+    // ... and update the text displayed in the item
+    CaptionText.String = value;
+
+    // Changing the caption may affect the size of the item. Request the
+    // superior menu to recalculate its layout
+    if ( Owner )
+      Owner.InvalidateLayout();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+    preset Width = 3;
+  }
+
+  // This is a generic touch handler.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,39>;
+    preset Point3 = <219,39>;
+    preset Point2 = <219,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CaptionText
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,0,210,40>;
+    preset Ellipsis = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Caption";
+    preset Font = Resources::FontMedium;
+    preset Color = #000000FF;
+  }
+
+  // The property 'OnActivate' can refer to a slot method, which will receive a signal \
+  // as soon as the user has activated (pressed and released) the item. Thereupon \
+  // the method's logic will be executed.
+  $rect <480,10,680,50>
+  property slot OnActivate = null;
+
+  // The property 'Caption' stores the text to display within the item. 
+  $rect <250,10,450,50>
+  property string Caption = "Caption";
+}
+
+// This component implements a simple menu item. When activating the item a sub menu \
+// is shown.
+$rect <140,60,340,100>
+$output false
+class OpenMenuItem : Templates::OpenMenuItem
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <0,0,220,40>;
+
+  $rect <940,190,1140,230>
+  inherited method GetMinimalSize()
+  {
+    /*
+       Calculate the minimum size of the item so the complete caption is visible.
+
+       TO DO:
+
+       If you have modified the appearance of the menu item, added some views or
+       changed the layout of the item - adapt the following code and calculate the
+       minimum width for the item.
+
+    */
+
+    // We assume: the item requires space for the caption, 10 pixel margin on
+    // its left side and some space for the arrow image on the right.
+    // Important: perform the calculation without the caption text being evtl.
+    // truncated and replaced by an ellipsis sign.
+    var bool  ellipsis   = CaptionText.Ellipsis;
+    CaptionText.Ellipsis = false;
+    var point size       = point( CaptionText.GetContentArea().w + 10 + ArrowImage.Bounds.w, 0 );
+    CaptionText.Ellipsis = ellipsis;
+
+    // Assume the min. height corresponds to the actual design height of the item.
+    size.y = 40;
+
+    return size;
+  }
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the item.
+    //
+    // isEnabled  --> the item can react to user inputs.
+    // isSelected --> the item can receive keyboard events.
+    // isPressed  --> the item should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your item design, you have surely added some new views
+      to your item. In the below code you should update the properties of
+      these views. For example, when your item has two images to appear
+      exclusively for released and pressed item state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the item, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the item
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your item component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the item. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color  = #AAAAAAFF;
+      Border.Visible    = false;
+      CaptionText.Color = #888888FF;
+      ArrowImage.Color  = #888888FF;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color  = #FF0000FF;
+      Border.Color      = #000000FF;
+      Border.Visible    = true;
+      CaptionText.Color = #FFFFFFFF;
+      ArrowImage.Color  = #FFFFFFFF;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #444444FF;
+      Border.Visible    = true;
+      CaptionText.Color = #000000FF;
+      ArrowImage.Color  = #000000FF;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Visible    = false;
+      CaptionText.Color = #000000FF;
+      ArrowImage.Color  = #000000FF;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+  }
+
+  // Activation
+  note group Note7
+  {
+    attr Bounds = <930,250,1150,340>;
+  }
+
+  // Layout management
+  note group Note6
+  {
+    attr Bounds = <930,150,1150,240>;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your item (the thick blue border). This will be \
+  // the item's default size.
+  // - Resize the member 'TouchHandler' so it still fills the items's new area.
+  // - Remove the 'Background', 'Border' and 'ArrowImage' members if you want other \
+  // views to be shown instead these in your item.
+  // - If you don't want the caption text to be shown, remove also the members 'CaptionText' \
+  // and the property 'Caption' together with its 'OnSetCaption' method.
+  // - According to your desired item design add and configure new views (e.g. an \
+  // image view to show an icon in the item, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the item's current state.
+  // - You can also add and configure animation effects to your item. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your item.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the item itself is resized.
+  // - Adapt the method GetMinimalSize(). The method should calculate the minimal \
+  // width the item will occupy within the menu.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // item to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your item. One property \
+  // for every item specific setting (e.g. 'Icon', 'Color', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your item where \
+  // the icon is shown).
+  // - Adapt the method 'openSubMenu' and specify the animations to perform when \
+  // presenting the sub-menu.
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  // - If the content of the item changes, invoke Owner.InvalidateLayout() to trigger \
+  // the superior menu to update the arrangement and size of the items.
+  note legend Note5
+  {
+    attr Bounds = <10,370,990,820>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,360>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the item when the user has tapped it very \
+  // quickly or the item has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the the item has been activated. Thereupon \
+  // the sub menu is opened and presented.
+  $rect <940,290,1140,330>
+  slot openSubMenu
+  {
+    /*
+
+      The following code creates a new instance of the menu GUI component specified in the property
+      'SubMenuClass' and presents the component as dialog.
+
+      HINT :
+
+      Depending on your design requirements you can modify the PresentDialog() invocation in order
+      to determine the animations to show/hide the menu. Actually, the following implementation
+      hides the superior menu when entering the sub-menu. If you don't want it, remove the expression
+      'Effects::ShowHideCentered' and replace it by 'null'. In this manner the superior will remain
+      visible while the sub-menu is active.
+
+    */
+    if ( Owner && Owner.IsCurrentDialog() && SubMenuClass )
+      GetRoot().PresentDialog((Core::Group)new SubMenuClass, null, null, null, null, Effects::ShowHideCentered, null, null, null, false );
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the item to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the item is activated.
+    postsignal openSubMenu;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the item via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Pressing the key flashes the item for a short period. This is a kind of 
+    // feedback effect. Request the item to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the item or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal openSubMenu;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the item. This only updates the item to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the item or drags the finger inside/outside
+    // the item's area request the item update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the item's area. This activates the item.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the item's area? In such case
+    // the item is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The touch interaction has been passed over to another touch handler.
+    // The item is not activated in such case.
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the item for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The item can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal openSubMenu;
+
+    // The user has tapped the item very quickly. Defer the item activation
+    // to give the user first a short visual feedback that the item has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the item's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // Clicking on a menu item focuses (selects) the item. If you don't want it,
+    // remove the following code line.
+    Owner.Focus = this;
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the item in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal openSubMenu;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <450,50,650,90>
+  onset SubMenuClass
+  {
+    // Verify, whether the assigned class descends from Core::Group
+    if ( value && !(Core::Group)value )
+      throw "The specified SubMenuClass does not descend from Core::Group.";
+
+    // Store the new state ...
+    pure SubMenuClass = value;
+  }
+
+  $rect <250,50,450,90>
+  onset Caption
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caption == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caption = value;
+
+    // ... and update the text displayed in the item
+    CaptionText.String = value;
+
+    // Changing the caption may affect the size of the item. Request the
+    // superior menu to recalculate its layout
+    if ( Owner )
+      Owner.InvalidateLayout();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+    preset Width = 3;
+  }
+
+  // This is a generic touch handler.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,39>;
+    preset Point3 = <219,39>;
+    preset Point2 = <219,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CaptionText
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,0,193,40>;
+    preset Ellipsis = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Caption";
+    preset Font = Resources::FontMedium;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image ArrowImage
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToRight, AlignToTop, ResizeVert];
+    preset Bounds = <193,0,220,40>;
+    preset Color = #000000FF;
+    preset FrameNumber = 3;
+    preset Bitmap = Resources::NavigationIconsMedium;
+  }
+
+  // The property 'SubMenuClass' determines the menu GUI component to create and \
+  // present when the user activates the menu item.
+  $rect <450,10,650,50>
+  property class SubMenuClass = null;
+
+  // The property 'Caption' stores the text to display within the item. 
+  $rect <250,10,450,50>
+  property string Caption = "Caption";
+}
+
+// This component implements a simple menu item. When activating the item, the corresponding \
+// menu is closed returning to the superior menu (if any).
+$rect <140,110,340,150>
+$output false
+class ExitMenuItem : Templates::ExitMenuItem
+{
+  $rect <480,310,680,350>
+  inherited property Bounds = <0,0,220,40>;
+
+  $rect <940,190,1140,230>
+  inherited method GetMinimalSize()
+  {
+    /*
+       Calculate the minimum size of the item so the complete caption is visible.
+
+       TO DO:
+
+       If you have modified the appearance of the menu item, added some views or
+       changed the layout of the item - adapt the following code and calculate the
+       miniumum width for the item.
+
+    */
+
+    // We assume: the item requires space for the caption, 10 pixel margin on
+    // its left side and some space for the cross image on the right.
+    // Important: perform the calculation without the caption text being evtl.
+    // truncated and replaced by an ellipsis sign.
+    var bool  ellipsis   = CaptionText.Ellipsis;
+    CaptionText.Ellipsis = false;
+    var point size       = point( CaptionText.GetContentArea().w + 10 + CloseImage.Bounds.w, 0 );
+    CaptionText.Ellipsis = ellipsis;
+
+    // Assume the min. height corresponds to the actual design height of the item.
+    size.y = 40;
+
+    return size;
+  }
+
+  $rect <710,190,910,230>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    // Determine the new state of the item.
+    //
+    // isEnabled  --> the item can react to user inputs.
+    // isSelected --> the item can receive keyboard events.
+    // isPressed  --> the item should appear pressed.
+    //
+    var bool isEnabled  = aState.contains( Core::ViewState[ Enabled  ]);
+    var bool isSelected = aState.contains( Core::ViewState[ Selected ]);
+    var bool isPressed  = ( TouchHandler.Down && TouchHandler.Inside ) || 
+                            FlashTimer.Enabled;
+
+    /*
+
+      TO DO:
+
+      Depending on your item design, you have surely added some new views
+      to your item. In the below code you should update the properties of
+      these views. For example, when your item has two images to appear
+      exclusively for released and pressed item state, following can be
+      done:
+
+        imagePressed.Visible  =  isPressed;
+        imageReleased.Visible = !isPressed;
+
+      Depending on the state of the item, you can alternate any property 
+      of your views. You can change their visibility, colors, opacity,
+      bitmaps shown in image views, fonts used to render text, the position
+      and the size the view, ...
+       
+
+      HINT:
+
+      Instead of instantly alternate the views properties you can here also
+      start effects to do this with an animation. Important: To decide when
+      to start an effect you should compare the current state of the item
+      (e.g. 'isPressed') with its preceding state (e.g. variable 'pressed').
+
+      Assuming you have already added to your item component a new effect
+      member, named it 'pressedEffect' and configured it to animate e.g. the
+      opacity of an image within the item. Then following is sufficient to
+      trigger the animation:
+
+        if ( isPressed && !pressed )
+        {
+          pressedEffect.Reversed = false;
+          pressedEffect.Enabled  = true;
+        }
+        else if ( !isPressed && pressed )
+        {
+          pressedEffect.Reversed = true;
+          pressedEffect.Enabled  = true;
+        }
+
+    */
+
+    if ( !isEnabled )
+    {
+      Background.Color  = #AAAAAAFF;
+      Border.Visible    = false;
+      CaptionText.Color = #888888FF;
+      CloseImage.Color  = #888888FF;
+    }
+
+    else if ( isPressed )
+    {
+      Background.Color  = #FF0000FF;
+      Border.Color      = #000000FF;
+      Border.Visible    = true;
+      CaptionText.Color = #FFFFFFFF;
+      CloseImage.Color  = #FFFFFFFF;
+    }
+
+    else if ( isSelected )
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Color      = #444444FF;
+      Border.Visible    = true;
+      CaptionText.Color = #000000FF;
+      CloseImage.Color  = #000000FF;
+    }
+
+    // Enabled but not pressed nor selected.
+    else
+    {
+      Background.Color  = #FFFFFFFF;
+      Border.Visible    = false;
+      CaptionText.Color = #000000FF;
+      CloseImage.Color  = #000000FF;
+    }
+
+    // Remember the current state. Next time when the UpdateViewState() is called
+    // you can compare the 'old' state with the 'new' state and perform more
+    // sophisticated update, e.g. you can start an animation effect for the
+    // pressed <<-->> not pressed transition.
+    enabled  = isEnabled;
+    selected = isSelected;
+    pressed  = isPressed;
+  }
+
+  // Activation
+  note group Note7
+  {
+    attr Bounds = <930,250,1150,340>;
+  }
+
+  // Layout management
+  note group Note6
+  {
+    attr Bounds = <930,150,1150,240>;
+  }
+
+  // To do:
+  // 
+  // - Adjust the visible size of your item (the thick blue border). This will be \
+  // the item's default size.
+  // - Resize the member 'TouchHandler' so it still fills the items's new area.
+  // - Remove the 'Background', 'Border' and 'CloseImage' members if you want other \
+  // views to be shown instead these in your item.
+  // - If you don't want the caption text to be shown, remove also the members 'CaptionText' \
+  // and the property 'Caption' together with its 'OnSetCaption' method.
+  // - According to your desired item design add and configure new views (e.g. an \
+  // image view to show an icon in the item, etc.).
+  // - Adapt the implementation of the 'UpdateViewState()' method. This method should \
+  // update your views so they reflect the item's current state.
+  // - You can also add and configure animation effects to your item. See 'UpdateViewState()' \
+  // implementation for hint how to start the effects.
+  // - Arrange and resize the views so they appear correctly within the visible area \
+  // of your item.
+  // - Configure the property 'Layout' of the views. In this manner you can determine \
+  // for every view how it should move/resize when the item itself is resized.
+  // - Adapt the method GetMinimalSize(). The method should calculate the minimal \
+  // width the item will occupy within the menu.
+  // - Configure the property 'Filter' of the 'KeyHandler' member if you want the \
+  // item to be activated with key other than the 'Enter' key.
+  // - Alternatively remove the members 'KeyHandler' and 'onPressKey' if you don't \
+  // want any keyboard handling.
+  // - Configure the property 'Begin' of the 'FlashTimer' member to change the duration \
+  // of the feedback flash effect. The default duration is 50 millisec.
+  // - From the Gallery folder 'Chora' add properties to your item. One property \
+  // for every item specific setting (e.g. 'Icon', 'Color', ...)
+  // - Rename the properties accordingly their usage and remove their 'OnGet...' \
+  // methods.
+  // - For every newly added property adapt their 'OnSet...' method implementation. \
+  // Ensure in the method that the assigned value is correctly passed to the corresponding \
+  // view (e.g. a property 'Icon' should update the image view in your item where \
+  // the icon is shown).
+  // - Adapt the method 'openSubMenu' and specify the animations to perfom when presenting \
+  // the sub-menu.
+  // - Feel free to modify any other member in this component accordingly your needs. \
+  // Please note the member description and inline comments within methods.
+  // - If the content of the item changes, invoke Owner.InvalidateLayout() to trigger \
+  // the superior menu to update the arrangement and size of the items.
+  note legend Note5
+  {
+    attr Bounds = <10,370,990,820>;
+  }
+
+  // State management
+  note group Note4
+  {
+    attr Bounds = <700,150,920,360>;
+  }
+
+  // Feedback flash effect
+  note group Note3
+  {
+    attr Bounds = <470,150,690,280>;
+  }
+
+  // Keyboard events
+  note group Note2
+  {
+    attr Bounds = <240,150,460,280>;
+  }
+
+  // Touch screen events
+  note group Note1
+  {
+    attr Bounds = <10,150,230,320>;
+  }
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,310,910,350>
+  var bool pressed;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,270,910,310>
+  var bool selected;
+
+  // This variable stores the current state of the item. Please see the comments \
+  // inside UpdateViewState().
+  $rect <710,230,910,270>
+  var bool enabled;
+
+  // This timer object is used to flash the item when the user has tapped it very \
+  // quickly or the item has been activated with the keyboard. This is just a visual \
+  // feedback effect.
+  $rect <480,190,680,230>
+  object Core::Timer FlashTimer
+  {
+    preset OnTrigger = onFlashTimer;
+    preset Period = 0;
+    preset Begin = 50;
+  }
+
+  // This key handler reacts to key press events. When the user presses the key specified \
+  // in the property 'Filter' of the key handler, the handler is activated and the \
+  // method '@onPressKey' is called.
+  $rect <250,190,450,230>
+  object Core::KeyPressHandler KeyHandler
+  {
+    preset OnPress = onPressKey;
+    preset Filter = Core::KeyCode.Enter;
+  }
+
+  // This internal slot method is called when the the item has been activated. Thereupon \
+  // the corresponding menu is dismissed returning to the superior menu.
+  $rect <940,290,1140,330>
+  slot exitMenu
+  {
+    /*
+
+      The following code dismisses the menu, this menu item belongs to.
+
+      HINT :
+
+      Depending on your design requirements you can modify the DismissDialog() invocation in order
+      to override the previously specified animations to hide the affected menu and restore the
+      superior menu.
+
+    */
+    if ( Owner && Owner.IsCurrentDialog())
+      GetRoot().DismissDialog( Owner, null, null, null, null, null, false );
+  }
+
+  // This internal slot method is called when the '@FlashTimer' is expired. It ends \
+  // the short flash feedback effect.
+  $rect <480,230,680,270>
+  slot onFlashTimer
+  {
+    // The feedback flash timer is finished. Request the item to update its
+    // appearance. The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // With the end of the feedback flash effect the item is activated.
+    postsignal exitMenu;
+  }
+
+  // This internal slot method is called when the '@KeyHandler' is activated (when \
+  // the user has pressed the key specified in the property 'Filter' of the key handler).
+  $rect <250,230,450,270>
+  slot onPressKey
+  {
+    // Ignore keyboard events when the user is interacting with the item via the
+    // touch screen.
+    if ( TouchHandler.Down )
+      return;
+
+    // Pressing the key flashes the item for a short period. This is a kind of 
+    // feedback effect. Request the item to update its appearance accordingly.
+    // The update will occur in the UpdateViewState() method.
+    InvalidateViewState();
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap/key event. This can occur when the user taps the item or presses the
+    // key in a very rapid succession. Thus complete this preceding tap (simulate
+    // the timer expiration) before starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal exitMenu;
+      FlashTimer.Enabled = false;
+    }
+
+    // Start the feedback flash effect.
+    FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user drags the finger while pressing \
+  // the item. This only updates the item to appear pressed or released.
+  $rect <20,270,220,310>
+  slot onEnterLeaveTouch
+  {
+    // Every time the user touches the item or drags the finger inside/outside
+    // the item's area request the item update its appearance. The update will
+    // occur in the UpdateViewState() method.
+    InvalidateViewState();
+  }
+
+  // This internal slot method is called when the user releases the touch screen \
+  // after touching the item's area. This activates the item.
+  $rect <20,230,220,270>
+  slot onReleaseTouch
+  {
+    // Did the user moved the finger outside the item's area? In such case
+    // the item is not activated.
+    if ( !TouchHandler.Inside )
+      return;
+
+    // The touch interaction has been passed over to another touch handler.
+    // The item is not activated in such case.
+    if ( TouchHandler.AutoDeflected )
+      return;
+
+    // The user has pressed and held the item for longer time. This was enough
+    // long to give a visual 'press' feedback to the user. The item can be
+    // activated immediately.
+    if ( TouchHandler.HoldPeriod >= FlashTimer.Begin )
+      postsignal exitMenu;
+
+    // The user has tapped the item very quickly. Defer the item activation
+    // to give the user first a short visual feedback that the item has been
+    // pressed.
+    else
+      FlashTimer.Enabled = true;
+  }
+
+  // This internal slot method is called when the user touches the item's area.
+  $rect <20,190,220,230>
+  slot onPressTouch
+  {
+    // Clicking on a menu item focuses (selects) the item. If you don't want it,
+    // remove the following code line.
+    Owner.Focus = this;
+
+    // The item is still performing the feedback flash effect from the preceding
+    // tap. This can occur when the user taps the item in a very rapid succession. 
+    // Thus complete this preceding tap (simulate the timer expiration) before 
+    // starting a new item interaction.
+    if ( FlashTimer.Enabled )
+    {
+      postsignal exitMenu;
+      FlashTimer.Enabled = false;
+    }
+  }
+
+  $rect <250,50,450,90>
+  onset Caption
+  {
+    // The value doesn't change - nothing to do.
+    if ( pure Caption == value )
+      return;
+
+    // Remember the property's new value.
+    pure Caption = value;
+
+    // ... and update the text displayed in the item
+    CaptionText.String = value;
+
+    // Changing the caption may affect the size of the item. Request the
+    // superior menu to recalculate its layout
+    if ( Owner )
+      Owner.InvalidateLayout();
+  }
+
+  $rect <20,20,160,60>
+  object Views::Rectangle Background
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Border Border
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <0,0,220,40>;
+    preset Width = 3;
+  }
+
+  // This is a generic touch handler.
+  $rect <20,20,160,60>
+  object Core::SimpleTouchHandler TouchHandler
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Point4 = <0,39>;
+    preset Point3 = <219,39>;
+    preset Point2 = <219,0>;
+    preset Point1 = <0,0>;
+    preset OnLeave = onEnterLeaveTouch;
+    preset OnEnter = onEnterLeaveTouch;
+    preset OnRelease = onReleaseTouch;
+    preset OnPress = onPressTouch;
+    preset RetargetCondition = Core::RetargetReason[WipeDown, WipeLeft, WipeRight, WipeUp];
+    preset MaxStrikeCount = 100;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Text CaptionText
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToLeft, AlignToRight, AlignToTop, ResizeHorz, ResizeVert];
+    preset Bounds = <10,0,185,40>;
+    preset Ellipsis = true;
+    preset Alignment = Views::TextAlignment[AlignHorzLeft, AlignVertCenter];
+    preset String = "Caption";
+    preset Font = Resources::FontMedium;
+    preset Color = #000000FF;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image CloseImage
+  {
+    preset Layout = Core::Layout[AlignToBottom, AlignToRight, AlignToTop, ResizeVert];
+    preset Bounds = <185,0,220,40>;
+    preset Color = #000000FF;
+    preset FrameNumber = 9;
+    preset Bitmap = Resources::NavigationIconsMedium;
+  }
+
+  // The property 'Caption' stores the text to display within the item. 
+  $rect <250,10,450,50>
+  property string Caption = "Caption";
+}
+
+// Menu
+note group Note2
+{
+  attr Bounds = <100,-140,400,180>;
+}
+
+$rect <-330,10,-130,50>
+$output false
+class MainMenu : Core::Group
+{
+  $rect <10,230,210,270>
+  inherited property Bounds = <0,0,300,200>;
+
+  $rect <10,390,210,430>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <10,350,210,390>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
   // To do:
   // 
   // - Adjust the visible size of your component (the thick blue border).
@@ -327,258 +3930,711 @@ class GuessTheWord : Core::Group
   // calculation for enclosed views.
   note legend Note1
   {
-    attr Bounds = <220,630,1000,950>;
+    attr Bounds = <220,230,1000,550>;
   }
+}
 
-  $rect <20,20,160,60>
-  object Views::Image Image
+// Logos
+note group Logos
+{
+  attr Bounds = <450,120,750,360>;
+}
+
+$rect <480,260,720,300>
+$output false
+resource Resources::Bitmap MemoryGameLogo
+{
+  attr bitmapfile FileName = .\button_memory_game3.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <480,310,720,350>
+$output false
+resource Resources::Bitmap OnPressMemoryGameLogo
+{
+  attr bitmapfile FileName = .\icon_memory_game_after_pressed3.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <-550,110,-350,150>
+$output false
+class MemoryGame : Core::Group
+{
+  $rect <-288,580,-88,620>
+  inherited property Bounds = <0,0,800,480>;
+
+  $rect <-288,480,-88,520>
+  inherited method UpdateLayout()
   {
-    preset Bounds = <191,69,277,145>;
-    preset Bitmap = Application::PlaceholderGuessingGame;
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
   }
 
-  $rect <20,20,160,60>
-  object Views::Image Image1
+  $rect <-288,440,-88,480>
+  inherited method UpdateViewState()
   {
-    preset Bounds = <307,69,393,145>;
-    preset Bitmap = Application::PlaceholderGuessingGame;
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
   }
 
-  $rect <20,20,160,60>
-  object Views::Image Image2
-  {
-    preset Bounds = <427,69,513,145>;
-    preset Bitmap = Application::PlaceholderGuessingGame;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Image Image3
-  {
-    preset Bounds = <548,69,634,145>;
-    preset Bitmap = Application::PlaceholderGuessingGame;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text FirstLetter
-  {
-    preset Bounds = <199,76,271,139>;
-    preset String = "";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text SecondLetter
-  {
-    preset Bounds = <314,76,386,139>;
-    preset String = "";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text ThirdLetter
-  {
-    preset Bounds = <434,76,506,139>;
-    preset String = "";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <20,20,160,60>
-  object Views::Text ForthLetter
-  {
-    preset Bounds = <555,76,627,139>;
-    preset String = "";
-    preset Font = Resources::DefaultFont;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton q
-  {
-    preset Bounds = <81,222,128,275>;
-    preset Icon = Application::q;
-    preset Label = "Caption";
-    preset Appearance = PushButtonConfig;
-  }
-
-  $rect <-420,170,-180,210>
+  $rect <-590,480,-350,520>
   object WidgetSet::PushButtonConfig PushButtonConfig;
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton m
+  object WidgetSet::PushButton FirstLabyrinth
   {
-    preset Bounds = <147,381,195,436>;
-    preset Icon = Application::m;
-    preset Label = "";
+    preset Bounds = <102,36,230,168>;
+    preset OnPress = FirstLabyrinthPressed;
+    preset Icon = Application::Labyrinth;
+    preset Label = "labyrinth1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton w
+  object WidgetSet::PushButton FirstBlackLeaves
   {
-    preset Bounds = <144,223,199,278>;
-    preset Icon = Application::w;
-    preset Label = "Caption";
+    preset Bounds = <261,36,399,168>;
+    preset OnPress = FirstBlackLeavesPressed;
+    preset Icon = Application::BlackLeaves;
+    preset Label = "blackleave1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton e
+  object WidgetSet::PushButton FirstPendant
   {
-    preset Bounds = <209,223,262,281>;
-    preset Icon = Application::e;
-    preset Label = "";
+    preset Bounds = <415,38,552,168>;
+    preset OnPress = FirstPendantPressed;
+    preset Icon = Application::Pandant;
+    preset Label = "pandant1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton r
+  object WidgetSet::PushButton FirstCoins
   {
-    preset Bounds = <277,220,325,275>;
-    preset Icon = Application::r;
-    preset Label = "";
+    preset Bounds = <571,36,710,168>;
+    preset OnPress = FirstCoinsPressed;
+    preset Icon = Application::WhiteCoins;
+    preset Label = "whitecoins1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton t
+  object WidgetSet::PushButton SecondCoins
   {
-    preset Bounds = <338,220,386,275>;
-    preset Icon = Application::t;
-    preset Label = "";
+    preset Bounds = <98,166,233,306>;
+    preset OnPress = SecondCoinsPressed;
+    preset Icon = Application::WhiteCoins;
+    preset Label = "whitecoins2";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton y
+  object WidgetSet::PushButton FirstCup
   {
-    preset Bounds = <393,220,441,275>;
-    preset Icon = Application::y;
-    preset Label = "";
+    preset Bounds = <260,168,398,308>;
+    preset OnPress = FirstCupPressed;
+    preset Icon = Application::cup;
+    preset Label = "cup1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton u
+  object WidgetSet::PushButton FirstGoldLeaves
   {
-    preset Bounds = <458,221,506,276>;
-    preset Icon = Application::u;
-    preset Label = "";
+    preset Bounds = <418,168,554,308>;
+    preset OnPress = FirstGoldLeavesPressed;
+    preset Icon = Application::GoldLeaves;
+    preset Label = "goldleaves1";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton y1
+  object WidgetSet::PushButton SecondCup
   {
-    preset Bounds = <524,220,572,275>;
-    preset Icon = Application::i;
-    preset Label = "";
+    preset Bounds = <567,168,706,308>;
+    preset OnPress = SecondCupPressed;
+    preset Icon = Application::cup;
+    preset Label = "cup2";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton y2
+  object WidgetSet::PushButton SecondGoldLeaves
   {
-    preset Bounds = <591,220,639,275>;
-    preset Icon = Application::o;
-    preset Label = "";
+    preset Bounds = <98,314,233,452>;
+    preset OnPress = SecondGoldLeavesPressed;
+    preset Icon = Application::GoldLeaves;
+    preset Label = "goldleaves2";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton y3
+  object WidgetSet::PushButton SecondPendant
   {
-    preset Bounds = <657,220,705,275>;
-    preset Icon = Application::p;
-    preset Label = "";
+    preset Bounds = <260,314,398,452>;
+    preset OnPress = SecondPendantPressed;
+    preset Icon = Application::Pandant;
+    preset Label = "pandant2";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton a
+  object WidgetSet::PushButton SecondLabyrinth
   {
-    preset Bounds = <104,299,152,381>;
-    preset Icon = Application::a;
-    preset Label = "";
+    preset Bounds = <416,304,553,463>;
+    preset OnPress = SecondLabyrinthPressed;
+    preset Icon = Application::Labyrinth;
+    preset Label = "labyrinth2";
     preset Appearance = PushButtonConfig;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton s
+  object WidgetSet::PushButton SecondBlackLeaves
   {
-    preset Bounds = <161,310,209,371>;
-    preset Icon = Application::s;
-    preset Label = "";
+    preset Bounds = <567,302,706,463>;
+    preset OnPress = SecondBlackLeavesPressed;
+    preset Icon = Application::BlackLeaves;
+    preset Label = "blackleave2";
     preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-1250,190,-1050,230>
+  inherited method Init()
+  {
+    OpeningGameTimer.Enabled=true;
+  }
+
+  // Game logic
+  note group GameLogic
+  {
+    attr Bounds = <-1350,-20,-70,430>;
+  }
+
+  // Designs and effects
+  note group Design
+  {
+    attr Bounds = <-620,440,-320,640>;
+  }
+
+  // The logic for the first show of cards
+  note group FirstShowOfCards
+  {
+    attr Bounds = <-1300,50,-1000,250>;
+  }
+
+  $rect <-1250,90,-1050,130>
+  object Core::Timer OpeningGameTimer
+  {
+    preset OnTrigger = OpeningGame;
+    preset Period = 0;
+    preset Begin = 1000;
+  }
+
+  $rect <-1250,140,-1050,180>
+  slot OpeningGame
+  {
+    FirstLabyrinth.Icon=Application::GoldPicture;
+    SecondLabyrinth.Icon=Application::GoldPicture;
+    FirstBlackLeaves.Icon=Application::GoldPicture;
+    SecondBlackLeaves.Icon=Application::GoldPicture;
+    FirstPendant.Icon=Application::GoldPicture;
+    SecondPendant.Icon=Application::GoldPicture;
+    FirstCoins.Icon=Application::GoldPicture;
+    SecondCoins.Icon=Application::GoldPicture;
+    FirstCup.Icon=Application::GoldPicture;
+    SecondCup.Icon=Application::GoldPicture;
+    FirstGoldLeaves.Icon=Application::GoldPicture;
+    SecondGoldLeaves.Icon=Application::GoldPicture;
+
+  }
+
+  $rect <-940,90,-720,130>
+  slot CountActiveCards
+  {
+    var int32 initialCount=0;
+
+    if(FirstLabyrinth.Icon!=Application::GoldPicture)    initialCount++;
+
+    if(SecondLabyrinth.Icon!=Application::GoldPicture)     initialCount++;
+    if(FirstBlackLeaves.Icon!=Application::GoldPicture)    initialCount++;
+    if(SecondBlackLeaves.Icon!=Application::GoldPicture)    initialCount++;
+    if(FirstPendant.Icon!=Application::GoldPicture)    initialCount++;
+    if(SecondPendant.Icon!=Application::GoldPicture)    initialCount++;
+    if(FirstCoins.Icon!=Application::GoldPicture)    initialCount++;
+    if(SecondCoins.Icon!=Application::GoldPicture)    initialCount++;
+    if(FirstCup.Icon!=Application::GoldPicture)    initialCount++;
+    if(SecondCup.Icon!=Application::GoldPicture)    initialCount++;
+    if(FirstGoldLeaves.Icon!=Application::GoldPicture)    initialCount++;
+    if(SecondGoldLeaves.Icon!=Application::GoldPicture)    initialCount++;
+
+    NumberDifferentPictures=initialCount;
+
+  }
+
+  // Cards management
+  note group ManageCards
+  {
+    attr Bounds = <-970,50,-110,410>;
+  }
+
+  $rect <-940,180,-700,220>
+  slot FirstLabyrinthPressed
+  {
+    FirstLabyrinth.Icon=Application::Labyrinth;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+
+
+  }
+
+  $rect <-940,230,-700,270>
+  slot SecondLabyrinthPressed
+  {
+    SecondLabyrinth.Icon=Application::Labyrinth;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  // Revealing cards
+  note group RevealingCards
+  {
+    attr Bounds = <-960,140,-140,390>;
+  }
+
+  $rect <-939,280,-700,320>
+  slot FirstBlackLeavesPressed
+  {
+    FirstBlackLeaves.Icon=Application::BlackLeaves;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-940,330,-700,370>
+  slot SecondBlackLeavesPressed
+  {
+    SecondBlackLeaves.Icon=Application::BlackLeaves;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-670,180,-430,220>
+  slot FirstCupPressed
+  {
+    FirstCup.Icon=Application::cup;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-670,230,-430,270>
+  slot SecondCupPressed
+  {
+    SecondCup.Icon=Application::cup;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-669,280,-430,320>
+  slot FirstPendantPressed
+  {
+    FirstPendant.Icon=Application::Pandant;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-670,330,-430,370>
+  slot SecondPendantPressed
+  {
+    SecondPendant.Icon=Application::Pandant;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-410,180,-170,220>
+  slot FirstCoinsPressed
+  {
+    FirstCoins.Icon=Application::WhiteCoins;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-410,230,-170,270>
+  slot SecondCoinsPressed
+  {
+    SecondCoins.Icon=Application::WhiteCoins;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-409,280,-170,320>
+  slot FirstGoldLeavesPressed
+  {
+    FirstGoldLeaves.Icon=Application::GoldLeaves;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-410,330,-170,370>
+  slot SecondGoldLeavesPressed
+  {
+    SecondGoldLeaves.Icon=Application::GoldLeaves;
+
+    var slot sl=this.CountActiveCards;
+    signal sl;
+
+    //var slot sl2=this.VerifyCards;
+    //signal sl2;
+
+    RevealCardTimer.Enabled=true;
+  }
+
+  $rect <-710,90,-510,130>
+  slot VerifyCards
+  {
+    if(NumberDifferentPictures%2==0)
+    {
+    //if((FirstLabyrinth.Icon==Application::Labyrinth && SecondLabyrinth.Icon==Application::Labyrinth) || (SecondBlackLeaves.Icon==Application::BlackLeaves && FirstBlackLeaves.Icon==Application::BlackLeaves) || (FirstPendant.Icon==Application::Pandant && SecondPendant.Icon==Application::Pandant) || (FirstCoins.Icon==Application::WhiteCoins && SecondCoins.Icon==Application::WhiteCoins) || (FirstCup.Icon==Application::cup && SecondCup.Icon==Application::cup) || (FirstGoldLeaves.Icon==Application::GoldLeaves && SecondGoldLeaves.Icon==Application::GoldLeaves))
+    //{
+        if(FirstLabyrinth.Icon!=Application::Labyrinth || SecondLabyrinth.Icon!=Application::Labyrinth)
+        {
+        FirstLabyrinth.Icon=Application::GoldPicture;
+        SecondLabyrinth.Icon=Application::GoldPicture;
+        }
+
+        if(SecondBlackLeaves.Icon!=Application::BlackLeaves || FirstBlackLeaves.Icon!=Application::BlackLeaves)
+        {
+        FirstBlackLeaves.Icon=Application::GoldPicture;
+        SecondBlackLeaves.Icon=Application::GoldPicture;
+        }
+
+            if(FirstPendant.Icon!=Application::Pandant || SecondPendant.Icon!=Application::Pandant)
+        {
+        FirstPendant.Icon=Application::GoldPicture;
+        SecondPendant.Icon=Application::GoldPicture;
+        }
+
+            if(FirstCup.Icon!=Application::cup || SecondCup.Icon!=Application::cup)
+        {
+        FirstCup.Icon=Application::GoldPicture;
+        SecondCup.Icon=Application::GoldPicture;
+        }
+
+            if(FirstCoins.Icon!=Application::WhiteCoins || SecondCoins.Icon!=Application::WhiteCoins)
+        {
+        FirstCoins.Icon=Application::GoldPicture;
+        SecondCoins.Icon=Application::GoldPicture;
+        }
+
+            if(FirstGoldLeaves.Icon!=Application::GoldLeaves || SecondGoldLeaves.Icon!=Application::GoldLeaves)
+        {
+        FirstGoldLeaves.Icon=Application::GoldPicture;
+        SecondGoldLeaves.Icon=Application::GoldPicture;
+        }
+
+    //}   
+    //else
+    //{
+    //
+    //}
+
+    NumberDifferentPictures=0;
+
+    var slot sl=this.WinMessage;
+    signal sl;
+    }
+  }
+
+  $rect <-1270,580,-1050,620>
+  var int32 NumberDifferentPictures;
+
+  $rect <-490,90,-290,130>
+  object Core::Timer RevealCardTimer
+  {
+    preset OnTrigger = VerifyCards;
+    preset Period = 0;
+    preset Begin = 500;
+  }
+
+  $rect <-1260,270,-1060,310>
+  slot WinMessage
+  {
+    if(FirstLabyrinth.Icon==Application::Labyrinth && SecondLabyrinth.Icon==Application::Labyrinth && FirstCup.Icon==Application::cup && SecondCup.Icon==Application::cup && FirstPendant.Icon==Application::Pandant && SecondPendant.Icon==Application::Pandant && FirstBlackLeaves.Icon==Application::BlackLeaves && SecondBlackLeaves.Icon==Application::BlackLeaves && FirstCoins.Icon==Application::WhiteCoins && SecondCoins.Icon==Application::WhiteCoins && FirstGoldLeaves.Icon==Application::GoldLeaves && SecondGoldLeaves.Icon==Application::GoldLeaves)
+       {
+       FilterKeyboard.Visible=true;
+       GuessedText.Visible=true;
+       }
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton d
+  object Views::Text GuessedText
   {
-    preset Bounds = <223,313,271,368>;
-    preset Icon = Application::d;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
+    preset StackingPriority = 3;
+    preset Bounds = <164,86,667,386>;
+    preset Padding = 0;
+    preset ColorBL = #FFFBF6FF;
+    preset ColorBR = #D27129FF;
+    preset ColorTR = #D27129FF;
+    preset ColorTL = #070707FF;
+    preset String = "You won!";
+    preset Font = Application::WordGuessingGameFontWin;
+    preset Color = #FFF36AFF;
+    preset Visible = false;
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton f
+  object Views::FilterImage FilterKeyboard
   {
-    preset Bounds = <290,313,338,368>;
-    preset Icon = Application::f;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
+    preset Bounds = <86,36,747,453>;
+    preset Bitmap = Application::BackgroudGamingRoom;
+    preset TintColor = #CCC0AFFF;
+    preset TintIntensity = 9.0;
+    preset TintMode = Graphics::TintMode.TintByOpacity;
+    preset Opacity = 140;
+    preset Visible = false;
   }
 
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton g
-  {
-    preset Bounds = <350,313,398,371>;
-    preset Icon = Application::g;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton h
-  {
-    preset Bounds = <410,313,458,368>;
-    preset Icon = Application::h;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton j
-  {
-    preset Bounds = <476,313,524,368>;
-    preset Icon = Application::j;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton k
-  {
-    preset Bounds = <531,313,579,368>;
-    preset Icon = Application::k;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton l
-  {
-    preset Bounds = <591,313,639,368>;
-    preset Icon = Application::l;
-    preset Label = "";
-    preset Appearance = PushButtonConfig;
-  }
+  // Directives to adapt the order of the above members according to how these members 
+  // where arranged when the project content was stored. In this manner the storage 
+  // and the expected order of the members don't depend. Merging of changes in the 
+  // project files is simplified.
+  $member Init
+  $member Bounds
+  $member UpdateLayout
+  $member UpdateViewState
+  $member PushButtonConfig
+  $member FirstLabyrinth
+  $member FirstBlackLeaves
+  $member FirstPendant
+  $member FirstCoins
+  $member SecondCoins
+  $member FirstCup
+  $member FirstGoldLeaves
+  $member SecondCup
+  $member SecondGoldLeaves
+  $member SecondPendant
+  $member SecondLabyrinth
+  $member SecondBlackLeaves
+  $member GameLogic
+  $member Design
+  $member FirstShowOfCards
+  $member OpeningGameTimer
+  $member OpeningGame
+  $member CountActiveCards
+  $member ManageCards
+  $member FirstLabyrinthPressed
+  $member SecondLabyrinthPressed
+  $member RevealingCards
+  $member FirstBlackLeavesPressed
+  $member SecondBlackLeavesPressed
+  $member FirstCupPressed
+  $member SecondCupPressed
+  $member FirstPendantPressed
+  $member SecondPendantPressed
+  $member FirstCoinsPressed
+  $member SecondCoinsPressed
+  $member FirstGoldLeavesPressed
+  $member SecondGoldLeavesPressed
+  $member VerifyCards
+  $member NumberDifferentPictures
+  $member RevealCardTimer
+  $member WinMessage
+  $member GuessedText
+  $member FilterKeyboard
 }
 
-$rect <470,100,710,140>
+$rect <1970,60,2170,100>
 $output false
-resource Resources::Bitmap PlaceholderGuessingGame
+resource Resources::Bitmap cup
 {
-  attr bitmapfile FileName = .\placeholder_guessing_game2.png;
+  attr bitmapfile FileName = .\cup6.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -586,17 +4642,17 @@ resource Resources::Bitmap PlaceholderGuessingGame
   attr bitmapmode Mode = Default;
 }
 
-// Letters
-note group Letters
+// Images memory game
+note group Note3
 {
-  attr Bounds = <820,20,1780,360>;
+  attr Bounds = <1950,20,2250,410>;
 }
 
-$rect <860,60,1060,100>
+$rect <1970,110,2170,150>
 $output false
-resource Resources::Bitmap q
+resource Resources::Bitmap WhiteCoins
 {
-  attr bitmapfile FileName = .\q.png;
+  attr bitmapfile FileName = .\coins_background.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -604,11 +4660,11 @@ resource Resources::Bitmap q
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,110,1060,150>
+$rect <1970,160,2170,200>
 $output false
-resource Resources::Bitmap m
+resource Resources::Bitmap BlackLeaves
 {
-  attr bitmapfile FileName = .\m.png;
+  attr bitmapfile FileName = .\golden_leaves_black_image1.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -616,11 +4672,11 @@ resource Resources::Bitmap m
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,160,1060,200>
+$rect <1970,210,2170,250>
 $output false
-resource Resources::Bitmap w
+resource Resources::Bitmap GoldLeaves
 {
-  attr bitmapfile FileName = .\w.png;
+  attr bitmapfile FileName = .\golden_leaves_gold_image1.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -628,11 +4684,11 @@ resource Resources::Bitmap w
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,210,1060,250>
+$rect <1970,260,2170,300>
 $output false
-resource Resources::Bitmap e
+resource Resources::Bitmap Pandant
 {
-  attr bitmapfile FileName = .\e.png;
+  attr bitmapfile FileName = .\pandant_picture2.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -640,11 +4696,11 @@ resource Resources::Bitmap e
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,260,1060,300>
+$rect <1970,310,2170,350>
 $output false
-resource Resources::Bitmap r
+resource Resources::Bitmap Labyrinth
 {
-  attr bitmapfile FileName = .\r.png;
+  attr bitmapfile FileName = .\labyrinth_picture1.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
@@ -652,179 +4708,11 @@ resource Resources::Bitmap r
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,310,1060,350>
+$rect <1970,360,2170,400>
 $output false
-resource Resources::Bitmap t
+resource Resources::Bitmap GoldPicture
 {
-  attr bitmapfile FileName = .\t.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,60,1290,100>
-$output false
-resource Resources::Bitmap y
-{
-  attr bitmapfile FileName = .\y.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,110,1290,150>
-$output false
-resource Resources::Bitmap u
-{
-  attr bitmapfile FileName = .\u.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,160,1290,200>
-$output false
-resource Resources::Bitmap i
-{
-  attr bitmapfile FileName = .\i.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,210,1290,250>
-$output false
-resource Resources::Bitmap o
-{
-  attr bitmapfile FileName = .\o.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,260,1290,300>
-$output false
-resource Resources::Bitmap p
-{
-  attr bitmapfile FileName = .\p.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1090,310,1290,350>
-$output false
-resource Resources::Bitmap a
-{
-  attr bitmapfile FileName = .\a.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,60,1500,100>
-$output false
-resource Resources::Bitmap s
-{
-  attr bitmapfile FileName = .\s.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,110,1500,150>
-$output false
-resource Resources::Bitmap d
-{
-  attr bitmapfile FileName = .\d.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,160,1500,200>
-$output false
-resource Resources::Bitmap f
-{
-  attr bitmapfile FileName = .\f.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,210,1500,250>
-$output false
-resource Resources::Bitmap g
-{
-  attr bitmapfile FileName = .\g.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,260,1500,300>
-$output false
-resource Resources::Bitmap h
-{
-  attr bitmapfile FileName = .\h.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1300,310,1500,350>
-$output false
-resource Resources::Bitmap j
-{
-  attr bitmapfile FileName = .\j.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1510,70,1710,110>
-$output false
-resource Resources::Bitmap k
-{
-  attr bitmapfile FileName = .\k.png;
-  attr bitmapformat Format = Native;
-  attr framesize FrameSize;
-  attr framedelay FrameDelay;
-  attr bitmapdithering Dithering = Auto;
-  attr bitmapmode Mode = Default;
-}
-
-$rect <1510,120,1710,160>
-$output false
-resource Resources::Bitmap l
-{
-  attr bitmapfile FileName = .\l.png;
+  attr bitmapfile FileName = .\blank_picture1.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
