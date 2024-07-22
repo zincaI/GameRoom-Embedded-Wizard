@@ -1,7 +1,7 @@
 ﻿$version 13.04
 
 // This is the root component of the entire GUI application.
-$rect <-550,10,-350,50>
+$rect <380,620,580,660>
 $output false
 class Application : Core::Root
 {
@@ -18,7 +18,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton WordGuessingButton
   {
-    preset Bounds = <114,174,246,307>;
+    preset Bounds = <114,177,246,310>;
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
@@ -95,7 +95,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton MemoryGameButton
   {
-    preset Bounds = <297,174,429,307>;
+    preset Bounds = <281,174,413,307>;
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
@@ -156,10 +156,77 @@ class Application : Core::Root
     WordGuessingButton.Visible=false;
     MemoryGameButton.Enabled=false;
     MemoryGameButton.Visible=false;
+    TilesPuzzleGameButton.Visible=false;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton TilesPuzzleGameButton
+  {
+    preset Bounds = <443,174,590,307>;
+    preset OnLeave = null;
+    preset OnEnter = null;
+    preset OnRelease = null;
+    preset OnPress = OnPressTilesPuzzleGame;
+    preset OnActivate = null;
+    preset IconFrameActive = 2;
+    preset IconFrameFocused = -1;
+    preset IconFrameDisabled = -1;
+    preset IconFrameDefault = -1;
+    preset Icon = Application::TilesPuzzleLogo;
+    preset Label = "";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-470,710,-270,750>
+  object Core::Timer TimeTilesPuzzleGame
+  {
+    preset OnTrigger = OpenTilesPuzzleGame;
+    preset Period = 0;
+    preset Begin = 1300;
+  }
+
+  $rect <-480,240,-250,280>
+  slot OpenTilesPuzzleGame
+  {
+    if ( IsDialog(false))
+      Owner.DismissDialog( this, null, null, null, null, null, false );
+
+    if ( IsActiveDialog( true ))
+    {
+
+      GetRoot().PresentDialog( new Application::TilesPuzzle,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
+      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
+
+    }
+
+    var slot sl=this.DisableButtons;
+    signal sl;
+
+
+  }
+
+  $rect <-490,480,-240,520>
+  slot OnPressTilesPuzzleGame
+  {
+    TilesPuzzleGameButton.Icon=Application::OnPressTilesPuzzleLogo;
+
+
+    TimeTilesPuzzleGame.Enabled=true;
+
+
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton PushButton
+  {
+    preset Bounds = <614,215,708,266>;
+    preset Icon = Application::Arrow;
+    preset Label = "Caption";
+    preset Appearance = PushButtonConfig;
   }
 }
 
-$rect <130,240,370,280>
+$rect <360,370,600,410>
 $output false
 resource Resources::Font Font
 {
@@ -175,7 +242,7 @@ resource Resources::Font Font
   attr fontrowdistance RowDistance;
 }
 
-$rect <480,10,710,50>
+$rect <810,780,1050,820>
 $output false
 resource Resources::Bitmap BackgroudGamingRoom
 {
@@ -190,10 +257,10 @@ resource Resources::Bitmap BackgroudGamingRoom
 // Images
 note group Note
 {
-  attr Bounds = <430,-40,2300,420>;
+  attr Bounds = <690,-20,2220,910>;
 }
 
-$rect <480,160,720,200>
+$rect <810,460,1050,500>
 $output false
 resource Resources::Bitmap WordGuessingLogo
 {
@@ -208,10 +275,10 @@ resource Resources::Bitmap WordGuessingLogo
 // Classes
 note group Note1
 {
-  attr Bounds = <-580,-30,40,200>;
+  attr Bounds = <320,580,630,910>;
 }
 
-$rect <-550,60,-350,100>
+$rect <380,670,580,710>
 $output false
 class GuessTheWord : Core::Group
 {
@@ -1170,7 +1237,7 @@ class GuessTheWord : Core::Group
   $member EnableKeyboard
 }
 
-$rect <480,60,720,100>
+$rect <810,830,1050,870>
 $output false
 resource Resources::Bitmap PlaceholderGuessingGame
 {
@@ -1185,10 +1252,10 @@ resource Resources::Bitmap PlaceholderGuessingGame
 // Keyboard
 note group Keyboard
 {
-  attr Bounds = <780,20,1930,360>;
+  attr Bounds = <860,20,2010,360>;
 }
 
-$rect <860,60,1060,100>
+$rect <940,60,1140,100>
 $output false
 resource Resources::Bitmap q
 {
@@ -1200,7 +1267,7 @@ resource Resources::Bitmap q
   attr bitmapmode Mode = Default;
 }
 
-$rect <1720,110,1920,150>
+$rect <1800,110,2000,150>
 $output false
 resource Resources::Bitmap m
 {
@@ -1212,7 +1279,7 @@ resource Resources::Bitmap m
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,110,1060,150>
+$rect <940,110,1140,150>
 $output false
 resource Resources::Bitmap w
 {
@@ -1224,7 +1291,7 @@ resource Resources::Bitmap w
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,160,1060,200>
+$rect <940,160,1140,200>
 $output false
 resource Resources::Bitmap e
 {
@@ -1236,7 +1303,7 @@ resource Resources::Bitmap e
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,210,1060,250>
+$rect <940,210,1140,250>
 $output false
 resource Resources::Bitmap r
 {
@@ -1248,7 +1315,7 @@ resource Resources::Bitmap r
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,260,1060,300>
+$rect <940,260,1140,300>
 $output false
 resource Resources::Bitmap t
 {
@@ -1260,7 +1327,7 @@ resource Resources::Bitmap t
   attr bitmapmode Mode = Default;
 }
 
-$rect <860,310,1060,350>
+$rect <940,310,1140,350>
 $output false
 resource Resources::Bitmap y
 {
@@ -1272,7 +1339,7 @@ resource Resources::Bitmap y
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,60,1290,100>
+$rect <1170,60,1370,100>
 $output false
 resource Resources::Bitmap u
 {
@@ -1284,7 +1351,7 @@ resource Resources::Bitmap u
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,110,1290,150>
+$rect <1170,110,1370,150>
 $output false
 resource Resources::Bitmap i
 {
@@ -1296,7 +1363,7 @@ resource Resources::Bitmap i
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,160,1290,200>
+$rect <1170,160,1370,200>
 $output false
 resource Resources::Bitmap o
 {
@@ -1308,7 +1375,7 @@ resource Resources::Bitmap o
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,210,1290,250>
+$rect <1170,210,1370,250>
 $output false
 resource Resources::Bitmap p
 {
@@ -1320,7 +1387,7 @@ resource Resources::Bitmap p
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,260,1290,300>
+$rect <1170,260,1370,300>
 $output false
 resource Resources::Bitmap a
 {
@@ -1332,7 +1399,7 @@ resource Resources::Bitmap a
   attr bitmapmode Mode = Default;
 }
 
-$rect <1090,310,1290,350>
+$rect <1170,310,1370,350>
 $output false
 resource Resources::Bitmap s
 {
@@ -1344,7 +1411,7 @@ resource Resources::Bitmap s
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,60,1500,100>
+$rect <1380,60,1580,100>
 $output false
 resource Resources::Bitmap d
 {
@@ -1356,7 +1423,7 @@ resource Resources::Bitmap d
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,110,1500,150>
+$rect <1380,110,1580,150>
 $output false
 resource Resources::Bitmap f
 {
@@ -1368,7 +1435,7 @@ resource Resources::Bitmap f
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,160,1500,200>
+$rect <1380,160,1580,200>
 $output false
 resource Resources::Bitmap g
 {
@@ -1380,7 +1447,7 @@ resource Resources::Bitmap g
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,210,1500,250>
+$rect <1380,210,1580,250>
 $output false
 resource Resources::Bitmap h
 {
@@ -1392,7 +1459,7 @@ resource Resources::Bitmap h
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,260,1500,300>
+$rect <1380,260,1580,300>
 $output false
 resource Resources::Bitmap j
 {
@@ -1404,7 +1471,7 @@ resource Resources::Bitmap j
   attr bitmapmode Mode = Default;
 }
 
-$rect <1300,310,1500,350>
+$rect <1380,310,1580,350>
 $output false
 resource Resources::Bitmap k
 {
@@ -1416,7 +1483,7 @@ resource Resources::Bitmap k
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,60,1710,100>
+$rect <1590,60,1790,100>
 $output false
 resource Resources::Bitmap l
 {
@@ -1428,7 +1495,7 @@ resource Resources::Bitmap l
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,110,1710,150>
+$rect <1590,110,1790,150>
 $output false
 resource Resources::Bitmap z
 {
@@ -1440,7 +1507,7 @@ resource Resources::Bitmap z
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,160,1710,200>
+$rect <1590,160,1790,200>
 $output false
 resource Resources::Bitmap x
 {
@@ -1452,7 +1519,7 @@ resource Resources::Bitmap x
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,210,1710,250>
+$rect <1590,210,1790,250>
 $output false
 resource Resources::Bitmap c
 {
@@ -1464,7 +1531,7 @@ resource Resources::Bitmap c
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,260,1710,300>
+$rect <1590,260,1790,300>
 $output false
 resource Resources::Bitmap v
 {
@@ -1476,7 +1543,7 @@ resource Resources::Bitmap v
   attr bitmapmode Mode = Default;
 }
 
-$rect <1510,310,1710,350>
+$rect <1590,310,1790,350>
 $output false
 resource Resources::Bitmap b
 {
@@ -1488,7 +1555,7 @@ resource Resources::Bitmap b
   attr bitmapmode Mode = Default;
 }
 
-$rect <1720,60,1920,100>
+$rect <1800,60,2000,100>
 $output false
 resource Resources::Bitmap n
 {
@@ -1500,7 +1567,7 @@ resource Resources::Bitmap n
   attr bitmapmode Mode = Default;
 }
 
-$rect <1720,160,1920,200>
+$rect <1800,160,2000,200>
 $output false
 resource Resources::Bitmap delete_key
 {
@@ -1512,7 +1579,7 @@ resource Resources::Bitmap delete_key
   attr bitmapmode Mode = Default;
 }
 
-$rect <1720,210,1920,250>
+$rect <1800,210,2000,250>
 $output false
 resource Resources::Bitmap enter
 {
@@ -1524,7 +1591,7 @@ resource Resources::Bitmap enter
   attr bitmapmode Mode = Default;
 }
 
-$rect <130,290,370,330>
+$rect <360,420,600,460>
 $output false
 resource Resources::Font WordGuessingGameFont
 {
@@ -1540,7 +1607,7 @@ resource Resources::Font WordGuessingGameFont
   attr fontrowdistance RowDistance;
 }
 
-$rect <480,210,720,250>
+$rect <810,510,1050,550>
 $output false
 resource Resources::Bitmap OnPressWordGuessingLogo
 {
@@ -1552,7 +1619,7 @@ resource Resources::Bitmap OnPressWordGuessingLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <130,340,370,380>
+$rect <360,470,600,510>
 $output false
 resource Resources::Font WordGuessingGameFontWin
 {
@@ -1571,11 +1638,11 @@ resource Resources::Font WordGuessingGameFontWin
 // Fonts
 note group Fonts
 {
-  attr Bounds = <100,200,400,390>;
+  attr Bounds = <330,330,630,520>;
 }
 
 // This component implements a generic menu.
-$rect <140,-90,340,-50>
+$rect <370,40,570,80>
 $output false
 class Menu : Templates::Menu
 {
@@ -1981,7 +2048,7 @@ class Menu : Templates::Menu
 }
 
 // This component implements a simple menu item.
-$rect <140,-40,340,0>
+$rect <370,90,570,130>
 $output false
 class MenuItem : Templates::MenuItem
 {
@@ -2403,7 +2470,7 @@ class MenuItem : Templates::MenuItem
 }
 
 // This component implements a simple menu item.
-$rect <140,10,340,50>
+$rect <370,140,570,180>
 $output false
 class MenuItem1 : Templates::MenuItem
 {
@@ -2826,7 +2893,7 @@ class MenuItem1 : Templates::MenuItem
 
 // This component implements a simple menu item. When activating the item a sub menu \
 // is shown.
-$rect <140,60,340,100>
+$rect <370,190,570,230>
 $output false
 class OpenMenuItem : Templates::OpenMenuItem
 {
@@ -3304,7 +3371,7 @@ class OpenMenuItem : Templates::OpenMenuItem
 
 // This component implements a simple menu item. When activating the item, the corresponding \
 // menu is closed returning to the superior menu (if any).
-$rect <140,110,340,150>
+$rect <370,240,570,280>
 $output false
 class ExitMenuItem : Templates::ExitMenuItem
 {
@@ -3764,10 +3831,10 @@ class ExitMenuItem : Templates::ExitMenuItem
 // Menu
 note group Note2
 {
-  attr Bounds = <100,-140,400,180>;
+  attr Bounds = <330,-10,630,310>;
 }
 
-$rect <-330,10,-130,50>
+$rect <380,780,580,820>
 $output false
 class MainMenu : Core::Group
 {
@@ -3937,10 +4004,10 @@ class MainMenu : Core::Group
 // Logos
 note group Logos
 {
-  attr Bounds = <450,120,750,360>;
+  attr Bounds = <780,420,1080,760>;
 }
 
-$rect <480,260,720,300>
+$rect <810,560,1050,600>
 $output false
 resource Resources::Bitmap MemoryGameLogo
 {
@@ -3952,7 +4019,7 @@ resource Resources::Bitmap MemoryGameLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <480,310,720,350>
+$rect <810,610,1050,650>
 $output false
 resource Resources::Bitmap OnPressMemoryGameLogo
 {
@@ -3964,7 +4031,7 @@ resource Resources::Bitmap OnPressMemoryGameLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <-550,110,-350,150>
+$rect <380,720,580,760>
 $output false
 class MemoryGame : Core::Group
 {
@@ -4630,7 +4697,7 @@ class MemoryGame : Core::Group
   $member FilterKeyboard
 }
 
-$rect <1970,60,2170,100>
+$rect <1120,460,1320,500>
 $output false
 resource Resources::Bitmap cup
 {
@@ -4645,10 +4712,10 @@ resource Resources::Bitmap cup
 // Images memory game
 note group Note3
 {
-  attr Bounds = <1950,20,2250,410>;
+  attr Bounds = <1100,420,1400,810>;
 }
 
-$rect <1970,110,2170,150>
+$rect <1120,510,1320,550>
 $output false
 resource Resources::Bitmap WhiteCoins
 {
@@ -4660,7 +4727,7 @@ resource Resources::Bitmap WhiteCoins
   attr bitmapmode Mode = Default;
 }
 
-$rect <1970,160,2170,200>
+$rect <1120,560,1320,600>
 $output false
 resource Resources::Bitmap BlackLeaves
 {
@@ -4672,7 +4739,7 @@ resource Resources::Bitmap BlackLeaves
   attr bitmapmode Mode = Default;
 }
 
-$rect <1970,210,2170,250>
+$rect <1120,610,1320,650>
 $output false
 resource Resources::Bitmap GoldLeaves
 {
@@ -4684,7 +4751,7 @@ resource Resources::Bitmap GoldLeaves
   attr bitmapmode Mode = Default;
 }
 
-$rect <1970,260,2170,300>
+$rect <1120,660,1320,700>
 $output false
 resource Resources::Bitmap Pandant
 {
@@ -4696,7 +4763,7 @@ resource Resources::Bitmap Pandant
   attr bitmapmode Mode = Default;
 }
 
-$rect <1970,310,2170,350>
+$rect <1120,710,1320,750>
 $output false
 resource Resources::Bitmap Labyrinth
 {
@@ -4708,11 +4775,1182 @@ resource Resources::Bitmap Labyrinth
   attr bitmapmode Mode = Default;
 }
 
-$rect <1970,360,2170,400>
+$rect <1120,760,1320,800>
 $output false
 resource Resources::Bitmap GoldPicture
 {
   attr bitmapfile FileName = .\blank_picture1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <810,660,1050,700>
+$output false
+resource Resources::Bitmap TilesPuzzleLogo
+{
+  attr bitmapfile FileName = .\logo_tiles_puzzle1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <810,710,1050,750>
+$output false
+resource Resources::Bitmap OnPressTilesPuzzleLogo
+{
+  attr bitmapfile FileName = .\on_press_tiles_puzzle_logo1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <380,830,580,870>
+$output false
+class TilesPuzzle : Core::Group
+{
+  $rect <-180,1100,20,1140>
+  inherited property Bounds = <0,0,800,480>;
+
+  $rect <-180,1260,20,1300>
+  inherited method UpdateLayout()
+  {
+    // Always invoke the inherited method.
+    super( aSize );
+
+    /*
+
+      HINT:
+
+      This method exists for sophisticated layout calculation. Please note, that in 
+      most cases it is completely sufficient to use the views property 'Layout' to
+      determine how the view should behave when the component is resized.
+
+    */
+
+    /*
+
+      TO DO:
+
+      Put here the code to calculate new position and size of enclosed views. The
+      current (new) size of the component itself is passed in the parameter aSize.
+      For example:
+
+        SomeView.Bounds = rect( 10, 10, aSize.x - 20, aSize.y - 20 );
+
+    */
+  }
+
+  $rect <-180,1220,20,1260>
+  inherited method UpdateViewState()
+  {
+    // Always invoke the inherited method.
+    super( aState );
+
+    /*
+
+      HINT 1:
+
+      This method is invoked automatically when the state set of the component has
+      been changed. The new state set can be found in the parameter aState.
+      Following are the important states:
+
+        Enabled   --> The component can react to user inputs.
+
+        Selected  --> The component is selected in context of its owner.
+
+        Focused   --> The component is selected in context of its owner and 
+                      the owner can react to keyboard events. In this manner the
+                      component is also able to react to keyboard events.
+
+        Modal     --> The component is modal. All events are redirected to this
+                      component.
+
+      To determine whether a state is currently active or not you have to test
+      the aState parameter. For example to test the 'Selected' state:
+
+        if ( aState.contains( Core::ViewState[ Selected ]))
+        {
+          ... yes, this component is currently selected.
+        }
+
+    */
+
+    /*
+
+      HINT 2:
+
+      Alternatively you can request this method invocation by executing explicitly
+      following code:
+
+
+        InvalidateViewState();
+
+    */
+      
+    /*
+
+      TO DO 1:
+
+      Put here the code to ensure that the visual aspect of the component does
+      reflect its current state. For example, depending on its 'Enabled' state
+      a component may appear with full colors or pale if it is disabled:
+
+        if ( aState.contains( Core::ViewState[ Enabled ]))
+        {
+          SomeBackgroundView.Opacity = 255;
+          SomeTextView.Color         = #000000FF;
+        }
+        else
+        {
+          SomeBackgroundView.Opacity = 128;
+          SomeTextView.Color         = #00000080;
+        }
+
+
+      TO DO 2:
+
+      You can evaluate here also the state of any other member in your component.
+      For example in a push-button component, the button should appear highlighted
+      as long as the user holds the finger within a touch area of the button:
+
+        if ( SomeTouchHandler.Down && SomeTouchHandler.Inside )
+          HighlightedBackground.Visible = true;
+        else
+          HighlightedBackground.Visible = false;
+
+      The touch handler itself only requests the update method to be called. Use
+      for this purpose 'InvalidateViewState()' method.
+
+
+      TO DO 3:
+
+      You can calculate here also the position/size of views accordingly to the
+      state of any other member in your component. For example in a slider you
+      can calculate the position of the slider knob from some properties like
+      'SliderValue' and 'SliderRange':
+
+        SliderKnob.Bounds.origin.x = ( SliderValue * Bounds.w ) / SliderRange;
+
+      Changing the 'SliderValue' or 'SliderRange' property should only request
+      the update method to be called. Use for this purpose 'InvalidateViewState()'
+      method.
+
+    */
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Image
+  {
+    preset Bounds = <73,-17,702,480>;
+    preset Bitmap = Application::Frame;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton FirstTile
+  {
+    preset Bounds = <241,80,322,165>;
+    preset OnPress = FirstTileMovement;
+    preset Icon = Application::NinthTile;
+    preset Label = "1";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-970,0,-730,40>
+  object WidgetSet::PushButtonConfig PushButtonConfig;
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton FourthTile
+  {
+    preset Bounds = <484,82,565,162>;
+    preset OnPress = FourthTileMovement;
+    preset Icon = Application::ThirthTile;
+    preset Label = "4";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton ThirdTile
+  {
+    preset Bounds = <403,82,484,162>;
+    preset OnPress = ThirdTileMovement;
+    preset Icon = Application::EleventhTile;
+    preset Label = "3";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton SecondTile
+  {
+    preset Bounds = <322,80,403,162>;
+    preset OnPress = SecondTileMovement;
+    preset Icon = Application::FirstTile;
+    preset Label = "2";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton FifthTile
+  {
+    preset Bounds = <240,161,321,246>;
+    preset OnPress = FifthTileMovement;
+    preset Icon = Application::TenthTile;
+    preset Label = "5";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton NinthTile
+  {
+    preset Bounds = <241,243,322,328>;
+    preset OnPress = NinthTileMovement;
+    preset Icon = Application::ThirteenTile;
+    preset Label = "9";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton ThirteenthTile
+  {
+    preset Bounds = <241,324,322,409>;
+    preset OnPress = ThirteenthTileMovement;
+    preset Icon = Application::ForteenthTile;
+    preset Label = "13";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton SixthTile
+  {
+    preset Bounds = <322,161,403,246>;
+    preset OnPress = SixthTileMovement;
+    preset Icon = Application::SecondTile;
+    preset Label = "6";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton SeventhTile
+  {
+    preset Bounds = <403,160,484,245>;
+    preset OnPress = SeventhTileMovement;
+    preset Icon = Application::SixthTile;
+    preset Label = "7";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton EighthTile
+  {
+    preset Bounds = <485,160,566,245>;
+    preset OnPress = EighthTileMovement;
+    preset Icon = Application::ForthTile;
+    preset Label = "8";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton TenthTile
+  {
+    preset Bounds = <322,244,403,325>;
+    preset OnPress = TenthTileMovement;
+    preset Icon = Application::BackgroudGamingRoom;
+    preset Label = "10";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton EleventhTile
+  {
+    preset Bounds = <404,243,485,328>;
+    preset OnPress = EleventhTileMovement;
+    preset Icon = Application::FifthTile;
+    preset Label = "11";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton TwelfthTile
+  {
+    preset Bounds = <485,242,566,327>;
+    preset OnPress = TwelfthTileMovement;
+    preset Icon = Application::SeventhTile;
+    preset Label = "12";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton FourteenthTile
+  {
+    preset Bounds = <323,323,404,408>;
+    preset OnPress = FourteenthTileMovement;
+    preset Icon = Application::FifteenthTile;
+    preset Label = "14";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton FifteenthTile
+  {
+    preset Bounds = <403,325,484,410>;
+    preset OnPress = FifteenthTileMovement;
+    preset Icon = Application::EighthTile;
+    preset Label = "15";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton SixteenthTile
+  {
+    preset Bounds = <485,328,566,413>;
+    preset OnPress = SixteenthTileMovement;
+    preset Icon = Application::TwelfthTile;
+    preset Label = "16";
+    preset Appearance = PushButtonConfig;
+  }
+
+  $rect <-930,110,-730,150>
+  var int32 FirstPos = 9;
+
+  $rect <-929,160,-729,200>
+  var int32 SecondPos = 1;
+
+  $rect <-930,260,-730,300>
+  var int32 FourthPos = 3;
+
+  $rect <-710,110,-510,150>
+  var int32 FifthPos = 10;
+
+  $rect <-710,160,-510,200>
+  var int32 SixthPos = 2;
+
+  $rect <-710,210,-510,250>
+  var int32 SeventhPos = 6;
+
+  $rect <-710,260,-510,300>
+  var int32 EighthPos = 4;
+
+  $rect <-490,110,-290,150>
+  var int32 NinthPos = 13;
+
+  $rect <-490,160,-290,200>
+  var int32 TenthPos = 0;
+
+  $rect <-490,210,-290,250>
+  var int32 EleventhPos = 5;
+
+  $rect <-490,260,-290,300>
+  var int32 TwelfthPos = 7;
+
+  $rect <-270,110,-70,150>
+  var int32 ThirteenthPos = 14;
+
+  $rect <-270,160,-70,200>
+  var int32 FourteenthPos = 15;
+
+  $rect <-270,210,-70,250>
+  var int32 FifteenthPos = 8;
+
+  $rect <-930,210,-730,250>
+  var int32 ThirdPos = 11;
+
+  // Tiles' positions
+  note group TilesPositions
+  {
+    attr Bounds = <-970,50,-40,330>;
+  }
+
+  // Tiles' movement
+  note group TilesMovement
+  {
+    attr Bounds = <-970,340,-40,640>;
+  }
+
+  $rect <-270,260,-70,300>
+  var int32 SixteenthPos = 12;
+
+  $rect <20,20,160,60>
+  object Views::Text GuessedText
+  {
+    preset StackingPriority = 3;
+    preset Bounds = <165,82,668,382>;
+    preset Padding = 0;
+    preset ColorBL = #FFFBF6FF;
+    preset ColorBR = #D27129FF;
+    preset ColorTR = #D27129FF;
+    preset ColorTL = #070707FF;
+    preset String = "You won!";
+    preset Font = Application::WordGuessingGameFontWin;
+    preset Color = #FFF36AFF;
+    preset Visible = false;
+  }
+
+  $rect <-940,390,-740,430>
+  slot FirstTileMovement
+  {
+    if(SecondPos==0)
+    {
+    SecondPos=FirstPos;
+    FirstPos=0;
+    SecondTile.Icon=FirstTile.Icon;
+    FirstTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(FifthPos==0)
+    {
+    FifthPos=FirstPos;
+    FirstPos=0;
+    FifthTile.Icon=FirstTile.Icon;
+    FirstTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-940,440,-740,480>
+  slot SecondTileMovement
+  {
+    if(FirstPos==0)
+    {
+    FirstPos=SecondPos;
+    SecondPos=0;
+    FirstTile.Icon=SecondTile.Icon;
+    SecondTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SixthPos==0)
+    {
+    SixthPos=SecondPos;
+    SecondPos=0;
+    SixthTile.Icon=SecondTile.Icon;
+    SecondTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(ThirdPos==0)
+    {
+    ThirdPos=SecondPos;
+    SecondPos=0;
+    ThirdTile.Icon=SecondTile.Icon;
+    SecondTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-940,490,-740,530>
+  slot ThirdTileMovement
+  {
+    if(SecondPos==0)
+    {
+    SecondPos=ThirdPos;
+    ThirdPos=0;
+    SecondTile.Icon=ThirdTile.Icon;
+    ThirdTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SeventhPos==0)
+    {
+    SeventhPos=ThirdPos;
+    ThirdPos=0;
+    SeventhTile.Icon=ThirdTile.Icon;
+    ThirdTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+
+    if(FourthPos==0)
+    {
+    FourthPos=ThirdPos;
+    ThirdPos=0;
+    FourthTile.Icon=ThirdTile.Icon;
+    ThirdTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-940,540,-740,580>
+  slot FourthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(ThirdPos==0)
+    {
+    ThirdPos=FourthPos;
+    FourthPos=0;
+    ThirdTile.Icon=FourthTile.Icon;
+    FourthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(EighthPos==0)
+    {
+    EighthPos=FourthPos;
+    FourthPos=0;
+    EighthTile.Icon=FourthTile.Icon;
+    FourthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-720,390,-520,430>
+  slot FifthTileMovement
+  {
+    if(FirstPos==0)
+    {
+    FirstPos=FifthPos;
+    FifthPos=0;
+    FirstTile.Icon=FifthTile.Icon;
+    FifthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SixthPos==0)
+    {
+    SixthPos=FifthPos;
+    FifthPos=0;
+    SixthTile.Icon=FifthTile.Icon;
+    FifthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(NinthPos==0)
+    {
+    NinthPos=FifthPos;
+    FifthPos=0;
+    NinthTile.Icon=FifthTile.Icon;
+    FifthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-720,440,-520,480>
+  slot SixthTileMovement
+  {
+    if(SecondPos==0)
+    {
+    SecondPos=SixthPos;
+    SixthPos=0;
+    SecondTile.Icon=SixthTile.Icon;
+    SixthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(FifthPos==0)
+    {
+    FifthPos=SixthPos;
+    SixthPos=0;
+    FifthTile.Icon=SixthTile.Icon;
+    SixthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SeventhPos==0)
+    {
+    SeventhPos=SixthPos;
+    SixthPos=0;
+    SeventhTile.Icon=SixthTile.Icon;
+    SixthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(TenthPos==0)
+    {
+    TenthPos=SixthPos;
+    SixthPos=0;
+    TenthTile.Icon=SixthTile.Icon;
+    SixthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-720,490,-520,530>
+  slot SeventhTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(ThirdPos==0)
+    {
+    ThirdPos=SeventhPos;
+    SeventhPos=0;
+    ThirdTile.Icon=SeventhTile.Icon;
+    SeventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SixthPos==0)
+    {
+    SixthPos=SeventhPos;
+    SeventhPos=0;
+    SixthTile.Icon=SeventhTile.Icon;
+    SeventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(EighthPos==0)
+    {
+    EighthPos=SeventhPos;
+    SeventhPos=0;
+    EighthTile.Icon=SeventhTile.Icon;
+    SeventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(EleventhPos==0)
+    {
+    EleventhPos=SeventhPos;
+    SeventhPos=0;
+    EleventhTile.Icon=SeventhTile.Icon;
+    SeventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-720,540,-520,580>
+  slot EighthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(TwelfthPos==0)
+    {
+    TwelfthPos=EighthPos;
+    EighthPos=0;
+    TwelfthTile.Icon=EighthTile.Icon;
+    EighthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SeventhPos==0)
+    {
+    SeventhPos=EighthPos;
+    EighthPos=0;
+    SeventhTile.Icon=EighthTile.Icon;
+    EighthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(FourthPos==0)
+    {
+    FourthPos=EighthPos;
+    EighthPos=0;
+    FourthTile.Icon=EighthTile.Icon;
+    EighthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-500,390,-300,430>
+  slot NinthTileMovement
+  {
+    if(FifthPos==0)
+    {
+    FifthPos=NinthPos;
+    NinthPos=0;
+    FifthTile.Icon=NinthTile.Icon;
+    NinthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(TenthPos==0)
+    {
+    TenthPos=NinthPos;
+    NinthPos=0;
+    TenthTile.Icon=NinthTile.Icon;
+    NinthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(ThirteenthPos==0)
+    {
+    ThirteenthPos=NinthPos;
+    NinthPos=0;
+    ThirteenthTile.Icon=NinthTile.Icon;
+    NinthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-500,440,-300,480>
+  slot TenthTileMovement
+  {
+    if(SixthPos==0)
+    {
+    SixthPos=TenthPos;
+    TenthPos=0;
+    SixthTile.Icon=TenthTile.Icon;
+    TenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(NinthPos==0)
+    {
+    NinthPos=TenthPos;
+    TenthPos=0;
+    NinthTile.Icon=TenthTile.Icon;
+    TenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(EleventhPos==0)
+    {
+    EleventhPos=TenthPos;
+    TenthPos=0;
+    EleventhTile.Icon=TenthTile.Icon;
+    TenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(FourteenthPos==0)
+    {
+    FourteenthPos=TenthPos;
+    TenthPos=0;
+    FourteenthTile.Icon=TenthTile.Icon;
+    TenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-500,490,-300,530>
+  slot EleventhTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(FifteenthPos==0)
+    {
+    FifteenthPos=EleventhPos;
+    EleventhPos=0;
+    FifteenthTile.Icon=EleventhTile.Icon;
+    EleventhTile.Icon=Application::BackgroudGamingRoom;
+
+    }
+
+           //not tested yet
+    if(TwelfthPos==0)
+    {
+    TwelfthPos=EleventhPos;
+    EleventhPos=0;
+    TwelfthTile.Icon=EleventhTile.Icon;
+    EleventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(TenthPos==0)
+    {
+    TenthPos=EleventhPos;
+    EleventhPos=0;
+    TenthTile.Icon=EleventhTile.Icon;
+    EleventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(SeventhPos==0)
+    {
+    SeventhPos=EleventhPos;
+    EleventhPos=0;
+    SeventhTile.Icon=EleventhTile.Icon;
+    EleventhTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-500,540,-300,580>
+  slot TwelfthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(SixteenthPos==0)
+    {
+    SixteenthPos=TwelfthPos;
+    TwelfthPos=0;
+    SixteenthTile.Icon=TwelfthTile.Icon;
+    TwelfthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+        //unverified
+    if(EighthPos==0)
+    {
+    EighthPos=TwelfthPos;
+    TwelfthPos=0;
+    EighthTile.Icon=TwelfthTile.Icon;
+    TwelfthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(EleventhPos==0)
+    {
+    EleventhPos=TwelfthPos;
+    TwelfthPos=0;
+    EleventhTile.Icon=TwelfthTile.Icon;
+    TwelfthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-280,390,-70,430>
+  slot ThirteenthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(FourteenthPos==0)
+    {
+    FourteenthPos=ThirteenthPos;
+    ThirteenthPos=0;
+    FourteenthTile.Icon=ThirteenthTile.Icon;
+    ThirteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(NinthPos==0)
+    {
+    NinthPos=ThirteenthPos;
+    ThirteenthPos=0;
+    NinthTile.Icon=ThirteenthTile.Icon;
+    ThirteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-280,440,-70,480>
+  slot FourteenthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(FifteenthPos==0)
+    {
+    FifteenthPos=FourteenthPos;
+    FourteenthPos=0;
+    FifteenthTile.Icon=FourteenthTile.Icon;
+    FourteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(TenthPos==0)
+    {
+    TenthPos=FourteenthPos;
+    FourteenthPos=0;
+    TenthTile.Icon=FourteenthTile.Icon;
+    FourteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(ThirteenthPos==0)
+    {
+    ThirteenthPos=FourteenthPos;
+    FourteenthPos=0;
+    ThirteenthTile.Icon=FourteenthTile.Icon;
+    FourteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-280,490,-70,530>
+  slot FifteenthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(SixteenthPos==0)
+    {
+    SixteenthPos=FifteenthPos;
+    FifteenthPos=0;
+    SixteenthTile.Icon=FifteenthTile.Icon;
+    FifteenthTile.Icon=Application::BackgroudGamingRoom;
+
+    }
+
+    if(EleventhPos==0)
+    {
+    EleventhPos=FifteenthPos;
+    FifteenthPos=0;
+    EleventhTile.Icon=FifteenthTile.Icon;
+    FifteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(FourteenthPos==0)
+    {
+    FourteenthPos=FifteenthPos;
+    FifteenthPos=0;
+    FourteenthTile.Icon=FifteenthTile.Icon;
+    FifteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-280,540,-70,580>
+  slot SixteenthTileMovement
+  {
+    sender; /* the method is called from the sender object */
+
+    if(FifteenthPos==0)
+    {
+    FifteenthPos=SixteenthPos;
+    SixteenthPos=0;
+    FifteenthTile.Icon=SixteenthTile.Icon;
+    SixteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    if(TwelfthPos==0)
+    {
+    TwelfthPos=SixteenthPos;
+    SixteenthPos=0;
+    TwelfthTile.Icon=SixteenthTile.Icon;
+    SixteenthTile.Icon=Application::BackgroudGamingRoom;
+    }
+
+    var slot sl=this.FindSolution;
+    signal sl;
+  }
+
+  $rect <-970,670,-770,710>
+  slot FindSolution
+  {
+    if(FirstPos==1 && SecondPos==2 && ThirdPos==3 && FourthPos==4 && FifthPos==5 && SixthPos==6 && SeventhPos==7 && EighthPos==8 && NinthPos==9 && TenthPos==10 && EleventhPos==11 && TwelfthPos==12 && ThirteenthPos==13 && FourteenthPos==14 && FifteenthPos==15 && SixteenthPos==0)
+    GuessedText.Visible=true;
+  }
+
+  // The positions are used to identify the placement of the images at any given \
+  // time. They do not move, the images on them change.
+  note legend PositionsLegend
+  {
+    attr Bounds = <-1330,120,-1030,320>;
+  }
+
+  note arrow Note
+  {
+    attr Point1 = <-980,90>;
+    attr Point2 = <-1030,130>;
+  }
+}
+
+// Images tiles puzzle
+note group ImagesTilesPuzzle
+{
+  attr Bounds = <1430,420,2130,810>;
+}
+
+$rect <1480,480,1680,520>
+$output false
+resource Resources::Bitmap Frame
+{
+  attr bitmapfile FileName = .\frame_rectangle_picture.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1480,530,1680,570>
+$output false
+resource Resources::Bitmap FirstTile
+{
+  attr bitmapfile FileName = .\first_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1480,580,1680,620>
+$output false
+resource Resources::Bitmap SecondTile
+{
+  attr bitmapfile FileName = .\second_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1480,630,1680,670>
+$output false
+resource Resources::Bitmap ThirthTile
+{
+  attr bitmapfile FileName = .\third_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1480,680,1680,720>
+$output false
+resource Resources::Bitmap ForthTile
+{
+  attr bitmapfile FileName = .\forth_tile.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1480,730,1680,770>
+$output false
+resource Resources::Bitmap FifthTile
+{
+  attr bitmapfile FileName = .\fifth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1900,480,2100,520>
+$output false
+resource Resources::Bitmap TwelfthTile
+{
+  attr bitmapfile FileName = .\twelfth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,480,1890,520>
+$output false
+resource Resources::Bitmap SixthTile
+{
+  attr bitmapfile FileName = .\sixth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,530,1890,570>
+$output false
+resource Resources::Bitmap SeventhTile
+{
+  attr bitmapfile FileName = .\seventh_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,580,1890,620>
+$output false
+resource Resources::Bitmap EighthTile
+{
+  attr bitmapfile FileName = .\eighth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,630,1890,670>
+$output false
+resource Resources::Bitmap NinthTile
+{
+  attr bitmapfile FileName = .\ninth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,680,1890,720>
+$output false
+resource Resources::Bitmap TenthTile
+{
+  attr bitmapfile FileName = .\tenth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1690,730,1890,770>
+$output false
+resource Resources::Bitmap EleventhTile
+{
+  attr bitmapfile FileName = .\eleventh_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1900,530,2100,570>
+$output false
+resource Resources::Bitmap ThirteenTile
+{
+  attr bitmapfile FileName = .\thirteenth_tile.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1900,580,2100,620>
+$output false
+resource Resources::Bitmap ForteenthTile
+{
+  attr bitmapfile FileName = .\forteenth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1900,630,2100,670>
+$output false
+resource Resources::Bitmap FifteenthTile
+{
+  attr bitmapfile FileName = .\fifteenth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1900,680,2100,720>
+$output false
+resource Resources::Bitmap SixteenthTile
+{
+  attr bitmapfile FileName = .\sixteenth_tile1.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+$rect <1090,830,1290,870>
+$output false
+resource Resources::Bitmap Arrow
+{
+  attr bitmapfile FileName = .\arrow.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;

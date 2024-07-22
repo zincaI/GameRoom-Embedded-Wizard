@@ -1,9 +1,9 @@
 $version 1.0
 
-attr active = Application::MemoryGame;
+attr active = Application::TilesPuzzle;
 attr callStackMonitor_Show = false;
 attr connectInspectors = false;
-attr currentCodeInspector = Application::MemoryGame.WinMessage;
+attr currentCodeInspector = Application::TilesPuzzle.TenthTileMovement;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -31,7 +31,7 @@ view Project
   attr aspectRatio = 1.0;
   attr enableGrid = true;
   attr grid = 10;
-  attr scrollTo = <143,-351>;
+  attr scrollTo = <-892,-351>;
   attr zoom = 0.5;
 }
 
@@ -41,43 +41,36 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-910,-8>;
-  attr zoom = 0.75;
+  attr scrollTo = <-527,211>;
+  attr zoom = 0.5;
 }
 
 view class Application::Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-398,224>;
-  attr zoom = 1.25;
-}
-
-view class Application::MemoryGame
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-588,-205>;
+  attr scrollTo = <-1597,-85>;
   attr zoom = 0.5;
 }
 
-view class Application::GuessTheWord
+view class Application::TilesPuzzle
 {
   attr enableWireMode = false;
-  attr scrollTo = <-11,39>;
-  attr zoom = 1.0;
+  attr scrollTo = <-1170,290>;
+  attr zoom = 0.75;
 }
 
-codeview Application::MemoryGame.WinMessage
+codeview Application::TilesPuzzle.FirstTileMovement
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <31,2>;
-  attr codeSelStart = <31,2>;
+  attr codeFirstPos = <0,6>;
+  attr codeSelEnd = <56,1>;
+  attr codeSelStart = <56,1>;
 }
 
-codeview Application::MemoryGame.VerifyCards
+codeview Application::TilesPuzzle.TenthTileMovement
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <10,49>;
-  attr codeSelStart = <10,49>;
+  attr codeFirstPos = <0,24>;
+  attr codeSelEnd = <10,28>;
+  attr codeSelStart = <10,28>;
 }
