@@ -1,9 +1,9 @@
 $version 1.0
 
-attr active = Application::TilesPuzzle;
+attr active = Application::Application;
 attr callStackMonitor_Show = false;
 attr connectInspectors = false;
-attr currentCodeInspector = Application::TilesPuzzle.TenthTileMovement;
+attr currentCodeInspector = Application::Application.DisableButtons;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -41,36 +41,68 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-527,211>;
+  attr scrollTo = <-398,217>;
   attr zoom = 0.5;
+}
+
+view class Application::GuessTheWord
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-1157,-7>;
+  attr zoom = 1.0;
 }
 
 view class Application::Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-1597,-85>;
-  attr zoom = 0.5;
-}
-
-view class Application::TilesPuzzle
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-1170,290>;
+  attr scrollTo = <-313,-248>;
   attr zoom = 0.75;
 }
 
-codeview Application::TilesPuzzle.FirstTileMovement
+codeview Application::TilesPuzzle.NinthTileMovement
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,6>;
-  attr codeSelEnd = <56,1>;
-  attr codeSelStart = <56,1>;
+  attr codeFirstPos = <0,8>;
+  attr codeSelEnd = <0,14>;
+  attr codeSelStart = <0,14>;
 }
 
-codeview Application::TilesPuzzle.TenthTileMovement
+codeview Application::TilesPuzzle.DisableEffect
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,24>;
-  attr codeSelEnd = <10,28>;
-  attr codeSelStart = <10,28>;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <29,0>;
+  attr codeSelStart = <29,0>;
+}
+
+codeview Application::TilesPuzzle.RevealFilter
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <10,5>;
+  attr codeSelStart = <10,5>;
+}
+
+codeview Application::TilesPuzzle.FindSolution
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <40,2>;
+  attr codeSelStart = <40,2>;
+}
+
+codeview Application::TilesPuzzle.RevealCompletedPicture
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <0,4>;
+  attr codeSelStart = <0,4>;
+}
+
+codeview Application::Application.DisableButtons
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <20,6>;
+  attr codeSelStart = <20,6>;
 }

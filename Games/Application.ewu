@@ -156,7 +156,11 @@ class Application : Core::Root
     WordGuessingButton.Visible=false;
     MemoryGameButton.Enabled=false;
     MemoryGameButton.Visible=false;
+    TilesPuzzleGameButton.Enabled=false;
     TilesPuzzleGameButton.Visible=false;
+    Arrow.Enabled=false;
+    Arrow.Visible=false;
+
   }
 
   $rect <20,20,160,60>
@@ -217,7 +221,7 @@ class Application : Core::Root
   }
 
   $rect <20,20,160,60>
-  object WidgetSet::PushButton PushButton
+  object WidgetSet::PushButton Arrow
   {
     preset Bounds = <614,215,708,266>;
     preset Icon = Application::Arrow;
@@ -4537,8 +4541,8 @@ class MemoryGame : Core::Group
     var slot sl=this.CountActiveCards;
     signal sl;
 
-    //var slot sl2=this.VerifyCards;
-    //signal sl2;
+    var slot sl2=this.Schaffle;
+    signal sl2;
 
     RevealCardTimer.Enabled=true;
   }
@@ -4648,6 +4652,25 @@ class MemoryGame : Core::Group
     preset Visible = false;
   }
 
+  $rect <-570,530,-370,570>
+  slot Schaffle
+  {
+    //
+    //  var int canvasWidth = 320;
+    //  var int canvasHeight = 240;
+    //  var int buttonWidth = 50;
+    //  var int buttonHeight = 30;
+    //
+    //  // Generate random positions within the canvas bounds
+    //  var int newX = Math::RandomInt32( 0, canvasWidth - buttonWidth );
+    //  var int newY = Math::RandomInt32( 0, canvasHeight - buttonHeight );
+    //
+    //  // Set the new position using Core::Rect
+    //  this.Bounds = Core::Rect( newX, newY, newX + buttonWidth, newY + buttonHeight );
+
+
+  }
+
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
   // and the expected order of the members don't depend. Merging of changes in the 
@@ -4695,6 +4718,7 @@ class MemoryGame : Core::Group
   $member WinMessage
   $member GuessedText
   $member FilterKeyboard
+  $member Schaffle
 }
 
 $rect <1120,460,1320,500>
@@ -4959,11 +4983,11 @@ class TilesPuzzle : Core::Group
     preset OnPress = FirstTileMovement;
     preset Icon = Application::NinthTile;
     preset Label = "1";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
-  $rect <-970,0,-730,40>
-  object WidgetSet::PushButtonConfig PushButtonConfig;
+  $rect <-1670,750,-1430,790>
+  object WidgetSet::PushButtonConfig TransparentButton;
 
   $rect <20,20,160,60>
   object WidgetSet::PushButton FourthTile
@@ -4972,7 +4996,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = FourthTileMovement;
     preset Icon = Application::ThirthTile;
     preset Label = "4";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -4982,7 +5006,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = ThirdTileMovement;
     preset Icon = Application::EleventhTile;
     preset Label = "3";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -4992,7 +5016,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = SecondTileMovement;
     preset Icon = Application::FirstTile;
     preset Label = "2";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5002,17 +5026,18 @@ class TilesPuzzle : Core::Group
     preset OnPress = FifthTileMovement;
     preset Icon = Application::TenthTile;
     preset Label = "5";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
   object WidgetSet::PushButton NinthTile
   {
     preset Bounds = <241,243,322,328>;
+    preset OnRelease = null;
     preset OnPress = NinthTileMovement;
     preset Icon = Application::ThirteenTile;
     preset Label = "9";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5022,7 +5047,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = ThirteenthTileMovement;
     preset Icon = Application::ForteenthTile;
     preset Label = "13";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5032,7 +5057,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = SixthTileMovement;
     preset Icon = Application::SecondTile;
     preset Label = "6";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5042,7 +5067,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = SeventhTileMovement;
     preset Icon = Application::SixthTile;
     preset Label = "7";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5052,7 +5077,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = EighthTileMovement;
     preset Icon = Application::ForthTile;
     preset Label = "8";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5062,7 +5087,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = TenthTileMovement;
     preset Icon = Application::BackgroudGamingRoom;
     preset Label = "10";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5072,7 +5097,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = EleventhTileMovement;
     preset Icon = Application::FifthTile;
     preset Label = "11";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5082,7 +5107,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = TwelfthTileMovement;
     preset Icon = Application::SeventhTile;
     preset Label = "12";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5092,7 +5117,7 @@ class TilesPuzzle : Core::Group
     preset OnPress = FourteenthTileMovement;
     preset Icon = Application::FifteenthTile;
     preset Label = "14";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
@@ -5102,17 +5127,17 @@ class TilesPuzzle : Core::Group
     preset OnPress = FifteenthTileMovement;
     preset Icon = Application::EighthTile;
     preset Label = "15";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <20,20,160,60>
   object WidgetSet::PushButton SixteenthTile
   {
-    preset Bounds = <485,328,566,413>;
+    preset Bounds = <485,324,566,409>;
     preset OnPress = SixteenthTileMovement;
     preset Icon = Application::TwelfthTile;
     preset Label = "16";
-    preset Appearance = PushButtonConfig;
+    preset Appearance = TransparentButton;
   }
 
   $rect <-930,110,-730,150>
@@ -5179,8 +5204,9 @@ class TilesPuzzle : Core::Group
   object Views::Text GuessedText
   {
     preset StackingPriority = 3;
-    preset Bounds = <165,82,668,382>;
+    preset Bounds = <149,90,652,390>;
     preset Padding = 0;
+    preset OnUpdate = null;
     preset ColorBL = #FFFBF6FF;
     preset ColorBR = #D27129FF;
     preset ColorTR = #D27129FF;
@@ -5464,6 +5490,7 @@ class TilesPuzzle : Core::Group
     NinthPos=0;
     TenthTile.Icon=NinthTile.Icon;
     NinthTile.Icon=Application::BackgroudGamingRoom;
+
     }
 
     if(ThirteenthPos==0)
@@ -5686,6 +5713,7 @@ class TilesPuzzle : Core::Group
     }
 
 
+
     var slot sl=this.FindSolution;
     signal sl;
   }
@@ -5715,24 +5743,184 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-970,670,-770,710>
+  $rect <-950,660,-750,700>
   slot FindSolution
   {
     if(FirstPos==1 && SecondPos==2 && ThirdPos==3 && FourthPos==4 && FifthPos==5 && SixthPos==6 && SeventhPos==7 && EighthPos==8 && NinthPos==9 && TenthPos==10 && EleventhPos==11 && TwelfthPos==12 && ThirteenthPos==13 && FourteenthPos==14 && FifteenthPos==15 && SixteenthPos==0)
-    GuessedText.Visible=true;
-  }
+    {
+    RevealTilesTimer.Enabled=true;
+    }
 
-  // The positions are used to identify the placement of the images at any given \
-  // time. They do not move, the images on them change.
-  note legend PositionsLegend
-  {
-    attr Bounds = <-1330,120,-1030,320>;
   }
 
   note arrow Note
   {
-    attr Point1 = <-980,90>;
-    attr Point2 = <-1030,130>;
+    attr Point1 = <-970,90>;
+    attr Point2 = <-1030,110>;
+  }
+
+  // Game logic
+  note group GameLogic
+  {
+    attr Bounds = <-990,10,-20,720>;
+  }
+
+  // The positions are used to identify the placement of the images at any given \
+  // time. They do not move, the images on them change.
+  note legend PositionsLegend2
+  {
+    attr Bounds = <-1330,100,-1030,300>;
+  }
+
+  // Tiles' movement
+  note group TilesMovement1
+  {
+    attr Bounds = <-970,340,-40,640>;
+  }
+
+  // Tiles' positions
+  note group TilesPositions1
+  {
+    attr Bounds = <-970,50,-40,330>;
+  }
+
+  // Effects
+  note group Effects
+  {
+    attr Bounds = <-1720,330,-1020,800>;
+  }
+
+  $rect <-1670,430,-1440,470>
+  slot RevealCompletedPicture
+  {
+    Solution.Visible=true;
+
+    RevealGuessedTextTimer.Enabled=true;
+    RevealFilterTimer.Enabled=true;
+
+  }
+
+  $rect <-1670,480,-1440,520>
+  slot RevealAllTiles
+  {
+    SixteenthTile.Icon=Application::SixteenthTile;
+    RevealPictureTimer.Enabled=true;
+  }
+
+  // Reveal answer
+  note group RevealAnswer
+  {
+    attr Bounds = <-1680,390,-1070,740>;
+  }
+
+  $rect <-1390,430,-1120,470>
+  object Core::Timer RevealTilesTimer
+  {
+    preset OnTrigger = RevealAllTiles;
+    preset Period = 0;
+    preset Begin = 1000;
+  }
+
+  $rect <-1390,480,-1120,520>
+  object Core::Timer RevealPictureTimer
+  {
+    preset OnTrigger = RevealCompletedPicture;
+    preset Period = 0;
+    preset Begin = 1500;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Solution
+  {
+    preset Bounds = <242,74,566,407>;
+    preset Bitmap = Application::Medusa;
+    preset Visible = false;
+  }
+
+  $rect <-1389,530,-1120,570>
+  object Core::Timer RevealGuessedTextTimer
+  {
+    preset OnTrigger = RevealGuessedText;
+    preset Period = 0;
+    preset Begin = 1200;
+  }
+
+  $rect <-1670,530,-1440,570>
+  slot RevealGuessedText
+  {
+    GuessedText.Visible=true;
+    //RevealFilterTimer.Enabled=true;
+
+  }
+
+  $rect <20,20,160,60>
+  object Views::FilterImage FilterKeyboard
+  {
+    preset Bounds = <235,77,566,411>;
+    preset Bitmap = Application::BackgroudGamingRoom;
+    preset TintColor = #180E00FF;
+    preset TintIntensity = 5.0;
+    preset TintMode = Graphics::TintMode.TintByOpacity;
+    preset Opacity = 100;
+    preset Visible = false;
+  }
+
+  $rect <-1460,690,-1260,730>
+  object Effects::ColorEffect GuessedTextPulse
+  {
+    preset OnAnimate = FindSolution;
+    preset Bounces = 6;
+    preset TimingCustom2 = 0.0;
+    preset TimingCustom1 = 0.0;
+    preset Timing = Effects::Timing.Linear;
+    preset NoOfCycles = 6;
+    preset Enabled = false;
+    preset Value2 = #D2851BFF;
+    preset Value1 = #F3FF00FF;
+    preset Outlet = ^GuessedText.Color;
+  }
+
+  $rect <-1390,580,-1120,620>
+  object Core::Timer RevealFilterTimer
+  {
+    preset OnTrigger = RevealFilter;
+    preset Period = 0;
+    preset Begin = 200;
+  }
+
+  $rect <-1670,580,-1440,620>
+  slot RevealFilter
+  {
+    FilterEffect.Enabled=true;
+    FilterKeyboard.Visible=true;
+    DisableEffectTimer.Enabled=true;
+
+
+
+  }
+
+  $rect <-1670,690,-1470,730>
+  object Effects::ColorEffect FilterEffect
+  {
+    preset OnAnimate = RevealFilter;
+    preset Bounces = 3;
+    preset Oscillations = 1;
+    preset Value2 = #000000FF;
+    preset Value1 = #E8A0385D;
+    preset Outlet = ^FilterKeyboard.TintColor;
+  }
+
+  $rect <-1670,630,-1440,670>
+  slot DisableEffect
+  {
+    FilterEffect.Enabled=false;
+  }
+
+  $rect <-1390,630,-1120,670>
+  object Core::Timer DisableEffectTimer
+  {
+    preset OnTrigger = DisableEffect;
+    preset Begin = 1500;
   }
 }
 
@@ -5951,6 +6139,462 @@ $output false
 resource Resources::Bitmap Arrow
 {
   attr bitmapfile FileName = .\arrow.png;
+  attr bitmapformat Format = Native;
+  attr framesize FrameSize;
+  attr framedelay FrameDelay;
+  attr bitmapdithering Dithering = Auto;
+  attr bitmapmode Mode = Default;
+}
+
+// The class Graphics::WarpMatrix provides the core functionality for all 2D and \
+// 3D transformations. With its aim, Views::WarpImage and Views::WarpGroup can be \
+// translated, scaled and rotated around the X, Y and Z axis. Moreover, small 3D \
+// scenes consisting of several warp views can be defined. This allows you to enrich \
+// GUI components with fancy 3D effects. Please note, Embedded Wizard is not a 3D \
+// GUI development tool! Its lightweight 3D functionality is limited to the perspectively \
+// correct projection of a source image onto a four corners polygon lying in the \
+// GUI component. The matrix coefficients describe thus the transformation of the \
+// rectangular area of the source image into a four corners polygon.
+// To define the desired transformation the WarpMatrix class provides following three \
+// methods @Translate(), @Scale() and @Rotate(). These can be combined together in \
+// order to get more complex transformations. The source image can thus be rotated \
+// and then e.g. translated in the 3D space. The order in which these operations \
+// are executed is essential. Changing of the order may produce different results.
+// The methods @Push() and @Pop() are very useful to store and restore the current \
+// state of the matrix on the matrix stack. This is important when 3D scenes are \
+// composed of several transformed source images. In this manner one and the same \
+// matrix is used for all warp views. To perform the transformation defined in the \
+// matrix, pass it to the Warp3D() method provided by the WarpImage and WarpGroup \
+// views.
+$rect <-20,300,170,340>
+$output false
+class WarpMatrix
+{
+  $rect <190,600,370,640>
+  var Graphics::WarpMatrix stack;
+
+  $rect <10,600,190,640>
+  var bool isIdentity = true;
+
+  $rect <10,430,130,470>
+  var float M11 = 1.0;
+
+  $rect <130,430,250,470>
+  var float M12;
+
+  $rect <250,430,370,470>
+  var float M13;
+
+  $rect <370,430,490,470>
+  var float M14;
+
+  $rect <10,470,130,510>
+  var float M21;
+
+  $rect <130,470,250,510>
+  var float M22 = 1.0;
+
+  $rect <250,470,370,510>
+  var float M23;
+
+  $rect <370,470,490,510>
+  var float M24;
+
+  $rect <10,510,130,550>
+  var float M31;
+
+  $rect <130,510,250,550>
+  var float M32;
+
+  $rect <250,510,370,550>
+  var float M33 = 1.0;
+
+  $rect <370,510,490,550>
+  var float M34;
+
+  $rect <10,550,130,590>
+  var float M41;
+
+  $rect <130,550,250,590>
+  var float M42;
+
+  $rect <250,550,370,590>
+  var float M43;
+
+  $rect <370,550,490,590>
+  var float M44 = 1.0;
+
+  $rect <190,360,370,400>
+  var float Z;
+
+  $rect <190,320,370,360>
+  var float Y;
+
+  $rect <190,280,370,320>
+  var float X;
+
+  $rect <10,340,190,380>
+  method bool CalculateZ( arg float aX, arg float aY )
+  {
+    // --- Calculate the first (top/left) corner
+    var float z = ( aX * M31 ) + ( aY * M32 ) + M34;
+    var float w = ( aX * M41 ) + ( aY * M42 ) + M44;
+
+    // From the homogeneous coordinates calculate the real 3D coordinates
+    if (( w != 0.0 ) && ( w != 1.0 ))
+      z = z / w;
+
+    // Remember the resulting position - correct the perspective
+    Z = z;
+
+    return true;
+  }
+
+  $rect <10,300,190,340>
+  method bool Project( arg float aX, arg float aY )
+  {
+    var float eyeDistance = pure EyeDistance;
+
+    // Invalid eye distance -> no projection possible
+    if ( eyeDistance < 0.0 )
+      return false;
+
+    // --- Calculate the first (top/left) corner
+    var float x = ( aX * M11 ) + ( aY * M12 ) + M14;
+    var float y = ( aX * M21 ) + ( aY * M22 ) + M24;
+    var float z = ( aX * M31 ) + ( aY * M32 ) + M34;
+    var float w = ( aX * M41 ) + ( aY * M42 ) + M44;
+    var float q = 1.0;
+
+    // From the homogeneous coordinates calculate the real 3D coordinates
+    if (( w != 0.0 ) && ( w != 1.0 ))
+    {
+      x = x / w;
+      y = y / w;
+      z = z / w;
+    }
+
+    // Calculate the factor for the perspective correction
+    if ( eyeDistance != -z )
+      q = q / ( z + eyeDistance );
+
+    if ( eyeDistance != 0.0 )
+      q = q * eyeDistance;
+
+    // Remember the resulting position - correct the perspective
+    X = x * q;
+    Y = y * q;
+    Z = z + eyeDistance;
+
+    return true;
+  }
+
+  // The method Pop() restores the current state of the matrix from an internal stack. \
+  // This is very useful during the definition of 3D scenes consisting of several \
+  // source images. The method returns 'this' matrix object to the caller.
+  $rect <550,110,730,150>
+  method Graphics::WarpMatrix Pop()
+  {
+    if ( stack == null )
+      throw "WarpMatrix.Pop() without corresponding Push()";
+
+    Assign( stack );
+
+    // Remove from the stack
+    stack = stack.stack;
+
+    return this;
+  }
+
+  // The method Push() stores the current state of the matrix on an internal stack. \
+  // This is very useful during the definition of 3D scenes consisting of several \
+  // source images. The method returns 'this' matrix object to the caller.
+  $rect <550,70,730,110>
+  method Graphics::WarpMatrix Push()
+  {
+    var Graphics::WarpMatrix matrix = new Graphics::WarpMatrix;
+
+    // Create and push on the stack a copy of the matrix
+    matrix.Assign( this );
+    matrix.stack = stack;
+    stack        = matrix;
+
+    return this;
+  }
+
+  // The method Interpolate() calculates the matrix coefficients and the value of \
+  // @EyeDistance as an interpolation between the given source matrices aMatrix1 \
+  // and aMatrix2. The resulting composition is determined by the parameter aFactor, \
+  // which can obtain values in the range 0.0 .. 1.0. The value 0.0 is related to \
+  // the first source matrix. The value 1.0 corresponds to the second source matrix. \
+  // The results of the interpolation replace the values stored actually in 'this' \
+  // object. The method returns 'this' object to the caller.
+  $rect <370,70,550,110>
+  method Graphics::WarpMatrix Interpolate( arg Graphics::WarpMatrix aMatrix1, arg Graphics::WarpMatrix aMatrix2, arg float aFactor )
+  {
+    if (( aMatrix1 == null ) || ( aMatrix2 == null ))
+      throw "Missing matrices to interpolate";
+
+    M11 = aMatrix1.M11 + ( aMatrix2.M11 - aMatrix1.M11 ) * aFactor;
+    M12 = aMatrix1.M12 + ( aMatrix2.M12 - aMatrix1.M12 ) * aFactor;
+    M13 = aMatrix1.M13 + ( aMatrix2.M13 - aMatrix1.M13 ) * aFactor;
+    M14 = aMatrix1.M14 + ( aMatrix2.M14 - aMatrix1.M14 ) * aFactor;
+    M21 = aMatrix1.M21 + ( aMatrix2.M21 - aMatrix1.M21 ) * aFactor;
+    M22 = aMatrix1.M22 + ( aMatrix2.M22 - aMatrix1.M22 ) * aFactor;
+    M23 = aMatrix1.M23 + ( aMatrix2.M23 - aMatrix1.M23 ) * aFactor;
+    M24 = aMatrix1.M24 + ( aMatrix2.M24 - aMatrix1.M24 ) * aFactor;
+    M31 = aMatrix1.M31 + ( aMatrix2.M31 - aMatrix1.M31 ) * aFactor;
+    M32 = aMatrix1.M32 + ( aMatrix2.M32 - aMatrix1.M32 ) * aFactor;
+    M33 = aMatrix1.M33 + ( aMatrix2.M33 - aMatrix1.M33 ) * aFactor;
+    M34 = aMatrix1.M34 + ( aMatrix2.M34 - aMatrix1.M34 ) * aFactor;
+    M41 = aMatrix1.M41 + ( aMatrix2.M41 - aMatrix1.M41 ) * aFactor;
+    M42 = aMatrix1.M42 + ( aMatrix2.M42 - aMatrix1.M42 ) * aFactor;
+    M43 = aMatrix1.M43 + ( aMatrix2.M43 - aMatrix1.M43 ) * aFactor;
+    M44 = aMatrix1.M44 + ( aMatrix2.M44 - aMatrix1.M44 ) * aFactor;
+
+    // Also the eye distance is to interpolate
+    EyeDistance = aMatrix1.EyeDistance + ( aMatrix2.EyeDistance - aMatrix1.EyeDistance ) * aFactor;
+
+    // Sign the matrix as modified
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method Multiply() multiplies the matrix provided in the parameter aMatrix \
+  // with 'this' matrix replacing the coeficients stored in 'this' object with the \
+  // results of the operation. The method returns 'this' object to the caller.
+  $rect <190,190,370,230>
+  method Graphics::WarpMatrix Multiply( arg Graphics::WarpMatrix aMatrix )
+  {
+    // Multiply the origin matrix by the give aMatrix
+    var float m11 = ( M11 * aMatrix.M11 ) + ( M12 * aMatrix.M21 ) + ( M13 * aMatrix.M31 ) + ( M14 * aMatrix.M41 );
+    var float m21 = ( M21 * aMatrix.M11 ) + ( M22 * aMatrix.M21 ) + ( M23 * aMatrix.M31 ) + ( M24 * aMatrix.M41 );
+    var float m31 = ( M31 * aMatrix.M11 ) + ( M32 * aMatrix.M21 ) + ( M33 * aMatrix.M31 ) + ( M34 * aMatrix.M41 );
+    var float m41 = ( M41 * aMatrix.M11 ) + ( M42 * aMatrix.M21 ) + ( M43 * aMatrix.M31 ) + ( M44 * aMatrix.M41 );
+    var float m12 = ( M11 * aMatrix.M12 ) + ( M12 * aMatrix.M22 ) + ( M13 * aMatrix.M32 ) + ( M14 * aMatrix.M42 );
+    var float m22 = ( M21 * aMatrix.M12 ) + ( M22 * aMatrix.M22 ) + ( M23 * aMatrix.M32 ) + ( M24 * aMatrix.M42 );
+    var float m32 = ( M31 * aMatrix.M12 ) + ( M32 * aMatrix.M22 ) + ( M33 * aMatrix.M32 ) + ( M34 * aMatrix.M42 );
+    var float m42 = ( M41 * aMatrix.M12 ) + ( M42 * aMatrix.M22 ) + ( M43 * aMatrix.M32 ) + ( M44 * aMatrix.M42 );
+    var float m13 = ( M11 * aMatrix.M13 ) + ( M12 * aMatrix.M23 ) + ( M13 * aMatrix.M33 ) + ( M14 * aMatrix.M43 );
+    var float m23 = ( M21 * aMatrix.M13 ) + ( M22 * aMatrix.M23 ) + ( M23 * aMatrix.M33 ) + ( M24 * aMatrix.M43 );
+    var float m33 = ( M31 * aMatrix.M13 ) + ( M32 * aMatrix.M23 ) + ( M33 * aMatrix.M33 ) + ( M34 * aMatrix.M43 );
+    var float m43 = ( M41 * aMatrix.M13 ) + ( M42 * aMatrix.M23 ) + ( M43 * aMatrix.M33 ) + ( M44 * aMatrix.M43 );
+    var float m14 = ( M11 * aMatrix.M14 ) + ( M12 * aMatrix.M24 ) + ( M13 * aMatrix.M34 ) + ( M14 * aMatrix.M44 );
+    var float m24 = ( M21 * aMatrix.M14 ) + ( M22 * aMatrix.M24 ) + ( M23 * aMatrix.M34 ) + ( M24 * aMatrix.M44 );
+    var float m34 = ( M31 * aMatrix.M14 ) + ( M32 * aMatrix.M24 ) + ( M33 * aMatrix.M34 ) + ( M34 * aMatrix.M44 );
+    var float m44 = ( M41 * aMatrix.M14 ) + ( M42 * aMatrix.M24 ) + ( M43 * aMatrix.M34 ) + ( M44 * aMatrix.M44 );
+
+    // Store the resulting matrix
+    M11 = m11;  M12 = m12;  M13 = m13;  M14 = m14;
+    M21 = m21;  M22 = m22;  M23 = m23;  M24 = m24;
+    M31 = m31;  M32 = m32;  M33 = m33;  M34 = m34;
+    M41 = m41;  M42 = m42;  M43 = m43;  M44 = m44;
+
+    // Sign the matrix as initialized
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method Rotate() applies the given angles to the matrix. This corresponds \
+  // to the rotation of the source image around the X-, Y- and Z-axis. The angles \
+  // are specified in degrees. The method returns 'this' object to the caller.
+  $rect <190,150,370,190>
+  method Graphics::WarpMatrix Rotate( arg float aAngleX, arg float aAngleY, arg float aAngleZ )
+  {
+    // Pre-calculate the sin/cos values for the given angles
+    var float sinX = math_sin( aAngleX );
+    var float cosX = math_cos( aAngleX );
+    var float sinY = math_sin( aAngleY );
+    var float cosY = math_cos( aAngleY );
+    var float sinZ = math_sin( aAngleZ );
+    var float cosZ = math_cos( aAngleZ );
+
+    // Now calculate the rotation matrix. The order in which the rotations are done is AngleX, AngleY, AngleZ
+    var float rotM11 =  cosY * cosZ;
+    var float rotM21 =  sinZ;
+    var float rotM31 = -sinY * cosZ;
+    var float rotM12 = -cosX * cosY * sinZ + sinX * sinY;
+    var float rotM22 =  cosX * cosZ;
+    var float rotM32 =  cosX * sinY * sinZ + sinX * cosY;
+    var float rotM13 =  sinX * cosY * sinZ + cosX * sinY;
+    var float rotM23 = -sinX * cosZ; 
+    var float rotM33 = -sinX * sinY * sinZ + cosX * cosY;
+
+    // Multiply the rotation matrix with the origin matrix
+    var float m11 = ( M11 * rotM11 ) + ( M12 * rotM21 ) + ( M13 * rotM31 );
+    var float m21 = ( M21 * rotM11 ) + ( M22 * rotM21 ) + ( M23 * rotM31 );
+    var float m31 = ( M31 * rotM11 ) + ( M32 * rotM21 ) + ( M33 * rotM31 );
+    var float m41 = ( M41 * rotM11 ) + ( M42 * rotM21 ) + ( M43 * rotM31 );
+    var float m12 = ( M11 * rotM12 ) + ( M12 * rotM22 ) + ( M13 * rotM32 );
+    var float m22 = ( M21 * rotM12 ) + ( M22 * rotM22 ) + ( M23 * rotM32 );
+    var float m32 = ( M31 * rotM12 ) + ( M32 * rotM22 ) + ( M33 * rotM32 );
+    var float m42 = ( M41 * rotM12 ) + ( M42 * rotM22 ) + ( M43 * rotM32 );
+    var float m13 = ( M11 * rotM13 ) + ( M12 * rotM23 ) + ( M13 * rotM33 );
+    var float m23 = ( M21 * rotM13 ) + ( M22 * rotM23 ) + ( M23 * rotM33 );
+    var float m33 = ( M31 * rotM13 ) + ( M32 * rotM23 ) + ( M33 * rotM33 );
+    var float m43 = ( M41 * rotM13 ) + ( M42 * rotM23 ) + ( M43 * rotM33 );
+
+    // Store the resulting matrix
+    M11 = m11;  M12 = m12;  M13 = m13;
+    M21 = m21;  M22 = m22;  M23 = m23;
+    M31 = m31;  M32 = m32;  M33 = m33;
+    M41 = m41;  M42 = m42;  M43 = m43;
+
+    // Sign the matrix as initialized
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method Scale() applies the given factors to the matrix. This corresponds \
+  // to the scaling of the source image by the given factors in the X-, Y- and Z-direction. \
+  // The method returns 'this' object to the caller.
+  $rect <190,110,370,150>
+  method Graphics::WarpMatrix Scale( arg float aScaleX, arg float aScaleY, arg float aScaleZ )
+  {
+    // Adapt the matrix for the desired scaling
+    M11 = M11 * aScaleX;
+    M12 = M12 * aScaleY;
+    M13 = M13 * aScaleZ;
+    M21 = M21 * aScaleX;
+    M22 = M22 * aScaleY;
+    M23 = M23 * aScaleZ;
+    M31 = M31 * aScaleX;
+    M32 = M32 * aScaleY;
+    M33 = M33 * aScaleZ;
+    M41 = M41 * aScaleX;
+    M42 = M42 * aScaleY;
+    M43 = M43 * aScaleZ;
+
+    // Sign the matrix as initialized
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method Translate() applies the given displacement to the matrix. This corresponds \
+  // to the translation of the source image by the given values in the X-, Y- and \
+  // Z-direction. The method returns 'this' object to the caller.
+  $rect <190,70,370,110>
+  method Graphics::WarpMatrix Translate( arg float aDeltaX, arg float aDeltaY, arg float aDeltaZ )
+  {
+    // Adapt the matrix for the desired translation
+    M14 = M14 + ( M11 * aDeltaX ) + ( M12 * aDeltaY ) + ( M13 * aDeltaZ );
+    M24 = M24 + ( M21 * aDeltaX ) + ( M22 * aDeltaY ) + ( M23 * aDeltaZ );
+    M34 = M34 + ( M31 * aDeltaX ) + ( M32 * aDeltaY ) + ( M33 * aDeltaZ );
+    M44 = M44 + ( M41 * aDeltaX ) + ( M42 * aDeltaY ) + ( M43 * aDeltaZ );
+
+    // Sign the matrix as initialized
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method IsIdentity() returns 'true' if the matrix coeficients in 'this' object \
+  // don't describe any transformation.
+  $rect <10,190,190,230>
+  method bool IsIdentity()
+  {
+    return isIdentity ||
+      (( M11 == 1.0 ) && ( M12 == 0.0 ) && ( M13 == 0.0 ) && ( M14 == 0.0 ) && 
+       ( M21 == 0.0 ) && ( M22 == 1.0 ) && ( M23 == 0.0 ) && ( M24 == 0.0 ) && 
+       ( M31 == 0.0 ) && ( M32 == 0.0 ) && ( M33 == 1.0 ) && ( M34 == 0.0 ) && 
+       ( M41 == 0.0 ) && ( M42 == 0.0 ) && ( M43 == 0.0 ) && ( M44 == 1.0 ));
+  }
+
+  $rect <10,150,190,190>
+  method Graphics::WarpMatrix DeriveFromQuad( arg float aX1, arg float aY1, arg float aX2, arg float aY2, arg float aX3, arg float aY3, arg float aX4, arg float aY4 )
+  {
+    var  float deltaX1 = aX2 - aX3;
+    var  float deltaY1 = aY2 - aY3;
+    var  float deltaX2 = aX4 - aX3;
+    var  float deltaY2 = aY4 - aY3;
+    var  float sumX    = aX1 - aX2 + aX3 - aX4;
+    var  float sumY    = aY1 - aY2 + aY3 - aY4;
+    var  float det     = ( deltaX1 * deltaY2 ) - ( deltaY1 * deltaX2 );
+
+    /* The given coordinates are wrong - the calculation will cause a 'division
+       by zero' runtime error */
+    if ( det == 0.0 )
+      return null;
+
+    /* Now, calculate the matrix which transforms the coordinates from the source
+       to the destination space */
+    M31 = (( sumX * deltaY2 ) - ( sumY * deltaX2 )) / det;
+    M32 = (( deltaX1 * sumY ) - ( deltaY1 * sumX )) / det;
+    M33 = 0.0;
+    M34 = 1.0;
+    M11 = aX2 - aX1 + ( M31 * aX2 );
+    M12 = aX4 - aX1 + ( M32 * aX4 );
+    M13 = 0.0;
+    M14 = aX1;
+    M21 = aY2 - aY1 + ( M31 * aY2 ); 
+    M22 = aY4 - aY1 + ( M32 * aY4 );
+    M23 = 0.0;
+    M24 = aY1;  
+    M41 = 0.0;
+    M42 = 0.0;
+    M43 = 0.0;
+    M44 = 1.0;
+
+    // Sign the matrix as initialized
+    isIdentity = false;
+
+    return this;
+  }
+
+  // The method Assign() copies the coefficients of the given aMatrix into the own \
+  // coefficients. The method returns 'this' object to the caller.
+  $rect <10,110,190,150>
+  method Graphics::WarpMatrix Assign( arg Graphics::WarpMatrix aMatrix )
+  {
+    if ( aMatrix == null )
+      return this;
+
+    // Copy the matrix
+    M11 = aMatrix.M11; M12 = aMatrix.M12; M13 = aMatrix.M13; M14 = aMatrix.M14;
+    M21 = aMatrix.M21; M22 = aMatrix.M22; M23 = aMatrix.M23; M24 = aMatrix.M24;
+    M31 = aMatrix.M31; M32 = aMatrix.M32; M33 = aMatrix.M33; M34 = aMatrix.M34;
+    M41 = aMatrix.M41; M42 = aMatrix.M42; M43 = aMatrix.M43; M44 = aMatrix.M44;
+
+    // Sign the matrix as initialized
+    isIdentity = aMatrix.isIdentity;
+    pure EyeDistance = aMatrix.EyeDistance;
+
+    return this;
+  }
+
+  // The method LoadIdentity() resets the coefficients of the matrix. In this manner \
+  // the matrix is prepared for the following @Translate(), @Scale() and @Rotate() \
+  // invocations. The method returns 'this' object to the caller.
+  $rect <10,70,190,110>
+  method Graphics::WarpMatrix LoadIdentity()
+  {
+    // Clear the matrix
+    M11 = 1.0; M12 = 0.0; M13 = 0.0; M14 = 0.0;
+    M21 = 0.0; M22 = 1.0; M23 = 0.0; M24 = 0.0;
+    M31 = 0.0; M32 = 0.0; M33 = 1.0; M34 = 0.0;
+    M41 = 0.0; M42 = 0.0; M43 = 0.0; M44 = 1.0;
+
+    // Sign the matrix as initialized
+    isIdentity = true;
+
+    return this;
+  }
+
+  // The property 'EyeDistance' determines the position of the observer. The more \
+  // away the observer the smaller do appear the objects in the 3D space.
+  $rect <10,10,190,50>
+  property float EyeDistance = 0.0;
+}
+
+$rect <1900,730,2100,770>
+$output false
+resource Resources::Bitmap Medusa
+{
+  attr bitmapfile FileName = .\medusa1.png;
   attr bitmapformat Format = Native;
   attr framesize FrameSize;
   attr framedelay FrameDelay;
