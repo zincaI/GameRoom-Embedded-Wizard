@@ -1,9 +1,21 @@
 Game Room in Embedded Wizard
+
+
 This repository contains a set of games developed as a personal project to explore and learn Embedded Wizard. The games are designed to help in understanding various aspects of Embedded Wizard's capabilities through practical application.
+
+
 Games Included
+
+
 Word Guessing Game
+
+
 •	Description: A game where players guess a word based on partial information and clues. It involves managing game state, handling user inputs, and providing hints.
+
+
 •	Key Elements: Word generation, hint system, input validation.
+
+
 Memory Card Match
 •	Description: A memory game where players find and match pairs of cards. This game tests memory and pattern recognition.
 •	Key Elements: Card shuffling, pair matching logic, score tracking.
