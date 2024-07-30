@@ -50,6 +50,12 @@
 #define _CoreCursorHit_
 #endif
 
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
+#endif
+
 /* Forward declaration of the class Core::Event */
 #ifndef _CoreEvent_
   EW_DECLARE_CLASS( CoreEvent )
@@ -74,10 +80,28 @@
 #define _CoreLayoutContext_
 #endif
 
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
+#endif
+
 /* Forward declaration of the class Core::View */
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
 #define _CoreView_
+#endif
+
+/* Forward declaration of the class Effects::Fader */
+#ifndef _EffectsFader_
+  EW_DECLARE_CLASS( EffectsFader )
+#define _EffectsFader_
+#endif
+
+/* Forward declaration of the class Effects::Transition */
+#ifndef _EffectsTransition_
+  EW_DECLARE_CLASS( EffectsTransition )
+#define _EffectsTransition_
 #endif
 
 /* Forward declaration of the class Graphics::Canvas */
@@ -190,7 +214,11 @@ EW_DEFINE_FIELDS( CoreGroup, CoreRectView )
   EW_VARIABLE( first,           CoreView )
   EW_VARIABLE( last,            CoreView )
   EW_VARIABLE( keyHandlers,     CoreKeyPressHandler )
+  EW_VARIABLE( dialogStack,     CoreDialogContext )
+  EW_VARIABLE( fadersQueue,     CoreTaskQueue )
+  EW_VARIABLE( pendingFader,    EffectsFader )
   EW_PROPERTY( Focus,           CoreView )
+  EW_PROPERTY( Opacity,         XInt32 )
   EW_VARIABLE( extClipLeft,     XUInt8 )
   EW_VARIABLE( extClipRight,    XUInt8 )
   EW_VARIABLE( extClipTop,      XUInt8 )
@@ -199,9 +227,13 @@ EW_END_OF_FIELDS( CoreGroup )
 
 /* Virtual Method Table (VMT) for the class : 'Core::Group' */
 EW_DEFINE_METHODS( CoreGroup, CoreRectView )
+  EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
+    aOutline )
+  EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
   EW_METHOD( Draw,              void )( CoreGroup _this, GraphicsCanvas aCanvas, 
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( GetClipping,       XRect )( CoreGroup _this )
+  EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
     aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
     XSet aRetargetReason )
@@ -214,9 +246,12 @@ EW_DEFINE_METHODS( CoreGroup, CoreRectView )
   EW_METHOD( ChangeViewState,   void )( CoreGroup _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreGroup _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreGroup _this, XInt32 value )
+  EW_METHOD( IsActiveDialog,    XBool )( CoreGroup _this, XBool aRecursive )
   EW_METHOD( DispatchEvent,     XObject )( CoreGroup _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreGroup _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreGroup _this, XRect aArea )
 EW_END_OF_METHODS( CoreGroup )
 
@@ -317,6 +352,21 @@ void CoreGroup_OnSetFocus( CoreGroup _this, CoreView value );
 
 /* Wrapper function for the virtual method : 'Core::Group.OnSetFocus()' */
 void CoreGroup__OnSetFocus( void* _this, CoreView value );
+
+/* 'C' function for method : 'Core::Group.OnSetEnabled()' */
+void CoreGroup_OnSetEnabled( CoreGroup _this, XBool value );
+
+/* 'C' function for method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup_OnSetOpacity( CoreGroup _this, XInt32 value );
+
+/* Wrapper function for the virtual method : 'Core::Group.OnSetOpacity()' */
+void CoreGroup__OnSetOpacity( void* _this, XInt32 value );
+
+/* 'C' function for method : 'Core::Group.OnGetVisible()' */
+XBool CoreGroup_OnGetVisible( CoreGroup _this );
+
+/* 'C' function for method : 'Core::Group.OnSetVisible()' */
+void CoreGroup_OnSetVisible( CoreGroup _this, XBool value );
 
 /* The method ExtendClipping() enhances the clipping area of the affected group 
    so that all contents lying outside its original @Bounds area can be displayed 
@@ -436,6 +486,196 @@ XPoint CoreGroup__GetMinimalSize( void* _this );
 /* The following define announces the presence of the method Core::Group.GetMinimalSize(). */
 #define _CoreGroup__GetMinimalSize_
 
+/* The method FindCurrentDialog() searches the tree of subordinated components for 
+   the one, which acts actually as the current dialog. In other words, it searches 
+   for the absolutely top-most dialog of all dialogs shown actually in context of 
+   'this' component. If there is no dialog presented in context of 'this' component, 
+   'this' component however is itself presented as dialog in context of its owner, 
+   the method returns 'this'. If 'this' component is actually not acting as dialog 
+   and there are no subordinated dialogs inside it, the method returns 'null'.
+   Using the method FindCurrentDialog() in context of the application root component 
+   returns the dialog which is globally current in the GUI application (see also 
+   @IsCurrentDialog()). */
+CoreGroup CoreGroup_FindCurrentDialog( CoreGroup _this );
+
+/* The method IsActiveDialog() returns 'true' if 'this' component does actually 
+   act as a dialog (see the method @IsDialog()) and it is the current (top-most) 
+   dialog in context of its owner component. If the parameter aRecursive is 'true', 
+   the owner in context of which 'this' component actually exists and all superior 
+   owners have also to be active dialogs or the owner has to be the application 
+   root component.
+   If the component is not a dialog, or other dialog has been presented in the meantime 
+   overlying 'this' component, the method returns 'false'. Similarly, if the parameter 
+   aRecursive is 'true' and the owner of the component is itself not an active dialog, 
+   the method returns 'false'. */
+XBool CoreGroup_IsActiveDialog( CoreGroup _this, XBool aRecursive );
+
+/* Wrapper function for the virtual method : 'Core::Group.IsActiveDialog()' */
+XBool CoreGroup__IsActiveDialog( void* _this, XBool aRecursive );
+
+/* The method SwitchToDialog() schedules an operation to show in context of 'this' 
+   component another component passed in the parameter aDialogGroup. The operation 
+   to show the component is performed with an animation specified in the parameter 
+   aPresentTransition. If the parameter aPresentTransition is 'null', the show operation 
+   uses the default transition presenting the new dialog component instantly in 
+   the center of 'this' component without performing any smooth animation effects. 
+   Calling the method SwitchToDialog() causes the new dialog component to replace 
+   the entry on top of an internal stack containing all dialogs existing at the 
+   moment in context of 'this' owner component. The dialog component on top of the 
+   stack is considered as the active dialog - the dialog, the user may interact 
+   with. Other dialogs lying in the background are automatically deactivated and 
+   they are suppressed from being able to receive and process user inputs. If not 
+   needed anymore, the dialog component can be hidden again by calling the method 
+   @DismissDialog() or SwitchToDialog(), which causes the corresponding dialog stack 
+   entry to be removed or replaced. Accordingly, with the method @PresentDialog() 
+   new dialog component can be pushed on top of this stack overlaying all other 
+   dialogs in the background. If there was already an active dialog component presented 
+   in context of 'this' owner, this old component looses its active state and it 
+   is dismissed.
+   With the parameter aDismissTransition you can specify the animation to perform 
+   when the just presented dialog component is dismissed again, which is caused 
+   when calling the method @DismissDialog() or SwitchToDialog(). If the parameter 
+   aDismissTransition is 'null', the dialog will disappear with the same transition 
+   as used to show it (resulting from the parameter aPresentTransition).
+   With the parameter aOverlayTransition you determine an optional animation to 
+   apply on the just presented component when a further dialog component is presented 
+   overlying it (by using the method @PresentDialog()). In this way you can control, 
+   whether and how the component should disappear when a new component is presented 
+   above it. With the parameter aRestoreTransition you specify the opposite animation 
+   to perform when after dismissing the overlaying component, the component in the 
+   background becomes active again.
+   Usually, when presenting a new component by using the method SwitchToDialog(), 
+   the previously presented component disappears with the dismiss transition specified 
+   at its own presentation time (see the parameter aDismissTransition). This behavior 
+   can be overridden by specifying in the parameter aOverrideDismissTransition other 
+   animation to hide the old component.
+   Switching the dialog in foreground may affect the visibility state of the dialog 
+   component lying further in the background. In particular, the component in the 
+   background will schedule a restore transition as expected to be after the dialog 
+   in foreground is dismissed, and an overlay transition as resulting from the just 
+   presented new dialog component. Which transitions are performed results primarily 
+   from the parameters aOverlayTransition and aRestoreTransition specified at the 
+   presentation time of the background dialog component and the parameter aOverrideRestoreTransition 
+   specified at the presentation time of the overlaying (just dismissed) dialog 
+   component. Furthermore, you can override this behavior by specifying other animations 
+   in the parameters aOverrideOverlayTransition and aOverrideRestoreTransition in 
+   the invocation of the method SwitchToDialog().
+   The both parameters aComplete and aCancel can be provided with references to 
+   slot methods, which are signaled as soon as the present operation is finished 
+   (aComplete) or it has been canceled (aCancel) due to other transition being scheduled 
+   for the same GUI component aDialogGroup making the actual operation obsolete.
+   The present operation is enqueued, so calling SwitchToDialog(), @PresentDialog() 
+   and @DismissDialog() several times in sequence for different components in context 
+   of 'this' owner component causes the resulting transitions to be executed strictly 
+   one after another. This behavior can be changed by passing the value 'true' in 
+   the parameter aCombine. In this case, the new operation will be executed together 
+   with last prepared but not yet started operation. In this manner several independent 
+   transitions can run simultaneously. */
+void CoreGroup_SwitchToDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTransition 
+  aPresentTransition, EffectsTransition aDismissTransition, EffectsTransition aOverlayTransition, 
+  EffectsTransition aRestoreTransition, EffectsTransition aOverrideDismissTransition, 
+  EffectsTransition aOverrideOverlayTransition, EffectsTransition aOverrideRestoreTransition, 
+  XSlot aComplete, XSlot aCancel, XBool aCombine );
+
+/* The method DismissDialog() schedules an operation to hide again the component 
+   passed in the parameter aDialogGroup. The component has to be presented by a 
+   preceding @PresentDialog() or @SwitchToDialog() method invocation. Calling the 
+   method DismissDialog() causes the corresponding entry to be removed from the 
+   internal stack containing all dialogs existing at the moment in context of 'this' 
+   owner component. The dialog component on top of the stack is considered as the 
+   active dialog - the dialog, the user may interact with. Other dialogs lying in 
+   the background are automatically deactivated and they are suppressed from being 
+   able to receive and process user inputs. Accordingly, applying the dismiss operation 
+   on the actually active (top) dialog causes the dialog existing eventually behind 
+   it to restore its active state.
+   The operation to hide the component is performed with an animation specified 
+   at its presentation time (in the parameter aDismissTransition of the method @PresentDialog() 
+   or @SwitchToDialog()). Alternatively, other transition to hide the component 
+   can be specified in the parameter aOverrideDismissTransition.
+   Dismissing a dialog may affect the visibility state of the dialog component lying 
+   further in the background. In particular, the component in the background will 
+   schedule a restore transition as expected to be after the dialog overlaying it 
+   is dismissed. When dismissing a dialog, which is not the active one (not on top 
+   of the stack), the component in the background will also schedule an overlay 
+   transition as resulting from the new overlaying dialog component. Which transitions 
+   are performed results primarily from the parameters aOverlayTransition and aRestoreTransition 
+   specified at the presentation time of the background dialog component and the 
+   parameters aOverrideRestoreTransition specified at the presentation time of the 
+   overlaying (just dismissed) dialog component. Furthermore, you can override this 
+   behavior by specifying other animations in the parameters aOverrideOverlayTransition 
+   and aOverrideRestoreTransition in the invocation of the method DismissDialog().
+   The both parameters aComplete and aCancel can be provided with references to 
+   slot methods, which are signaled as soon as the dismiss operation is finished 
+   (aComplete) or it has been canceled (aCancel) due to other transition being scheduled 
+   for the same GUI component aDialogGroup making the actual operation obsolete.
+   The dismiss operation is enqueued, so calling @SwitchToDialog(), @PresentDialog() 
+   and DismissDialog() several times in sequence for different components in context 
+   of 'this' owner component causes the resulting transitions to be executed strictly 
+   one after another. This behavior can be changed by passing the value 'true' in 
+   the parameter aCombine. In this case, the new operation will be executed together 
+   with last prepared but not yet started operation. In this manner several independent 
+   transitions can run simultaneously. */
+void CoreGroup_DismissDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTransition 
+  aOverrideDismissTransition, EffectsTransition aOverrideOverlayTransition, EffectsTransition 
+  aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, XBool aCombine );
+
+/* The method PresentDialog() schedules an operation to show in context of 'this' 
+   component another component passed in the parameter aDialogGroup. The operation 
+   to show the component is performed with an animation specified in the parameter 
+   aPresentTransition. If the parameter aPresentTransition is 'null', the show operation 
+   uses the default transition presenting the new dialog component instantly in 
+   the center of 'this' component without performing any smooth animation effects. 
+   Calling the method PresentDialog() causes the new dialog component to be pushed 
+   on top of an internal stack containing all dialogs existing at the moment in 
+   context of 'this' owner component. The dialog component on top of the stack is 
+   considered as the active dialog - the dialog, the user may interact with. Other 
+   dialogs lying in the background are automatically deactivated and they are suppressed 
+   from being able to receive and process user inputs. If not needed anymore, the 
+   dialog component can be hidden again by calling the method @DismissDialog() or 
+   @SwitchToDialog(), which causes the corresponding dialog stack entry to be removed 
+   or replaced. Accordingly, if there was already an active dialog component presented 
+   in context of 'this' owner, this old component looses its active state and it 
+   is overlaid by the new component.
+   With the parameter aDismissTransition you can specify the animation to perform 
+   when the just presented dialog component is dismissed again, which is caused 
+   when calling the method @DismissDialog() or @SwitchToDialog(). If the parameter 
+   aDismissTransition is 'null', the dialog will disappear with the same transition 
+   as used to show it (resulting from the parameter aPresentTransition).
+   With the parameter aOverlayTransition you determine an optional animation to 
+   apply on the just presented component when a further dialog component is presented 
+   overlying it. In this way you can control, whether and how the component should 
+   disappear when a new component is presented above it. With the parameter aRestoreTransition 
+   you specify the opposite animation to perform when after dismissing the overlaying 
+   component, the component in the background becomes active again. When calling 
+   PresentDialog(), you can override these originally specified transitions to overlay 
+   and restore the component in the background. With the parameter aOverrideOverlayTransition 
+   you can specify the animation to hide the component in the background instead 
+   of using the animation specified at its own presentation time. Similarly, with 
+   the parameter aOverrideRestoreTransition you can specify another animation to 
+   use when the component in the background restores its active state again.
+   The both parameters aComplete and aCancel can be provided with references to 
+   slot methods, which are signaled as soon as the present operation is finished 
+   (aComplete) or it has been canceled (aCancel) due to other transition being scheduled 
+   for the same GUI component aDialogGroup making the actual operation obsolete.
+   The present operation is enqueued, so calling PresentDialog(), @SwitchToDialog() 
+   and @DismissDialog() several times in sequence for different components in context 
+   of 'this' owner component causes the resulting transitions to be executed strictly 
+   one after another. This behavior can be changed by passing the value 'true' in 
+   the parameter aCombine. In this case, the new operation will be executed together 
+   with last prepared but not yet started operation. In this manner several independent 
+   transitions can run simultaneously. */
+void CoreGroup_PresentDialog( CoreGroup _this, CoreGroup aDialogGroup, EffectsTransition 
+  aPresentTransition, EffectsTransition aDismissTransition, EffectsTransition aOverlayTransition, 
+  EffectsTransition aRestoreTransition, EffectsTransition aOverrideOverlayTransition, 
+  EffectsTransition aOverrideRestoreTransition, XSlot aComplete, XSlot aCancel, 
+  XBool aCombine );
+
+/* The method LocalPosition() converts the given position aPoint from the screen 
+   coordinate space to the coordinate space of this component and returns the calculated 
+   position. In the case the component isn't visible within the application, the 
+   method can fail and return a wrong position. */
+XPoint CoreGroup_LocalPosition( CoreGroup _this, XPoint aPoint );
+
 /* The method DispatchEvent() feeds the component with the event passed in the parameter 
    aEvent and propagates it along the so-called focus path. This focus path leads 
    to the currently selected keyboard event receiver view. If the event is rejected 
@@ -525,6 +765,9 @@ void CoreGroup_UpdateLayout( CoreGroup _this, XPoint aSize );
    you can request its invocation by using the method @InvalidateViewState(). */
 void CoreGroup_UpdateViewState( CoreGroup _this, XSet aState );
 
+/* Wrapper function for the virtual method : 'Core::Group.UpdateViewState()' */
+void CoreGroup__UpdateViewState( void* _this, XSet aState );
+
 /* The method InvalidateViewState() declares the state of this component as changed, 
    so its visual aspect possibly doesn't reflect its current state anymore. To update 
    the visual aspect, the framework will invoke the @UpdateViewState() method. */
@@ -548,6 +791,66 @@ void CoreGroup__InvalidateArea( void* _this, XRect aArea );
    has been invoked with aView == 'null'. */
 CoreView CoreGroup_FindSiblingView( CoreGroup _this, CoreView aView, XSet aFilter );
 
+/* The method FadeGroup() schedules an operation to fade-in or fade-out the GUI 
+   component passed in the parameter aGroup in context of 'this' GUI component. 
+   The kind of the fade-in/out animation is determined by the fader object specified 
+   in the parameter aFader. In this manner, depending on the used fader, individual 
+   transitions to show or hide the GUI component can be determined.
+   The operation is enqueued, so calling FadeGroup() several times in sequence for 
+   different groups in context of 'this' owner component causes the resulting transitions 
+   to be executed strictly one after another. This behavior can be changed by passing 
+   the value 'true' in the parameter aCombine. In this case, the new operation will 
+   be executed together with last prepared but not yet started operation. In this 
+   manner several independent transitions can run simultaneously.
+   If the affected GUI component aGroup is already scheduled for an animation, but 
+   this animation is not yet started, the new animation aFader replaces this old 
+   one, so that always only one animation per affected GUI component is pending 
+   for execution.
+   The both parameters aComplete and aCancel can be provided with references to 
+   slot methods, which are signaled as soon as the transition is finished (aComplete) 
+   or it has been canceled (aCancel) because of a newer transition being scheduled 
+   for the same GUI component aGroup. */
+void CoreGroup_FadeGroup( CoreGroup _this, CoreGroup aGroup, EffectsFader aFader, 
+  XSlot aComplete, XSlot aCancel, XBool aCombine );
+
+/* The method RestackTop() elevates the view aView to the top of its component. 
+   After this operation the view is usually not covered by any sibling views. This 
+   method modifies the Z-order of the view. The effective stacking position of the 
+   view can additionally be affected by the value of the view's property @StackingPriority. 
+   Concrete, the view can't be be arranged in front of any sibling view configured 
+   with higher @StackingPriority value. In such case calling the method RestackTop() 
+   will arrange the view just behind the sibling view with next higher @StackingPriority 
+   value.
+   Please note, changing the Z-order of views within a component containing a Core::Outline 
+   view can cause this outline to update its automatic row or column formation. */
+void CoreGroup_RestackTop( CoreGroup _this, CoreView aView );
+
+/* The method Restack() changes the Z-order of views in the component. Depending 
+   on the parameter aOrder the method will elevate or lower the given view aView. 
+   If aOrder is negative, the view will be lowered to the background. If aOrder 
+   is positive, the view will be elevated to the foreground. If aOrder == 0, no 
+   modification will take place.
+   The absolute value of aOrder determines the maximum number of sibling views the 
+   view has to skip over in order to reach its new Z-order. The effective stacking 
+   position of the view can additionally be affected by the value of the view's 
+   property @StackingPriority. Concrete, the view is prevented from being arranged 
+   in front of any sibling view configured with a higher @StackingPriority value. 
+   Similarly the view can't be arranged behind any sibling view having lower @StackingPriority 
+   value.
+   Please note, changing the Z-order of views within a component containing a Core::Outline 
+   view can cause this outline to update its automatic row or column formation. */
+void CoreGroup_Restack( CoreGroup _this, CoreView aView, XInt32 aOrder );
+
+/* The method Remove() removes the given view aView from the component. After this 
+   operation the view doesn't belong anymore to the component - the view is not 
+   visible and it can't receive any events.
+   Please note, removing of views from a component containing a Core::Outline view 
+   can cause this outline to update its automatic row or column formation.
+   Please note, it the removed view is currently selected by the @Focus property, 
+   the framework will automatically select other sibling view, which will be able 
+   to react to keyboard events. */
+void CoreGroup_Remove( CoreGroup _this, CoreView aView );
+
 /* The method Add() inserts the given view aView into this component and places 
    it at a Z-order position resulting primarily from the parameter aOrder. The parameter 
    determines the number of sibling views the view has to skip over starting with 
@@ -563,6 +866,9 @@ CoreView CoreGroup_FindSiblingView( CoreGroup _this, CoreView aView, XSet aFilte
    Please note, adding of views to a component containing a Core::Outline view can 
    cause this outline to update its automatic row or column formation. */
 void CoreGroup_Add( CoreGroup _this, CoreView aView, XInt32 aOrder );
+
+/* Default onget method for the property 'Opacity' */
+XInt32 CoreGroup_OnGetOpacity( CoreGroup _this );
 
 #ifdef __cplusplus
   }

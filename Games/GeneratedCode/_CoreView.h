@@ -66,6 +66,18 @@
 #define _CoreLayoutContext_
 #endif
 
+/* Forward declaration of the class Core::Outline */
+#ifndef _CoreOutline_
+  EW_DECLARE_CLASS( CoreOutline )
+#define _CoreOutline_
+#endif
+
+/* Forward declaration of the class Core::Root */
+#ifndef _CoreRoot_
+  EW_DECLARE_CLASS( CoreRoot )
+#define _CoreRoot_
+#endif
+
 /* Forward declaration of the class Core::View */
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
@@ -97,13 +109,19 @@ EW_DEFINE_FIELDS( CoreView, XObject )
   EW_VARIABLE( Owner,           CoreGroup )
   EW_VARIABLE( layoutContext,   CoreLayoutContext )
   EW_VARIABLE( viewState,       XSet )
+  EW_PROPERTY( StackingPriority, XInt32 )
+  EW_PROPERTY( Layout,          XSet )
 EW_END_OF_FIELDS( CoreView )
 
 /* Virtual Method Table (VMT) for the class : 'Core::View' */
 EW_DEFINE_METHODS( CoreView, XObject )
+  EW_METHOD( initLayoutContext, void )( CoreView _this, XRect aBounds, CoreOutline 
+    aOutline )
+  EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
   EW_METHOD( Draw,              void )( CoreView _this, GraphicsCanvas aCanvas, 
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( GetClipping,       XRect )( CoreView _this )
+  EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
     aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
     XSet aRetargetReason )
@@ -113,6 +131,28 @@ EW_DEFINE_METHODS( CoreView, XObject )
   EW_METHOD( GetExtent,         XRect )( CoreView _this )
   EW_METHOD( ChangeViewState,   void )( CoreView _this, XSet aSetState, XSet aClearState )
 EW_END_OF_METHODS( CoreView )
+
+/* 'C' function for method : 'Core::View.initLayoutContext()' */
+void CoreView_initLayoutContext( CoreView _this, XRect aBounds, CoreOutline aOutline );
+
+/* Wrapper function for the virtual method : 'Core::View.initLayoutContext()' */
+void CoreView__initLayoutContext( void* _this, XRect aBounds, CoreOutline aOutline );
+
+/* 'C' function for method : 'Core::View.OnSetStackingPriority()' */
+void CoreView_OnSetStackingPriority( CoreView _this, XInt32 value );
+
+/* 'C' function for method : 'Core::View.OnSetLayout()' */
+void CoreView_OnSetLayout( CoreView _this, XSet value );
+
+/* The method GetRoot() delivers the application object, this view belongs to. The 
+   application object represents the entire screen of the GUI application. Thus 
+   in the views hierarchy, the application object serves as the root view.
+   This method can fail and return null if the view still doesn't belong to any 
+   owner group. */
+CoreRoot CoreView_GetRoot( CoreView _this );
+
+/* Wrapper function for the virtual method : 'Core::View.GetRoot()' */
+CoreRoot CoreView__GetRoot( void* _this );
 
 /* The method Draw() is invoked automatically if parts of the view should be redrawn 
    on the screen. This can occur when e.g. the view has been moved or the appearance 
@@ -177,6 +217,9 @@ XRect CoreView__GetClipping( void* _this );
    need to invoke it directly. However you can prepare and post new events by using 
    the methods DispatchEvent() and BroadcastEvent() of the application class Core::Root. */
 XObject CoreView_HandleEvent( CoreView _this, CoreEvent aEvent );
+
+/* Wrapper function for the virtual method : 'Core::View.HandleEvent()' */
+XObject CoreView__HandleEvent( void* _this, CoreEvent aEvent );
 
 /* The method CursorHitTest() is invoked automatically in order to determine whether 
    the view is interested in the receipt of cursor events or not. This method will 

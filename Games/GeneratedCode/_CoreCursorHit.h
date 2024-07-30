@@ -61,11 +61,23 @@
    the touch interaction. This search process is performed by the method Core::View.CursorHitTest(). */
 EW_DEFINE_FIELDS( CoreCursorHit, XObject )
   EW_VARIABLE( View,            CoreView )
+  EW_VARIABLE( Deviation,       XInt32 )
+  EW_VARIABLE( Offset,          XPoint )
 EW_END_OF_FIELDS( CoreCursorHit )
 
 /* Virtual Method Table (VMT) for the class : 'Core::CursorHit' */
 EW_DEFINE_METHODS( CoreCursorHit, XObject )
 EW_END_OF_METHODS( CoreCursorHit )
+
+/* The method Initialize() initializes this Core::CursorHit object with the given 
+   parameter. The value offset stores an optional displacement if the user has touched 
+   the view outside its boundary area. This can occur when the user tries to hit 
+   a small GUI component with a thick finger. This offset value determines the number 
+   of pixel to correct all cursor coordinates delivered in the following Core::CursorEvent 
+   and Core::DragEvent events. In this manner the target view will receive coordinates 
+   lying correctly within its boundary area. */
+CoreCursorHit CoreCursorHit_Initialize( CoreCursorHit _this, CoreView aView, XPoint 
+  aOffset );
 
 #ifdef __cplusplus
   }

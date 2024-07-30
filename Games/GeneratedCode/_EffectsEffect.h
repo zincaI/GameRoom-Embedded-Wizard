@@ -54,6 +54,12 @@
 #define _EffectsEffect_
 #endif
 
+/* Forward declaration of the class Effects::TimingList */
+#ifndef _EffectsTimingList_
+  EW_DECLARE_CLASS( EffectsTimingList )
+#define _EffectsTimingList_
+#endif
+
 
 /* The class Effects::Effect provides the base functionality for all kinds of animation 
    effects. Effects allow the designer to enrich the GUI application with additional 
@@ -89,17 +95,32 @@
    direction. The slot method @ReverseEffect can also be used to switch the playback 
    direction. */
 EW_DEFINE_FIELDS( EffectsEffect, XObject )
+  EW_VARIABLE( timingList,      EffectsTimingList )
   EW_VARIABLE( timer,           CoreTimer )
   EW_PROPERTY( OnFinished,      XSlot )
+  EW_PROPERTY( OnAnimate,       XSlot )
   EW_VARIABLE( direction,       XInt32 )
   EW_VARIABLE( startDirection,  XInt32 )
+  EW_VARIABLE( curveFactor2,    XFloat )
+  EW_VARIABLE( curveFactor1,    XFloat )
   EW_VARIABLE( invCycleDuration, XFloat )
   EW_VARIABLE( lastFrame,       XFloat )
   EW_VARIABLE( cycleCounter,    XInt32 )
   EW_VARIABLE( startTime,       XUInt32 )
+  EW_PROPERTY( Elasticity,      XFloat )
+  EW_PROPERTY( Bounces,         XInt32 )
+  EW_PROPERTY( Oscillations,    XInt32 )
+  EW_PROPERTY( Amplitude,       XFloat )
+  EW_PROPERTY( Exponent,        XFloat )
+  EW_PROPERTY( TimingCustom2,   XFloat )
+  EW_PROPERTY( TimingCustom1,   XFloat )
+  EW_PROPERTY( Timing,          XEnum )
   EW_PROPERTY( NoOfCycles,      XInt32 )
   EW_PROPERTY( CycleDuration,   XInt32 )
-  EW_PROPERTY( Symmetric,       XBool )
+  EW_PROPERTY( InitialDelay,    XInt32 )
+  EW_VARIABLE( useBezier3,      XBool )
+  EW_VARIABLE( useBezier2,      XBool )
+  EW_PROPERTY( Reversed,        XBool )
   EW_PROPERTY( Enabled,         XBool )
 EW_END_OF_FIELDS( EffectsEffect )
 
@@ -126,11 +147,41 @@ XBool EffectsEffect_runFwdRev( EffectsEffect _this );
 /* 'C' function for method : 'Effects::Effect.runFwdFwd()' */
 XBool EffectsEffect_runFwdFwd( EffectsEffect _this );
 
+/* 'C' function for method : 'Effects::Effect.OnSetReversed()' */
+void EffectsEffect_OnSetReversed( EffectsEffect _this, XBool value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetElasticity()' */
+void EffectsEffect_OnSetElasticity( EffectsEffect _this, XFloat value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetBounces()' */
+void EffectsEffect_OnSetBounces( EffectsEffect _this, XInt32 value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetOscillations()' */
+void EffectsEffect_OnSetOscillations( EffectsEffect _this, XInt32 value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetAmplitude()' */
+void EffectsEffect_OnSetAmplitude( EffectsEffect _this, XFloat value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetExponent()' */
+void EffectsEffect_OnSetExponent( EffectsEffect _this, XFloat value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetTimingCustom2()' */
+void EffectsEffect_OnSetTimingCustom2( EffectsEffect _this, XFloat value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetTimingCustom1()' */
+void EffectsEffect_OnSetTimingCustom1( EffectsEffect _this, XFloat value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetTiming()' */
+void EffectsEffect_OnSetTiming( EffectsEffect _this, XEnum value );
+
 /* 'C' function for method : 'Effects::Effect.OnSetNoOfCycles()' */
 void EffectsEffect_OnSetNoOfCycles( EffectsEffect _this, XInt32 value );
 
 /* 'C' function for method : 'Effects::Effect.OnSetCycleDuration()' */
 void EffectsEffect_OnSetCycleDuration( EffectsEffect _this, XInt32 value );
+
+/* 'C' function for method : 'Effects::Effect.OnSetInitialDelay()' */
+void EffectsEffect_OnSetInitialDelay( EffectsEffect _this, XInt32 value );
 
 /* 'C' function for method : 'Effects::Effect.OnSetEnabled()' */
 void EffectsEffect_OnSetEnabled( EffectsEffect _this, XBool value );
@@ -140,10 +191,6 @@ void EffectsEffect_Animate( EffectsEffect _this, XFloat aProgress );
 
 /* Wrapper function for the virtual method : 'Effects::Effect.Animate()' */
 void EffectsEffect__Animate( void* _this, XFloat aProgress );
-
-/* The slot method 'StartEffect' re-starts the effect if a signal is sent to this 
-   slot method. The effect will start from the beginning. */
-void EffectsEffect_StartEffect( EffectsEffect _this, XObject sender );
 
 #ifdef __cplusplus
   }

@@ -44,6 +44,15 @@
 
 #include "_GraphicsCanvas.h"
 
+/* The definition Graphics::TintMode determines the possible options to control 
+   the color filter operations. */
+typedef XEnum GraphicsTintMode;
+
+#define GraphicsTintModeNone                                0
+#define GraphicsTintModeGrayscale                           1
+#define GraphicsTintModeTintByOpacity                       2
+#define GraphicsTintModeTintByLuminance                     3
+
 #ifdef __cplusplus
   }
 #endif

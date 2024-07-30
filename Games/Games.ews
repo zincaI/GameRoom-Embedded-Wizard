@@ -3,7 +3,7 @@ $version 1.0
 attr active = Application::Application;
 attr callStackMonitor_Show = false;
 attr connectInspectors = false;
-attr currentCodeInspector = Application::Application.DisableButtons;
+attr currentCodeInspector = Application::Application.MusicSLot;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -17,7 +17,7 @@ attr extractDoc_Variants = false;
 attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
-attr profile = Profile;
+attr profile = WebProfile;
 attr profilerMonitor_Show = false;
 attr search_CaseSensitive = false;
 attr search_IgnoreDescription = false;
@@ -25,13 +25,15 @@ attr search_IgnoreMosaic = false;
 attr search_LimitToComposer = true;
 attr search_WholeWords = false;
 attr search_WildCards = false;
+attr selectedProfiles = Profile1;
 
 view Project
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
+  attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-892,-351>;
+  attr scrollTo = <-214,-93>;
   attr zoom = 0.5;
 }
 
@@ -39,70 +41,36 @@ view unit Application
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
-  attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-398,217>;
+  attr scrollTo = <694,514>;
   attr zoom = 0.5;
 }
 
-view class Application::GuessTheWord
+view class Application::GuessTheWordMenu
 {
-  attr enableWireMode = false;
-  attr scrollTo = <-1157,-7>;
-  attr zoom = 1.0;
+  attr scrollTo = <-739,-71>;
+  attr zoom = 0.5;
 }
 
 view class Application::Application
 {
   attr enableWireMode = false;
-  attr scrollTo = <-313,-248>;
-  attr zoom = 0.75;
+  attr scrollTo = <-984,-131>;
+  attr zoom = 0.5;
 }
 
-codeview Application::TilesPuzzle.NinthTileMovement
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,8>;
-  attr codeSelEnd = <0,14>;
-  attr codeSelStart = <0,14>;
-}
-
-codeview Application::TilesPuzzle.DisableEffect
+codeview Application::Application.Init
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <29,0>;
-  attr codeSelStart = <29,0>;
+  attr codeSelEnd = <23,14>;
+  attr codeSelStart = <23,14>;
 }
 
-codeview Application::TilesPuzzle.RevealFilter
+codeview Application::Application.MusicSLot
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <10,5>;
-  attr codeSelStart = <10,5>;
-}
-
-codeview Application::TilesPuzzle.FindSolution
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <40,2>;
-  attr codeSelStart = <40,2>;
-}
-
-codeview Application::TilesPuzzle.RevealCompletedPicture
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <0,4>;
-  attr codeSelStart = <0,4>;
-}
-
-codeview Application::Application.DisableButtons
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <20,6>;
-  attr codeSelStart = <20,6>;
+  attr codeFirstPos = <0,5>;
+  attr codeSelEnd = <1,38>;
+  attr codeSelStart = <1,38>;
 }

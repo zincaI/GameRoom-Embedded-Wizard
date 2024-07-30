@@ -44,14 +44,20 @@
 
 #include "_CoreRoot.h"
 #include "_CoreTimer.h"
-#include "_EffectsInt32Effect.h"
-#include "_ViewsRectangle.h"
-#include "_ViewsText.h"
+#include "_ViewsImage.h"
+#include "_WidgetSetPushButton.h"
+#include "_WidgetSetPushButtonConfig.h"
 
 /* Forward declaration of the class Application::Application */
 #ifndef _ApplicationApplication_
   EW_DECLARE_CLASS( ApplicationApplication )
 #define _ApplicationApplication_
+#endif
+
+/* Forward declaration of the class Core::DialogContext */
+#ifndef _CoreDialogContext_
+  EW_DECLARE_CLASS( CoreDialogContext )
+#define _CoreDialogContext_
 #endif
 
 /* Forward declaration of the class Core::Group */
@@ -72,10 +78,22 @@
 #define _CoreLayoutContext_
 #endif
 
+/* Forward declaration of the class Core::TaskQueue */
+#ifndef _CoreTaskQueue_
+  EW_DECLARE_CLASS( CoreTaskQueue )
+#define _CoreTaskQueue_
+#endif
+
 /* Forward declaration of the class Core::View */
 #ifndef _CoreView_
   EW_DECLARE_CLASS( CoreView )
 #define _CoreView_
+#endif
+
+/* Forward declaration of the class Effects::Fader */
+#ifndef _EffectsFader_
+  EW_DECLARE_CLASS( EffectsFader )
+#define _EffectsFader_
 #endif
 
 /* Forward declaration of the class Graphics::Canvas */
@@ -87,16 +105,26 @@
 
 /* This is the root component of the entire GUI application. */
 EW_DEFINE_FIELDS( ApplicationApplication, CoreRoot )
-  EW_OBJECT  ( Rectangle,       ViewsRectangle )
-  EW_OBJECT  ( Text,            ViewsText )
-  EW_OBJECT  ( Int32Effect,     EffectsInt32Effect )
+  EW_OBJECT  ( Image,           ViewsImage )
+  EW_OBJECT  ( WordGuessingButton, WidgetSetPushButton )
+  EW_OBJECT  ( PushButtonConfig, WidgetSetPushButtonConfig )
+  EW_OBJECT  ( TimerGuessingGame, CoreTimer )
+  EW_OBJECT  ( MemoryGameButton, WidgetSetPushButton )
+  EW_OBJECT  ( TimerMemoryGame, CoreTimer )
+  EW_OBJECT  ( TilesPuzzleGameButton, WidgetSetPushButton )
+  EW_OBJECT  ( TimeTilesPuzzleGame, CoreTimer )
+  EW_OBJECT  ( Arrow,           WidgetSetPushButton )
 EW_END_OF_FIELDS( ApplicationApplication )
 
 /* Virtual Method Table (VMT) for the class : 'Application::Application' */
 EW_DEFINE_METHODS( ApplicationApplication, CoreRoot )
+  EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
+    aOutline )
+  EW_METHOD( GetRoot,           CoreRoot )( CoreRoot _this )
   EW_METHOD( Draw,              void )( CoreRoot _this, GraphicsCanvas aCanvas, 
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( GetClipping,       XRect )( CoreGroup _this )
+  EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreGroup _this, XRect aArea, XInt32 
     aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
     XSet aRetargetReason )
@@ -109,15 +137,42 @@ EW_DEFINE_METHODS( ApplicationApplication, CoreRoot )
   EW_METHOD( ChangeViewState,   void )( CoreRoot _this, XSet aSetState, XSet aClearState )
   EW_METHOD( OnSetBounds,       void )( CoreGroup _this, XRect value )
   EW_METHOD( OnSetFocus,        void )( CoreRoot _this, CoreView value )
+  EW_METHOD( OnSetOpacity,      void )( CoreRoot _this, XInt32 value )
+  EW_METHOD( IsActiveDialog,    XBool )( CoreRoot _this, XBool aRecursive )
   EW_METHOD( DispatchEvent,     XObject )( CoreRoot _this, CoreEvent aEvent )
   EW_METHOD( BroadcastEvent,    XObject )( CoreRoot _this, CoreEvent aEvent, XSet 
     aFilter )
+  EW_METHOD( UpdateViewState,   void )( CoreGroup _this, XSet aState )
   EW_METHOD( InvalidateArea,    void )( CoreRoot _this, XRect aArea )
 EW_END_OF_METHODS( ApplicationApplication )
 
-/* 'C' function for method : 'Application::Application.ConfigureText()' */
-void ApplicationApplication_ConfigureText( ApplicationApplication _this, XObject 
+/* 'C' function for method : 'Application::Application.OpenGuessingWordGame()' */
+void ApplicationApplication_OpenGuessingWordGame( ApplicationApplication _this, 
+  XObject sender );
+
+/* 'C' function for method : 'Application::Application.OnPressGuessingWordGame()' */
+void ApplicationApplication_OnPressGuessingWordGame( ApplicationApplication _this, 
+  XObject sender );
+
+/* 'C' function for method : 'Application::Application.OpenMemoryGame()' */
+void ApplicationApplication_OpenMemoryGame( ApplicationApplication _this, XObject 
   sender );
+
+/* 'C' function for method : 'Application::Application.OnPressMemoryGame()' */
+void ApplicationApplication_OnPressMemoryGame( ApplicationApplication _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Application.DisableButtons()' */
+void ApplicationApplication_DisableButtons( ApplicationApplication _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Application.OpenTilesPuzzleGame()' */
+void ApplicationApplication_OpenTilesPuzzleGame( ApplicationApplication _this, XObject 
+  sender );
+
+/* 'C' function for method : 'Application::Application.OnPressTilesPuzzleGame()' */
+void ApplicationApplication_OnPressTilesPuzzleGame( ApplicationApplication _this, 
+  XObject sender );
 
 #ifdef __cplusplus
   }

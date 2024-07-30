@@ -56,6 +56,12 @@
 #define _EffectsInt32Effect_
 #endif
 
+/* Forward declaration of the class Effects::TimingList */
+#ifndef _EffectsTimingList_
+  EW_DECLARE_CLASS( EffectsTimingList )
+#define _EffectsTimingList_
+#endif
+
 
 /* The class Effects::Int32Effect provides an animation effect intended to animate 
    an 'int32' value within a range determined by the properties @Value1 and @value2. 
@@ -93,6 +99,8 @@
 EW_DEFINE_FIELDS( EffectsInt32Effect, EffectsEffect )
   EW_PROPERTY( Outlet,          XRef )
   EW_VARIABLE( Value,           XInt32 )
+  EW_PROPERTY( Value2,          XInt32 )
+  EW_PROPERTY( Value1,          XInt32 )
 EW_END_OF_FIELDS( EffectsInt32Effect )
 
 /* Virtual Method Table (VMT) for the class : 'Effects::Int32Effect' */

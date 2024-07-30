@@ -1,0 +1,24 @@
+// Create an audio player element
+var audioPlayer = new Audio("path/to/your/audio/file.mp3");
+
+// Function to play the audio clip
+function playAudioClip() {
+    audioPlayer.play();
+}
+
+// Assuming you have a button in your Embedded Wizard project
+var playButton = document.getElementById("playButton");
+playButton.addEventListener("click", playAudioClip);
+
+// Optional: If you have a video element and want to sync audio with video playback
+var videoPlayer = document.getElementById("videoPlayer");
+videoPlayer.addEventListener("play", function() {
+    audioPlayer.play();
+});
+videoPlayer.addEventListener("pause", function() {
+    audioPlayer.pause();
+});
+videoPlayer.addEventListener("ended", function() {
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+});

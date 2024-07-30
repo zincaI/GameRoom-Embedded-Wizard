@@ -1,0 +1,1281 @@
+<!DOCTYPE HTML PUBLIC>
+<HTML>
+<HEAD>
+  <META http-equiv="content-type" content="text/html; charset=UTF-8">
+  </META>
+  <TITLE>Embedded Wizard Code Generation Report</TITLE>
+  <STYLE>
+    *
+    {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+    }
+    html
+    {
+      background-color: #FFFFFF;
+    }
+    body
+    {
+      font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Tahoma, Verdana, Arial, sans-serif;
+      margin-left: 0em;
+      margin-right: 0em;
+      -webkit-font-smoothing: antialiased;
+    }
+    div.CodeMetrics table, div.Files table
+    {
+      border-collapse: collapse;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      border-spacing: 0;
+    }
+    div.CodeMetrics th, div.Files th
+    {
+      border: 1px solid #DDDDDD;
+      background-color: #F4F4F4;
+      padding: 0.5em;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      color: #666666;
+    }
+    div.CodeMetrics th:hover, div.Files th:hover
+    {
+      border: 1px solid #CCCCCC;
+      background-color: #E4E4E4;
+    }
+    div.CodeMetrics th:active, div.Files th:active
+    {
+      border: 1px solid #BBBBBB;
+      background-color: #C4C4C4;
+      color: #000000;
+    }
+    div.CodeMetrics td, div.Files td
+    {
+      border: 1px solid #DDDDDD;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+    }
+    div.CodeMetrics tr:nth-child(odd), div.Files tr:nth-child(odd)
+    {
+      background-color: #F8F8F8;
+    }
+    div.CodeMetrics tr td:nth-child(3)
+    {
+      text-align: right;
+    }
+    div.CodeMetrics tr td:nth-child(2)
+    {
+      text-align: center;
+    }
+    div.Files tr td:nth-child(2)
+    {
+      text-align: center;
+    }
+    div.Files tr td:nth-child(3)
+    {
+      text-align: right;
+    }
+    div.CodeMetrics tr:last-child, div.Files tr:last-child
+    {
+      font-size: 100%;
+      font-weight: bold;
+    }
+    div.CodeMetrics tr:last-child td, div.Files tr:last-child td
+    {
+      padding: 0.5em;
+    }
+    div.Summary
+    {
+      margin-left:  2em;
+      margin-right: 2em;
+    }
+    div.Summary table
+    {
+      border-collapse: collapse;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      border-spacing: 0;
+    }
+    div.Summary tr p:nth-child(1)
+    {
+      line-height: 180%;
+      margin-top: -0.3em;
+    }
+    div.Summary tr p:nth-child(2)
+    {
+      margin-top: -0.5em;
+      margin-bottom: 0.2em;
+    }
+    div.Summary td
+    {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      padding-top: 0.3em;
+      padding-bottom: 0.3em;
+    }
+    div.Summary td p:nth-child(1)
+    {
+      padding-top: 0.25em;
+      padding-bottom: 0.25em;
+    }
+    div.Summary td p:nth-child(2)
+    {
+      color: #999999;
+      padding-top: 0.25em;
+      font-size: 80%;
+      line-height: 145%;
+    }
+    div.Summary tr td:nth-child(1)
+    {
+    }
+    div.Summary tr td:nth-child(2)
+    {
+      text-align: right;
+    }
+    th
+    {
+      font-weight: normal;
+    }
+    div.Summary tr
+    {
+      border-top: 1px solid #DDDDDD;
+      border-bottom: 1px solid #DDDDDD;
+    }
+    div.Summary tr.HintRow p
+    {
+      padding-top: 1em;
+      padding-bottom: 1em;
+      line-height: 145%;
+      color: #FF0000;
+      font-size: 80%;
+    }
+    div.footer
+    {
+      height: 4em;
+      background-color: #FFFFFF;
+      margin-top: 1em;
+      margin-bottom: 2em;
+      padding-top: 0em;
+      text-align: center;
+    }
+    div.footer p.footer-1
+    {
+      margin-bottom: 0.1em;
+      font-size: 80%;
+      padding-top: 1em;
+      color: #999999;
+      line-height: 145%;
+    }
+    div.footer p.footer-2
+    {
+      margin-top: 0.1em;
+      margin-bottom: 0.1em;
+      font-size: 80%;
+      color: #999999;
+      line-height: 145%;
+    }
+    div.footer p.footer-3
+    {
+      margin-top: 0.1em;
+      padding-bottom: 2em;
+      font-size: 80%;
+      color: #999999;
+      line-height: 145%;
+    }
+    div.Caption
+    {
+      margin-top: 3em;
+      padding-bottom: 0em;
+      text-align: center;
+    }
+    div.Caption p:nth-child(1)
+    {
+      font-size: 180%;
+      color: #000000;
+    }
+    div.Caption p:nth-child(2)
+    {
+      margin-top: 0.5em;
+      font-size: 100%;
+      color: #999999;
+    }
+    a.LocalLink
+    {
+      text-decoration: none;
+      border-radius: 0.5em;
+      padding-top: 0.0em;
+      padding-bottom: 0.15em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      margin-left: 2em;
+      border: 1px solid #E4E4E4;
+      background-color: #F8F8F8;
+      color: #888888;
+      font-size: 80%;
+    }
+    a.LocalLink:hover
+    {
+      border: 1px solid #CCCCCC;
+      background-color: #E4E4E4;
+      color: #444444;
+    }
+    a.LocalLink:active
+    {
+      border: 1px solid #BBBBBB;
+      background-color: #C4C4C4;
+      color: #000000;
+    }
+  </STYLE>
+</HEAD>
+<BODY>
+  <DIV CLASS=Caption>
+    <P>Code Generation Report</p>
+    <P>created by Embedded Wizard Studio</p>
+  </DIV>
+  <DIV ID=Summary CLASS=Summary>
+    <TABLE>
+      <TR CLASS=InfoRow>
+        <TD>
+          <P>
+            Version of Embedded Wizard Studio
+          </P>
+        </TD>
+        <TD>
+          13.04
+        </TD>
+      </TR>
+      <TR CLASS=InfoRow>
+        <TD>
+          <P>
+            Date of code generation
+          </P>
+        </TD>
+        <TD>
+          30&nbsp;Jul&nbsp;2024<BR>12:56:21
+        </TD>
+      </TR>
+      <TR CLASS=InfoRow>
+        <TD>
+          <P>
+            Selected <a href="https://doc.embedded-wizard.de/profile-member">Profile</a>
+          </P>
+          <P>
+            The Profile contains configuration parameters affecting the code generation.
+          </P>
+        </TD>
+        <TD>
+          WebProfile
+        </TD>
+      </TR>
+      <TR CLASS=InfoRow>
+        <TD>
+          <P>
+            <a href="https://doc.embedded-wizard.de/platformpackage-attr">Platform Package</a> name
+          </P>
+          <P>
+            Identifies the Code Generator and Resource Converters used during the code generation.
+          </P>
+        </TD>
+        <TD>
+          Web.WebGL.RGBA8888
+        </TD>
+      </TR>
+      <TR CLASS=SizeRow>
+        <TD>
+          <P>
+            Total size of all generated files <a class=LocalLink href='#Files'>Show&nbsp;detailed&nbsp;list</a>
+          </P>
+          <P>
+            It is the sum of all code files (e.g. C++, C, H, JS) and resource files (e.g. PNG) created during the code generation process.
+          </P>
+        </TD>
+        <TD>
+          2264&nbsp;KB
+        </TD>
+      </TR>
+    </TABLE>
+  </DIV>
+  <DIV ID=Files CLASS=Files>
+    <TABLE>
+      <TR>
+        <TH>
+          Generated File Name
+        </TH>
+        <TH>
+          File Type
+        </TH>
+        <TH>
+          Size (Bytes)
+        </TH>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\EmWiApp.html
+        </TD>
+        <TD>
+          html
+        </TD>
+        <TD>
+          4862
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Application.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          75217
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Core.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          63797
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Effects.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          24904
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Graphics.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          6527
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Resources.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          4217
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Templates.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          1458
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\Views.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          18677
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\WidgetSet.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          8226
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\code\_project.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          2023
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\emwi_compr_13_04.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          219684
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationArrow.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2518
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationBackgroudGamingRoom.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          7051
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationBlackLeaves.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          35892
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationEighthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          17037
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationEleventhTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          14537
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationFifteenthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16779
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationFifthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16852
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationFirstTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          18255
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationForteenthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16611
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationForthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          17734
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationFrame.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          189154
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationGoldLeaves.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          35526
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationGoldPicture.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          37155
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationLabyrinth.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          26618
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationMedusa.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          240276
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationMemoryGameLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          40040
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationMenuFrame.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          227351
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationNinthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          17110
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationOnPressMemoryGameLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          28180
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationOnPressTilesPuzzleLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          38094
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationOnPressWordGuessingLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          37379
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationPandant.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          33436
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationPlaceholderGuessingGame.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          6971
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationSecondTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16030
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationSeventhTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          18505
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationSixteenthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          18371
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationSixthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          18348
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationTenthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          15260
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationThirteenTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          17661
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationThirthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16321
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationTilesPuzzleLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          35839
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationTwelfthTile.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          16483
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationWhiteCoins.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          37286
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationWordGuessingGameFont.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          102003
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationWordGuessingGameFontWin.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          174488
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationWordGuessingGameSmallFont.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          44619
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ApplicationWordGuessingLogo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          36713
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationa.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2837
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationb.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3887
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationc.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2646
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationcup.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          31523
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationd.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2690
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationdelete_key.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          7911
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicatione.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3025
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationenter.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          8279
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationf.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2286
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationg.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          4101
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationh.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3155
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationi.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2102
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationj.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2748
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationk.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3001
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationl.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3028
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationm.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3511
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationn.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3594
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationo.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3239
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationopen_menu.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          195
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationp.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3458
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationq.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3949
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationr.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3367
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applications.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3190
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationsound_off.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2136
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationsound_on.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2441
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationt.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2222
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationu.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3641
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationv.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          3066
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationw.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2822
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationx.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2926
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationy.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2568
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\Applicationz.png
+        </TD>
+        <TD>
+          png
+        </TD>
+        <TD>
+          2368
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ResourcesDefaultFont.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          8037
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          C:\Users\zinca\OneDrive\Desktop\Embedded projects\games_git\CopyGames\Games\res\ResourcesFontLarge.js
+        </TD>
+        <TD>
+          js
+        </TD>
+        <TD>
+          59468
+        </TD>
+      </TR>
+      <TR>
+        <TD>
+          TOTAL
+        </TD>
+        <TD>
+        </TD>
+        <TD>
+          2317492
+        </TD>
+      </TR>
+    </TABLE>
+  </DIV>
+    <div class='footer'>
+      <p class='footer-1'><a href='http://www.embedded-wizard.de' target='_blank'>Embedded Wizard</a> is a product of <a href='http://www.tara-systems.de' target='_blank'>TARA Systems GmbH</a></p>
+      <p class='footer-2'>Concept and implementation by <span class='autor'>Paul Banach</span> and <span class='autor'>Manfred Schweyer</span></p>
+      <p class='footer-3'><span>Copyright © 2019 TARA Systems GmbH</span></p>
+    </div>
+    <SCRIPT>
+      if ( !Array.from )
+        Array.from = function( arrayLike )
+        {
+          var temp_array = [];
+          var length     = arrayLike.length;
+          for ( var i = 0; i < length; i++ )
+            temp_array.push( arrayLike[i]);
+          return temp_array;
+        };
+      var ths = document.querySelectorAll( 'th' );
+      function hookTable( th )
+      {
+        th.addEventListener( 'click', function()
+        {
+          const tbody   = th.parentNode.parentNode;
+          var   content = Array.from( tbody.querySelectorAll( 'tr' ));
+          var   first   = content.shift();
+          var   last    = content.pop();
+          var   inx     = Array.from( th.parentNode.children ).indexOf( th );
+          var   asc     = !!this.asc;
+          content.sort( function( a, b )
+          {
+            a = a.children[ inx ].innerText || a.children[ inx ].textContent;
+            b = b.children[ inx ].innerText || b.children[ inx ].textContent;
+            if (( a !== '' ) && ( b !== '' ) && !isNaN( a ) && !isNaN( b ))
+              return asc? a - b : b - a;
+            else
+              return asc? a.toString().localeCompare( b ) :
+                          b.toString().localeCompare( a );
+          });
+          content.forEach( function( tr ){ tbody.appendChild( tr ); });
+          tbody.appendChild( last );
+          this.asc = !asc;
+        });
+      }
+      for ( var i = 0; i < ths.length; i++ )
+        hookTable( ths[i]);
+    </SCRIPT>
+  </BODY>

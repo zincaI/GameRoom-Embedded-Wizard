@@ -123,9 +123,13 @@ EW_END_OF_FIELDS( CoreOutline )
 
 /* Virtual Method Table (VMT) for the class : 'Core::Outline' */
 EW_DEFINE_METHODS( CoreOutline, CoreRectView )
+  EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
+    aOutline )
+  EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
   EW_METHOD( Draw,              void )( CoreOutline _this, GraphicsCanvas aCanvas, 
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( GetClipping,       XRect )( CoreOutline _this )
+  EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
     aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
     XSet aRetargetReason )

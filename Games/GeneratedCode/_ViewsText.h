@@ -131,20 +131,33 @@
    additional decorations can be drawn. */
 EW_DEFINE_FIELDS( ViewsText, CoreRectView )
   EW_PROPERTY( Font,            ResourcesFont )
+  EW_PROPERTY( OnUpdate,        XSlot )
   EW_VARIABLE( flowString,      XString )
   EW_PROPERTY( String,          XString )
+  EW_VARIABLE( bidiContext,     XHandle )
   EW_VARIABLE( textSize,        XPoint )
+  EW_PROPERTY( Padding,         XInt32 )
+  EW_PROPERTY( ColorBL,         XColor )
+  EW_PROPERTY( ColorBR,         XColor )
+  EW_PROPERTY( ColorTR,         XColor )
+  EW_PROPERTY( ColorTL,         XColor )
+  EW_PROPERTY( Alignment,       XSet )
   EW_PROPERTY( Color,           XColor )
-  EW_PROPERTY( Opacity,         XInt32 )
   EW_VARIABLE( reparsed,        XBool )
+  EW_PROPERTY( EnableBidiText,  XBool )
+  EW_PROPERTY( Ellipsis,        XBool )
   EW_PROPERTY( WrapText,        XBool )
 EW_END_OF_FIELDS( ViewsText )
 
 /* Virtual Method Table (VMT) for the class : 'Views::Text' */
 EW_DEFINE_METHODS( ViewsText, CoreRectView )
+  EW_METHOD( initLayoutContext, void )( CoreRectView _this, XRect aBounds, CoreOutline 
+    aOutline )
+  EW_METHOD( GetRoot,           CoreRoot )( CoreView _this )
   EW_METHOD( Draw,              void )( ViewsText _this, GraphicsCanvas aCanvas, 
     XRect aClip, XPoint aOffset, XInt32 aOpacity, XBool aBlend )
   EW_METHOD( GetClipping,       XRect )( CoreView _this )
+  EW_METHOD( HandleEvent,       XObject )( CoreView _this, CoreEvent aEvent )
   EW_METHOD( CursorHitTest,     CoreCursorHit )( CoreView _this, XRect aArea, XInt32 
     aFinger, XInt32 aStrikeCount, CoreView aDedicatedView, CoreView aStartView, 
     XSet aRetargetReason )
@@ -192,6 +205,12 @@ void ViewsText_Draw( ViewsText _this, GraphicsCanvas aCanvas, XRect aClip, XPoin
 /* 'C' function for method : 'Views::Text.OnSetBounds()' */
 void ViewsText_OnSetBounds( ViewsText _this, XRect value );
 
+/* 'C' function for method : 'Views::Text.freeBidi()' */
+void ViewsText_freeBidi( ViewsText _this, XHandle aBidi );
+
+/* 'C' function for method : 'Views::Text.createBidi()' */
+XHandle ViewsText_createBidi( ViewsText _this, XInt32 aSize );
+
 /* 'C' function for method : 'Views::Text.preOnUpdateSlot()' */
 void ViewsText_preOnUpdateSlot( ViewsText _this, XObject sender );
 
@@ -201,8 +220,36 @@ void ViewsText_preReparseSlot( ViewsText _this, XObject sender );
 /* 'C' function for method : 'Views::Text.reparseSlot()' */
 void ViewsText_reparseSlot( ViewsText _this, XObject sender );
 
+/* 'C' function for method : 'Views::Text.OnSetEnableBidiText()' */
+void ViewsText_OnSetEnableBidiText( ViewsText _this, XBool value );
+
+/* 'C' function for method : 'Views::Text.OnSetPadding()' */
+void ViewsText_OnSetPadding( ViewsText _this, XInt32 value );
+
+/* The onset method for the property 'Ellipsis' changes the ellipsis mode and forces 
+   an update. */
+void ViewsText_OnSetEllipsis( ViewsText _this, XBool value );
+
+/* 'C' function for method : 'Views::Text.OnSetOnUpdate()' */
+void ViewsText_OnSetOnUpdate( ViewsText _this, XSlot value );
+
+/* 'C' function for method : 'Views::Text.OnSetColorBL()' */
+void ViewsText_OnSetColorBL( ViewsText _this, XColor value );
+
+/* 'C' function for method : 'Views::Text.OnSetColorBR()' */
+void ViewsText_OnSetColorBR( ViewsText _this, XColor value );
+
+/* 'C' function for method : 'Views::Text.OnSetColorTR()' */
+void ViewsText_OnSetColorTR( ViewsText _this, XColor value );
+
+/* 'C' function for method : 'Views::Text.OnSetColorTL()' */
+void ViewsText_OnSetColorTL( ViewsText _this, XColor value );
+
 /* 'C' function for method : 'Views::Text.OnSetWrapText()' */
 void ViewsText_OnSetWrapText( ViewsText _this, XBool value );
+
+/* 'C' function for method : 'Views::Text.OnSetAlignment()' */
+void ViewsText_OnSetAlignment( ViewsText _this, XSet value );
 
 /* 'C' function for method : 'Views::Text.OnSetString()' */
 void ViewsText_OnSetString( ViewsText _this, XString value );
@@ -213,8 +260,21 @@ void ViewsText_OnSetFont( ViewsText _this, ResourcesFont value );
 /* 'C' function for method : 'Views::Text.OnSetColor()' */
 void ViewsText_OnSetColor( ViewsText _this, XColor value );
 
-/* 'C' function for method : 'Views::Text.OnSetOpacity()' */
-void ViewsText_OnSetOpacity( ViewsText _this, XInt32 value );
+/* 'C' function for method : 'Views::Text.OnSetVisible()' */
+void ViewsText_OnSetVisible( ViewsText _this, XBool value );
+
+/* The method IsBaseDirectionRTL() returns 'true' if the text specified in @String 
+   starts with an RTL (right-to-left) character. This implies the base direction 
+   of the entire text paragraph. If the text starts with an LTR (left-to-right) 
+   sign or the property @EnableBidiText is 'false', this method returns 'false'. */
+XBool ViewsText_IsBaseDirectionRTL( ViewsText _this );
+
+/* The method IsBidiText() returns 'true' if the text specified in the property 
+   @String contains any right-to-left contents or any other Bidi algorithm specific 
+   control codes requiring the Bidi processing of this text. Please note, if the 
+   property @EnableBidiText is false, the text is not processed by the Bidi algorithm 
+   and this method returns 'false'. */
+XBool ViewsText_IsBidiText( ViewsText _this );
 
 /* The method GetContentArea() returns the position and the size of an area where 
    the view will show the text. This area is expressed in coordinates relative to 
@@ -223,8 +283,8 @@ void ViewsText_OnSetOpacity( ViewsText _this, XInt32 value );
    @Orientation, @ScrollOffset, @WrapText, etc. */
 XRect ViewsText_GetContentArea( ViewsText _this );
 
-/* Default onget method for the property 'Opacity' */
-XInt32 ViewsText_OnGetOpacity( ViewsText _this );
+/* Default onget method for the property 'Color' */
+XColor ViewsText_OnGetColor( ViewsText _this );
 
 #ifdef __cplusplus
   }
