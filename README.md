@@ -42,5 +42,7 @@ This project is a personal learning exercise to explore:
 
 
 •	Game Logic Development: Creating and managing game logic, including state management and user interactions.
+
+
 •	Modular Design: Structuring code in a modular way to understand good practices in embedded software development.
 
