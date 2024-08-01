@@ -29,6 +29,6 @@ var EmWiApp;if(!EmWiApp)throw new Error("The application file '_project.js' isn'
 EmWiApp.acj=(function(){var B=EmWiApp;var C={};
 
 
-C._Init=function(){};C._ReInit=function(){};C.DO=function(D){};return C;})();
+C._Init=function(){};C._ReInit=function(){};C.D$=function(D){};return C;})();
 
 /* Embedded Wizard */

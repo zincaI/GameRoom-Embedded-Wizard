@@ -1,9 +1,9 @@
 $version 1.0
 
-attr active = Application::Application;
+attr active = Application::MemoryGameMenu;
 attr callStackMonitor_Show = false;
 attr connectInspectors = false;
-attr currentCodeInspector = Application::Application.MusicSLot;
+attr currentCodeInspector = Application::MemoryGameMenu.OpenRulePage;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -33,7 +33,7 @@ view Project
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <-214,-93>;
+  attr scrollTo = <-240,-236>;
   attr zoom = 0.5;
 }
 
@@ -41,36 +41,37 @@ view unit Application
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
+  attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <694,514>;
+  attr scrollTo = <516,768>;
   attr zoom = 0.5;
 }
 
 view class Application::GuessTheWordMenu
 {
-  attr scrollTo = <-739,-71>;
+  attr enableWireMode = false;
+  attr scrollTo = <-636,-34>;
   attr zoom = 0.5;
 }
 
-view class Application::Application
+view class Application::Menu
 {
   attr enableWireMode = false;
-  attr scrollTo = <-984,-131>;
+  attr scrollTo = <-804,7>;
   attr zoom = 0.5;
 }
 
-codeview Application::Application.Init
+view class Application::MemoryGameMenu
+{
+  attr enableWireMode = false;
+  attr scrollTo = <-871,3>;
+  attr zoom = 1.0;
+}
+
+codeview Application::MemoryGameMenu.OpenRulePage
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <23,14>;
-  attr codeSelStart = <23,14>;
-}
-
-codeview Application::Application.MusicSLot
-{
-  attr codeColSelect = false;
-  attr codeFirstPos = <0,5>;
-  attr codeSelEnd = <1,38>;
-  attr codeSelStart = <1,38>;
+  attr codeSelEnd = <76,0>;
+  attr codeSelStart = <76,0>;
 }
