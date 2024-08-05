@@ -18,7 +18,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton WordGuessingButton
   {
-    preset Bounds = <155,172,287,305>;
+    preset Bounds = <188,683,320,816>;
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
@@ -96,7 +96,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton MemoryGameButton
   {
-    preset Bounds = <322,169,454,302>;
+    preset Bounds = <355,680,487,813>;
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
@@ -171,7 +171,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton TilesPuzzleGameButton
   {
-    preset Bounds = <484,169,631,302>;
+    preset Bounds = <517,680,664,813>;
     preset OnLeave = null;
     preset OnEnter = null;
     preset OnRelease = null;
@@ -253,6 +253,7 @@ class Application : Core::Root
     //  GetRoot().SwitchToDialog( new Application::GameRoom,null,null, null, null, null, null, null, null, null, false );
     ////      trace "Actual dialog2g", Owner;
     //}
+    GetRoot().SwitchToDialog( new Application::GameRoom, null, null, null, null, null, null, null, null, null, false );
 
 
 
@@ -274,7 +275,7 @@ class Application : Core::Root
   $rect <20,20,160,60>
   object WidgetSet::PushButton Sound
   {
-    preset Bounds = <33,42,102,94>;
+    preset Bounds = <66,553,135,605>;
     preset OnPress = MusicSLot;
     preset Icon = Application::sound_off;
     preset Label = "Caption";
@@ -367,10 +368,10 @@ $rect <1766,1040,1966,1080>
 $output false
 class GuessTheWord : Core::Group
 {
-  $rect <-510,650,-310,690>
+  $rect <-510,510,-310,550>
   inherited property Bounds = <0,0,800,496>;
 
-  $rect <-120,680,80,720>
+  $rect <-1240,920,-1040,960>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -399,7 +400,7 @@ class GuessTheWord : Core::Group
     */
   }
 
-  $rect <-120,640,80,680>
+  $rect <-1240,880,-1040,920>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -500,6 +501,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image
   {
+    preset StackingPriority = 10;
     preset Bounds = <177,42,263,118>;
     preset Bitmap = Application::PlaceholderGuessingGame;
   }
@@ -507,6 +509,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image1
   {
+    preset StackingPriority = 10;
     preset Bounds = <293,42,379,118>;
     preset Bitmap = Application::PlaceholderGuessingGame;
   }
@@ -514,6 +517,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image2
   {
+    preset StackingPriority = 10;
     preset Bounds = <413,42,499,118>;
     preset Bitmap = Application::PlaceholderGuessingGame;
   }
@@ -521,6 +525,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image3
   {
+    preset StackingPriority = 10;
     preset Bounds = <534,42,620,118>;
     preset Bitmap = Application::PlaceholderGuessingGame;
   }
@@ -528,6 +533,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text FirstLetter
   {
+    preset StackingPriority = 10;
     preset Bounds = <185,49,257,112>;
     preset String = "";
     preset Font = Application::WordGuessingGameFont;
@@ -536,6 +542,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text SecondLetter
   {
+    preset StackingPriority = 10;
     preset Bounds = <300,49,372,112>;
     preset String = "";
     preset Font = Application::WordGuessingGameFont;
@@ -544,6 +551,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text ThirdLetter
   {
+    preset StackingPriority = 10;
     preset Bounds = <420,49,492,112>;
     preset String = "";
     preset Font = Application::WordGuessingGameFont;
@@ -552,6 +560,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text ForthLetter
   {
+    preset StackingPriority = 10;
     preset Bounds = <541,49,613,112>;
     preset OnUpdate = null;
     preset String = "";
@@ -561,6 +570,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton q
   {
+    preset StackingPriority = 10;
     preset Bounds = <84,189,131,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::q;
@@ -568,12 +578,13 @@ class GuessTheWord : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-1031,213,-791,253>
+  $rect <-1031,73,-791,113>
   object WidgetSet::PushButtonConfig TransparentButton;
 
   $rect <20,20,160,60>
   object WidgetSet::PushButton m
   {
+    preset StackingPriority = 10;
     preset Bounds = <521,327,569,382>;
     preset OnPress = PressLetter;
     preset Icon = Application::m;
@@ -584,6 +595,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton w
   {
+    preset StackingPriority = 10;
     preset Bounds = <147,190,202,245>;
     preset OnPress = PressLetter;
     preset Icon = Application::w;
@@ -594,6 +606,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton e
   {
+    preset StackingPriority = 10;
     preset Bounds = <212,190,265,248>;
     preset OnPress = PressLetter;
     preset Icon = Application::e;
@@ -604,6 +617,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton r
   {
+    preset StackingPriority = 10;
     preset Bounds = <280,187,328,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::r;
@@ -614,6 +628,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton t
   {
+    preset StackingPriority = 10;
     preset Bounds = <341,187,389,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::t;
@@ -624,6 +639,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton y
   {
+    preset StackingPriority = 10;
     preset Bounds = <396,187,444,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::y;
@@ -634,6 +650,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton u
   {
+    preset StackingPriority = 10;
     preset Bounds = <461,188,509,243>;
     preset OnPress = PressLetter;
     preset Icon = Application::u;
@@ -644,6 +661,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton i
   {
+    preset StackingPriority = 10;
     preset Bounds = <527,187,575,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::i;
@@ -654,6 +672,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton o
   {
+    preset StackingPriority = 10;
     preset Bounds = <594,187,642,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::o;
@@ -664,6 +683,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton p
   {
+    preset StackingPriority = 10;
     preset Bounds = <660,187,708,242>;
     preset OnPress = PressLetter;
     preset Icon = Application::p;
@@ -674,6 +694,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton A
   {
+    preset StackingPriority = 9;
     preset Bounds = <98,243,146,325>;
     preset OnPress = PressLetter;
     preset Icon = Application::a;
@@ -684,6 +705,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton s
   {
+    preset StackingPriority = 10;
     preset Bounds = <146,258,194,319>;
     preset OnPress = PressLetter;
     preset Icon = Application::s;
@@ -694,6 +716,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton d
   {
+    preset StackingPriority = 10;
     preset Bounds = <212,260,260,315>;
     preset OnPress = PressLetter;
     preset Icon = Application::d;
@@ -704,6 +727,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton f
   {
+    preset StackingPriority = 10;
     preset Bounds = <280,257,328,312>;
     preset OnPress = PressLetter;
     preset Icon = Application::f;
@@ -714,6 +738,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton g
   {
+    preset StackingPriority = 10;
     preset Bounds = <341,254,389,312>;
     preset OnPress = PressLetter;
     preset Icon = Application::g;
@@ -724,6 +749,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton h
   {
+    preset StackingPriority = 10;
     preset Bounds = <396,256,444,311>;
     preset OnPress = PressLetter;
     preset Icon = Application::h;
@@ -734,6 +760,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton j
   {
+    preset StackingPriority = 10;
     preset Bounds = <461,261,509,316>;
     preset OnPress = PressLetter;
     preset Icon = Application::j;
@@ -744,6 +771,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton k
   {
+    preset StackingPriority = 10;
     preset Bounds = <523,257,571,312>;
     preset OnPress = PressLetter;
     preset Icon = Application::k;
@@ -751,9 +779,10 @@ class GuessTheWord : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-670,590,-490,630>
+  $rect <-670,450,-490,490>
   inherited method Init()
   {
+    //Owner.PresentDialog( new Application::GuessTheWord, null, null, null, null, null, null, null, null, false );
     var int32 wordChoice=0;
     RandomChoice.String=string(wordChoice);
 
@@ -773,7 +802,8 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text GuessedLettersNote
   {
-    preset Bounds = <-55,399,670,486>;
+    preset StackingPriority = 15;
+    preset Bounds = <68,408,588,472>;
     preset ColorTR = #FFCC2DFF;
     preset ColorTL = #FFDEB9FF;
     preset String = "Don't forget to use these letters:";
@@ -784,13 +814,13 @@ class GuessTheWord : Core::Group
   // Game logic
   note group NoteGameLogic
   {
-    attr Bounds = <-760,140,-150,640>;
+    attr Bounds = <-760,0,-150,500>;
   }
 
   $rect <20,20,160,60>
   object Views::Text GuessedText
   {
-    preset StackingPriority = 2;
+    preset StackingPriority = 12;
     preset Bounds = <217,166,549,343>;
     preset Padding = 0;
     preset ColorBR = #D27129FF;
@@ -801,7 +831,7 @@ class GuessTheWord : Core::Group
     preset Visible = false;
   }
 
-  $rect <-400,230,-200,270>
+  $rect <-400,90,-200,130>
   slot GuessWord
   {
     var string firstOption="0";
@@ -844,7 +874,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text RandomChoice
   {
-    preset Bounds = <-287,654,-187,684>;
+    preset Bounds = <-287,514,-187,544>;
     preset String = "Text";
     preset Font = Resources::DefaultFont;
   }
@@ -852,10 +882,10 @@ class GuessTheWord : Core::Group
   // Keyboard (for Enter see GuessWord)
   note group Keyboard
   {
-    attr Bounds = <-700,180,-440,370>;
+    attr Bounds = <-700,40,-440,230>;
   }
 
-  $rect <-400,280,-200,320>
+  $rect <-400,140,-200,180>
   slot GuessWordGame
   {
     $if (!$prototyper)
@@ -968,13 +998,14 @@ class GuessTheWord : Core::Group
   // Word choices
   note group WordChoices
   {
-    attr Bounds = <-430,180,-180,370>;
+    attr Bounds = <-430,40,-180,230>;
   }
 
   $rect <20,20,160,60>
   object Views::Text GuessedLetters
   {
-    preset Bounds = <535,425,635,455>;
+    preset StackingPriority = 15;
+    preset Bounds = <545,425,645,455>;
     preset ColorTR = #FFCC2DFF;
     preset ColorTL = #FFDEB9FF;
     preset String = "";
@@ -985,6 +1016,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton delete_key
   {
+    preset StackingPriority = 10;
     preset Bounds = <585,257,735,307>;
     preset OnPress = PressDelete;
     preset Icon = Application::delete_key;
@@ -995,6 +1027,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton enter
   {
+    preset StackingPriority = 10;
     preset Bounds = <585,327,735,377>;
     preset OnPress = GuessWord;
     preset Icon = Application::enter;
@@ -1005,6 +1038,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton l
   {
+    preset StackingPriority = 10;
     preset Bounds = <104,322,153,387>;
     preset OnPress = PressLetter;
     preset Icon = Application::l;
@@ -1015,6 +1049,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton z
   {
+    preset StackingPriority = 10;
     preset Bounds = <153,329,201,379>;
     preset OnPress = PressLetter;
     preset Icon = Application::z;
@@ -1025,6 +1060,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton x
   {
+    preset StackingPriority = 10;
     preset Bounds = <217,327,265,377>;
     preset OnPress = PressLetter;
     preset Icon = Application::x;
@@ -1035,6 +1071,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton c
   {
+    preset StackingPriority = 10;
     preset Bounds = <283,325,325,375>;
     preset OnPress = PressLetter;
     preset Icon = Application::c;
@@ -1045,6 +1082,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton v
   {
+    preset StackingPriority = 10;
     preset Bounds = <341,327,381,377>;
     preset OnPress = PressLetter;
     preset Icon = Application::v;
@@ -1055,6 +1093,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton b
   {
+    preset StackingPriority = 10;
     preset Bounds = <406,329,446,379>;
     preset OnPress = PressLetter;
     preset Icon = Application::b;
@@ -1065,6 +1104,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton n
   {
+    preset StackingPriority = 10;
     preset Bounds = <461,332,510,382>;
     preset OnPress = PressLetter;
     preset Icon = Application::n;
@@ -1075,14 +1115,15 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text UnfilledSpaces
   {
-    preset Bounds = <23,36,783,126>;
+    preset StackingPriority = 12;
+    preset Bounds = <107,36,735,126>;
     preset ColorTR = #FF7403FF;
     preset String = "Fill all the spaces";
     preset Font = Application::WordGuessingGameFont;
     preset Visible = false;
   }
 
-  $rect <-690,530,-450,570>
+  $rect <-690,390,-450,430>
   object Core::Timer TimerUnfilledSpaces
   {
     preset OnTrigger = DismissUnfilledSpacesWarning;
@@ -1090,7 +1131,7 @@ class GuessTheWord : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-690,480,-450,520>
+  $rect <-690,340,-450,380>
   slot UnfilledSpacesSlot
   {
     UnfilledSpaces.Visible=true;
@@ -1099,14 +1140,14 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-690,430,-450,470>
+  $rect <-690,290,-450,330>
   slot DismissUnfilledSpacesWarning
   {
     UnfilledSpaces.Visible=false;
 
   }
 
-  $rect <-670,310,-470,350>
+  $rect <-670,170,-470,210>
   slot PressDelete
   {
     $if (!$prototyper)
@@ -1128,7 +1169,7 @@ class GuessTheWord : Core::Group
     else if(FirstLetter.Color!=#111111ff) FirstLetter.String="";
   }
 
-  $rect <-670,260,-470,300>
+  $rect <-670,120,-470,160>
   slot PressLetter
   {
     sender; /* the method is called from the sender object */
@@ -1187,7 +1228,7 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1251,173,-1021,213>
+  $rect <-1251,33,-1021,73>
   object Effects::ColorEffect UnfilledSpacesGradient
   {
     preset CycleDuration = 2000;
@@ -1197,10 +1238,10 @@ class GuessTheWord : Core::Group
   // Special effects
   note group SpecialEffects
   {
-    attr Bounds = <-1270,140,-770,870>;
+    attr Bounds = <-1270,0,-770,730>;
   }
 
-  $rect <-400,440,-200,480>
+  $rect <-400,300,-200,340>
   object Core::Timer ButtonPressed
   {
     preset OnTrigger = PressButtonEffect;
@@ -1211,16 +1252,16 @@ class GuessTheWord : Core::Group
   // Handling unfilled spaces
   note group HandlingUnfilledSpaces
   {
-    attr Bounds = <-700,380,-440,580>;
+    attr Bounds = <-700,240,-440,440>;
   }
 
   // Handling unfilled spaces(also see keyboard above)
   note group HandlingButtonPressed
   {
-    attr Bounds = <-430,380,-170,580>;
+    attr Bounds = <-430,240,-170,440>;
   }
 
-  $rect <-400,490,-200,530>
+  $rect <-400,350,-200,390>
   slot PressButtonEffect
   {
     FilterKeyboard.Visible=false;
@@ -1231,6 +1272,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::FilterImage FilterKeyboard
   {
+    preset StackingPriority = 11;
     preset Bounds = <74,180,735,393>;
     preset Bitmap = Application::BackgroudGamingRoom;
     preset TintColor = Application::SandColor;
@@ -1240,7 +1282,7 @@ class GuessTheWord : Core::Group
     preset Visible = false;
   }
 
-  $rect <-1241,273,-1041,313>
+  $rect <-1241,133,-1041,173>
   slot DisableKeyboard
   {
      k.Enabled=false;
@@ -1273,7 +1315,7 @@ class GuessTheWord : Core::Group
                  delete_key.Enabled=false;
   }
 
-  $rect <-1241,223,-1041,263>
+  $rect <-1241,83,-1041,123>
   slot EnableKeyboard
   {
      k.Enabled=true;
@@ -1308,7 +1350,7 @@ class GuessTheWord : Core::Group
 
   // This autoobject provides the default customization for the 'push button' widget \
   // (WidgetSet::PushButton) in its medium size variant.
-  $rect <-1031,263,-791,303>
+  $rect <-1031,123,-791,163>
   object WidgetSet::PushButtonConfig MenuButtonConfig
   {
     preset LabelColorActive = Application::LightOrange;
@@ -1326,7 +1368,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton MenuButton
   {
-    preset StackingPriority = 2;
+    preset StackingPriority = 10;
     preset Bounds = <-24,-5,98,89>;
     preset OnPress = OpenMenu;
     preset Icon = Application::open_menu;
@@ -1334,7 +1376,7 @@ class GuessTheWord : Core::Group
     preset Appearance = MenuButtonConfig;
   }
 
-  $rect <-1241,630,-1041,670>
+  $rect <-1241,490,-1041,530>
   slot OpenMenu
   {
     //BlackFilterBlackFilter.Visible=true;
@@ -1343,35 +1385,35 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1010,416,-810,456>
+  $rect <-1010,276,-810,316>
   object Core::KeyPressHandler LetterKeyHandler
   {
     preset OnPress = PressLetter;
     preset Filter = Core::KeyCode.AlphaKeys;
   }
 
-  $rect <-1010,366,-810,406>
+  $rect <-1010,226,-810,266>
   object Core::KeyPressHandler DeleteKeyHandler
   {
     preset OnPress = PressDelete;
     preset Filter = Core::KeyCode.Delete;
   }
 
-  $rect <-1220,366,-1020,406>
+  $rect <-1220,226,-1020,266>
   object Core::KeyPressHandler EnterKeyHandler
   {
     preset OnPress = GuessWord;
-    preset Filter = Core::KeyCode.F1;
+    preset Filter = Core::KeyCode.Enter;
   }
 
-  $rect <-1220,416,-1020,456>
+  $rect <-1220,276,-1020,316>
   object Core::KeyPressHandler BackspaceKeyHandler
   {
     preset OnPress = PressDelete;
     preset Filter = Core::KeyCode.Backspace;
   }
 
-  $rect <-1231,520,-1031,560>
+  $rect <-1231,380,-1031,420>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = RevealFilter;
@@ -1382,7 +1424,7 @@ class GuessTheWord : Core::Group
     preset Outlet = ^FilterKeyboard.TintColor;
   }
 
-  $rect <-1241,580,-1031,620>
+  $rect <-1241,440,-1031,480>
   object Core::Timer RevealFilterTimer
   {
     preset OnTrigger = RevealFilter;
@@ -1390,7 +1432,7 @@ class GuessTheWord : Core::Group
     preset Begin = 200;
   }
 
-  $rect <-750,650,-520,690>
+  $rect <-750,510,-520,550>
   slot RevealFilter
   {
     FilterEffect.Enabled=true;
@@ -1402,21 +1444,21 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1011,580,-811,620>
+  $rect <-1011,440,-811,480>
   object Core::Timer DisableEffectTimer
   {
     preset OnTrigger = DisableEffect;
     preset Begin = 1500;
   }
 
-  $rect <-1021,630,-811,670>
+  $rect <-1021,490,-811,530>
   slot DisableEffect
   {
     FilterEffect.Enabled=false;
     ColorEffect.Enabled=false;
   }
 
-  $rect <-1011,520,-811,560>
+  $rect <-1011,380,-811,420>
   object Effects::ColorEffect ColorEffect
   {
     preset Value1 = Application::SandColor;
@@ -1426,16 +1468,16 @@ class GuessTheWord : Core::Group
   // Reveal win effect
   note group RevealWinEffectNote
   {
-    attr Bounds = <-1251,480,-791,690>;
+    attr Bounds = <-1251,340,-791,550>;
   }
 
   // Physical keyboard
   note group PhysicalKeyboardNote
   {
-    attr Bounds = <-1250,330,-790,470>;
+    attr Bounds = <-1250,190,-790,330>;
   }
 
-  $rect <-1010,800,-810,840>
+  $rect <-1010,660,-810,700>
   slot ChangeNumberTries
   {
     sender; 
@@ -1516,22 +1558,23 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Image NumberTry
   {
+    preset StackingPriority = 10;
     preset Bounds = <715,17,765,67>;
     preset Bitmap = Application::Digit9;
     preset Opacity = 200;
   }
 
-  $rect <-1230,70,-1030,110>
+  $rect <-1230,-70,-1030,-30>
   var int32 Try = 9;
 
-  $rect <-1250,800,-1030,840>
+  $rect <-1250,660,-1030,700>
   object Effects::ColorEffect ChangeNumberTryEffect
   {
     preset Oscillations = 2;
     preset Outlet = ^NumberTry.Color;
   }
 
-  $rect <-1250,750,-1030,790>
+  $rect <-1250,610,-1030,650>
   object Core::Timer StopNumberEffectTimer
   {
     preset OnTrigger = StopNumberEffect;
@@ -1539,7 +1582,7 @@ class GuessTheWord : Core::Group
     preset Begin = 550;
   }
 
-  $rect <-1010,750,-810,790>
+  $rect <-1010,610,-810,650>
   slot StopNumberEffect
   {
     sender; 
@@ -1549,7 +1592,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text LostText
   {
-    preset StackingPriority = 2;
+    preset StackingPriority = 12;
     preset Bounds = <37,166,775,343>;
     preset Padding = 0;
     preset ColorBR = #D27129FF;
@@ -1563,7 +1606,14 @@ class GuessTheWord : Core::Group
   // Number tries
   note group NumberTriesNote
   {
-    attr Bounds = <-1260,700,-790,850>;
+    attr Bounds = <-1260,560,-790,710>;
+  }
+
+  $rect <20,20,160,60>
+  object Views::Image Background
+  {
+    preset Bounds = <-7,2,800,496>;
+    preset Bitmap = Application::BackgroudGamingRoom;
   }
 
   // Directives to adapt the order of the above members according to how these members 
@@ -1658,6 +1708,7 @@ class GuessTheWord : Core::Group
   $member StopNumberEffect
   $member LostText
   $member NumberTriesNote
+  $member Background
 }
 
 $rect <740,830,980,870>
@@ -2234,6 +2285,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstLabyrinth
   {
+    preset StackingPriority = 2;
     preset Bounds = <102,36,230,168>;
     preset OnPress = FirstLabyrinthPressed;
     preset ResignAfterHorizontalWipe = false;
@@ -2245,6 +2297,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstBlackLeaves
   {
+    preset StackingPriority = 2;
     preset Bounds = <261,36,399,168>;
     preset OnPress = FirstBlackLeavesPressed;
     preset Icon = Application::BlackLeaves;
@@ -2255,6 +2308,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstPendant
   {
+    preset StackingPriority = 2;
     preset Bounds = <415,38,552,168>;
     preset OnPress = FirstPendantPressed;
     preset Icon = Application::Pandant;
@@ -2265,6 +2319,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstCoins
   {
+    preset StackingPriority = 2;
     preset Bounds = <571,36,710,168>;
     preset OnPress = FirstCoinsPressed;
     preset Icon = Application::WhiteCoins;
@@ -2275,6 +2330,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondCoins
   {
+    preset StackingPriority = 2;
     preset Bounds = <98,166,233,306>;
     preset OnPress = SecondCoinsPressed;
     preset Icon = Application::WhiteCoins;
@@ -2285,6 +2341,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstCup
   {
+    preset StackingPriority = 2;
     preset Bounds = <260,168,398,308>;
     preset OnPress = FirstCupPressed;
     preset Icon = Application::cup;
@@ -2295,6 +2352,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstGoldLeaves
   {
+    preset StackingPriority = 2;
     preset Bounds = <418,168,554,308>;
     preset OnPress = FirstGoldLeavesPressed;
     preset Icon = Application::GoldLeaves;
@@ -2305,6 +2363,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondCup
   {
+    preset StackingPriority = 2;
     preset Bounds = <567,168,706,308>;
     preset OnPress = SecondCupPressed;
     preset Icon = Application::cup;
@@ -2315,6 +2374,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondGoldLeaves
   {
+    preset StackingPriority = 2;
     preset Bounds = <98,314,233,452>;
     preset OnPress = SecondGoldLeavesPressed;
     preset Icon = Application::GoldLeaves;
@@ -2325,6 +2385,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondPendant
   {
+    preset StackingPriority = 2;
     preset Bounds = <260,314,398,452>;
     preset OnPress = SecondPendantPressed;
     preset Icon = Application::Pandant;
@@ -2335,6 +2396,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondLabyrinth
   {
+    preset StackingPriority = 2;
     preset Bounds = <416,304,553,463>;
     preset OnPress = SecondLabyrinthPressed;
     preset Icon = Application::Labyrinth;
@@ -2345,6 +2407,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondBlackLeaves
   {
+    preset StackingPriority = 2;
     preset Bounds = <567,302,706,463>;
     preset OnPress = SecondBlackLeavesPressed;
     preset Icon = Application::BlackLeaves;
@@ -2358,6 +2421,9 @@ class MemoryGame : Core::Group
     OpeningGameTimer.Enabled=true;
     LoseGameTimer.Enabled=true;
     UpdateTimer.Enabled=true;
+    VerifyActivePlayingTimer.Enabled=true;
+
+
   }
 
   // Game logic
@@ -2738,7 +2804,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object Views::Text GuessedText
   {
-    preset StackingPriority = 5;
+    preset StackingPriority = 4;
     preset Bounds = <164,86,667,386>;
     preset Padding = 0;
     preset ColorBL = #FFFBF6FF;
@@ -2754,6 +2820,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object Views::FilterImage FilterKeyboard
   {
+    preset StackingPriority = 3;
     preset Bounds = <86,36,747,453>;
     preset Bitmap = Application::BackgroudGamingRoom;
     preset TintColor = #CCC0AFFF;
@@ -2963,7 +3030,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object Views::Text LostText
   {
-    preset StackingPriority = 2;
+    preset StackingPriority = 4;
     preset Bounds = <37,152,775,329>;
     preset Padding = 0;
     preset ColorBR = #D27129FF;
@@ -3006,6 +3073,7 @@ class MemoryGame : Core::Group
   $rect <20,20,160,60>
   object Views::Text TimeLeft
   {
+    preset StackingPriority = 2;
     preset Bounds = <710,0,810,53>;
     preset ColorBR = #B38121FF;
     preset ColorTR = #FFC20CFF;
@@ -3033,6 +3101,50 @@ class MemoryGame : Core::Group
 
   $rect <180,-70,380,-30>
   var int32 Time = 60;
+
+  $rect <20,20,160,60>
+  object Views::Image Background
+  {
+    preset StackingPriority = 1;
+    preset Bounds = <4,-1,800,480>;
+    preset Bitmap = Application::BackgroudGamingRoom;
+  }
+
+  $rect <10,540,210,580>
+  object Core::Timer VerifyActivePlayingTimer
+  {
+    preset OnTrigger = VerifyActivePlaying;
+    preset Period = 1;
+    preset Begin = 1000;
+  }
+
+  $rect <240,540,440,580>
+  slot VerifyActivePlaying
+  {
+    if( this.IsActiveDialog( true )==false)
+    {
+    UpdateTimer.Enabled=false;
+    LoseGameTimer.Enabled=false;
+    ActiveDialogBool=false;
+    }
+
+    if(ActiveDialogBool==false&&this.IsActiveDialog( true )==true)
+    {
+
+    UpdateTimer.Enabled=true;
+    trace Time;
+    //LoseGameTimer.Period=Time*1000;
+    trace   LoseGameTimer.Period;
+    LoseGameTimer.Enabled=true;
+
+    ActiveDialogBool=true;
+    }
+
+
+  }
+
+  $rect <-230,640,-30,680>
+  var bool ActiveDialogBool = true;
 
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
@@ -3105,6 +3217,10 @@ class MemoryGame : Core::Group
   $member UpdateTimerSlot
   $member UpdateTimer
   $member Time
+  $member Background
+  $member VerifyActivePlayingTimer
+  $member VerifyActivePlaying
+  $member ActiveDialogBool
 }
 
 $rect <1050,460,1250,500>
@@ -3358,14 +3474,14 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object Views::Image Image
   {
-    preset Bounds = <73,-17,702,480>;
+    preset Bounds = <0,-17,800,480>;
     preset Bitmap = Application::Frame;
   }
 
   $rect <20,20,160,60>
   object WidgetSet::PushButton FirstTile
   {
-    preset Bounds = <241,80,322,165>;
+    preset Bounds = <256,78,337,163>;
     preset OnPress = FirstTileMovement;
     preset Icon = Application::NinthTile;
     preset Label = "1";
@@ -3378,7 +3494,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FourthTile
   {
-    preset Bounds = <484,82,565,162>;
+    preset Bounds = <499,80,580,160>;
     preset OnPress = FourthTileMovement;
     preset Icon = Application::ThirthTile;
     preset Label = "4";
@@ -3388,7 +3504,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton ThirdTile
   {
-    preset Bounds = <403,82,484,162>;
+    preset Bounds = <418,80,499,160>;
     preset OnPress = ThirdTileMovement;
     preset Icon = Application::EleventhTile;
     preset Label = "3";
@@ -3398,7 +3514,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SecondTile
   {
-    preset Bounds = <322,80,403,162>;
+    preset Bounds = <337,78,418,160>;
     preset OnPress = SecondTileMovement;
     preset Icon = Application::FirstTile;
     preset Label = "2";
@@ -3408,7 +3524,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FifthTile
   {
-    preset Bounds = <240,161,321,246>;
+    preset Bounds = <255,159,336,244>;
     preset OnPress = FifthTileMovement;
     preset Icon = Application::TenthTile;
     preset Label = "5";
@@ -3418,7 +3534,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton NinthTile
   {
-    preset Bounds = <241,243,322,328>;
+    preset Bounds = <256,241,337,326>;
     preset OnRelease = null;
     preset OnPress = NinthTileMovement;
     preset Icon = Application::ThirteenTile;
@@ -3429,7 +3545,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton ThirteenthTile
   {
-    preset Bounds = <241,324,322,409>;
+    preset Bounds = <256,322,337,407>;
     preset OnPress = ThirteenthTileMovement;
     preset Icon = Application::ForteenthTile;
     preset Label = "13";
@@ -3439,7 +3555,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SixthTile
   {
-    preset Bounds = <322,161,403,246>;
+    preset Bounds = <337,159,418,244>;
     preset OnPress = SixthTileMovement;
     preset Icon = Application::SecondTile;
     preset Label = "6";
@@ -3449,7 +3565,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SeventhTile
   {
-    preset Bounds = <403,160,484,245>;
+    preset Bounds = <418,158,499,243>;
     preset OnPress = SeventhTileMovement;
     preset Icon = Application::SixthTile;
     preset Label = "7";
@@ -3459,7 +3575,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton EighthTile
   {
-    preset Bounds = <485,160,566,245>;
+    preset Bounds = <500,158,581,243>;
     preset OnPress = EighthTileMovement;
     preset Icon = Application::ForthTile;
     preset Label = "8";
@@ -3469,7 +3585,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton TenthTile
   {
-    preset Bounds = <322,244,403,325>;
+    preset Bounds = <337,242,418,323>;
     preset OnPress = TenthTileMovement;
     preset Icon = Application::BackgroudGamingRoom;
     preset Label = "10";
@@ -3479,7 +3595,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton EleventhTile
   {
-    preset Bounds = <404,243,485,328>;
+    preset Bounds = <419,241,500,326>;
     preset OnPress = EleventhTileMovement;
     preset Icon = Application::FifthTile;
     preset Label = "11";
@@ -3489,7 +3605,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton TwelfthTile
   {
-    preset Bounds = <485,242,566,327>;
+    preset Bounds = <500,240,581,325>;
     preset OnPress = TwelfthTileMovement;
     preset Icon = Application::SeventhTile;
     preset Label = "12";
@@ -3499,7 +3615,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FourteenthTile
   {
-    preset Bounds = <323,323,404,408>;
+    preset Bounds = <338,321,419,406>;
     preset OnPress = FourteenthTileMovement;
     preset Icon = Application::FifteenthTile;
     preset Label = "14";
@@ -3509,7 +3625,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton FifteenthTile
   {
-    preset Bounds = <403,325,484,410>;
+    preset Bounds = <418,323,499,408>;
     preset OnPress = FifteenthTileMovement;
     preset Icon = Application::EighthTile;
     preset Label = "15";
@@ -3519,7 +3635,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object WidgetSet::PushButton SixteenthTile
   {
-    preset Bounds = <485,324,566,409>;
+    preset Bounds = <500,322,581,407>;
     preset OnPress = SixteenthTileMovement;
     preset Icon = Application::TwelfthTile;
     preset Label = "16";
@@ -4287,7 +4403,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object Views::Image Solution
   {
-    preset Bounds = <242,74,566,407>;
+    preset Bounds = <257,72,581,405>;
     preset Bitmap = Application::Medusa;
     preset Visible = false;
   }
@@ -4316,7 +4432,7 @@ class TilesPuzzle : Core::Group
   $rect <20,20,160,60>
   object Views::FilterImage FilterKeyboard
   {
-    preset Bounds = <235,77,566,411>;
+    preset Bounds = <250,75,581,409>;
     preset Bitmap = Application::BackgroudGamingRoom;
     preset TintColor = #180E00FF;
     preset TintIntensity = 5.0;
@@ -4426,6 +4542,7 @@ class TilesPuzzle : Core::Group
   {
      UpdateTimer.Enabled=true;
      LoseGameTimer.Enabled=true; 
+     VerifyActivePlayingTimer.Enabled=true;
      
   }
 
@@ -4497,6 +4614,37 @@ class TilesPuzzle : Core::Group
 
   $rect <-50,-70,150,-30>
   var int32 Variable;
+
+  $rect <10,540,210,580>
+  object Core::Timer VerifyActivePlayingTimer
+  {
+    preset OnTrigger = VerifyActivePlaying;
+    preset Period = 1;
+    preset Begin = 1;
+  }
+
+  $rect <240,540,440,580>
+  slot VerifyActivePlaying
+  {
+    if( this.IsActiveDialog( true )==false)
+    {
+    UpdateTimer.Enabled=false;
+    LoseGameTimer.Enabled=false;
+    ActiveDialogBool=false;
+    }
+
+    if(ActiveDialogBool==false&&this.IsActiveDialog( true )==true)
+    {
+    UpdateTimer.Enabled=true;
+    LoseGameTimer.Enabled=true;
+    ActiveDialogBool=true;
+    }
+
+
+  }
+
+  $rect <20,620,220,660>
+  var bool ActiveDialogBool = true;
 
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
@@ -4593,6 +4741,9 @@ class TilesPuzzle : Core::Group
   $member UpdateTimer
   $member Time
   $member Variable
+  $member VerifyActivePlayingTimer
+  $member VerifyActivePlaying
+  $member ActiveDialogBool
 }
 
 // Images tiles puzzle
@@ -4981,7 +5132,7 @@ class Menu : Core::Group
   object Views::FilterImage BlackFilter
   {
     preset StackingPriority = 9;
-    preset Bounds = <299,277,474,490>;
+    preset Bounds = <299,265,474,478>;
     preset Bitmap = Application::BackgroudGamingRoom;
     preset TintColor = Application::Black;
     preset TintIntensity = 5.0;
@@ -5009,14 +5160,14 @@ class Menu : Core::Group
     preset Visible = true;
   }
 
-  $rect <-430,590,-310,630>
+  $rect <-440,650,-320,690>
   inherited method Init()
   {
     ButtonsTimer.Enabled=true;
 
   }
 
-  $rect <-280,529,-40,569>
+  $rect <-290,589,-50,629>
   object WidgetSet::PushButtonConfig ButtonConfig
   {
     preset LabelColorActive = Application::VibrantOrange;
@@ -5061,7 +5212,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-250,480,-60,520>
+  $rect <-250,530,-60,570>
   slot StopPulseColor
   {
     FilterEffect.Outlet=null;
@@ -5074,7 +5225,7 @@ class Menu : Core::Group
     ForthPulseColorTimer.Enabled=true;
   }
 
-  $rect <-510,480,-300,520>
+  $rect <-510,530,-300,570>
   object Core::Timer StopPulseColorTimer
   {
     preset OnTrigger = StopPulseColor;
@@ -5082,7 +5233,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-520,530,-320,570>
+  $rect <-530,590,-330,630>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = null;
@@ -5131,18 +5282,18 @@ class Menu : Core::Group
   $rect <-370,150,-170,190>
   slot BackToGameRoom
   {
-    //if ( IsDialog(false))
-    //  {
-     Owner.DismissDialog( this, null, null, null, null, null, false ); 
+
+
+     Owner.DismissDialog( this.FindCurrentDialog(), null, null, null, null, null, false ); 
     //  Owner.DismissDialog( Application::Menu, null, null, null, null, null, false );
     //  }
     //GetRoot().DismissDialog( this, null, null, null, null, null, false );
     GetRoot().SwitchToDialog(new Application::GameRoom, null, null, null, null, null, null, null, null, null, false );
-
+     //trace this.FindCurrentDialog();
 
   }
 
-  $rect <-300,590,-160,630>
+  $rect <-310,650,-170,690>
   slot MusicSLot
   {
     $if (!$prototyper)
@@ -5154,7 +5305,7 @@ class Menu : Core::Group
   object WidgetSet::PushButton Game
   {
     preset StackingPriority = 8;
-    preset Bounds = <309,357,451,389>;
+    preset Bounds = <310,379,452,411>;
     preset Visible = false;
     preset OnPress = BackToGameSlot;
     preset Label = "Back to the game";
@@ -5165,7 +5316,7 @@ class Menu : Core::Group
   object WidgetSet::PushButton GameRoom
   {
     preset StackingPriority = 9;
-    preset Bounds = <312,389,454,443>;
+    preset Bounds = <309,411,451,465>;
     preset Visible = false;
     preset OnPress = BackToGameRoom;
     preset Label = "Back to the game room";
@@ -5176,7 +5327,7 @@ class Menu : Core::Group
   object WidgetSet::PushButton Music
   {
     preset StackingPriority = 9;
-    preset Bounds = <309,319,451,357>;
+    preset Bounds = <310,323,452,361>;
     preset Visible = false;
     preset OnPress = MusicSLot;
     preset Label = "Play/Pause Music";
@@ -5187,7 +5338,7 @@ class Menu : Core::Group
   object WidgetSet::PushButton Rules
   {
     preset StackingPriority = 9;
-    preset Bounds = <339,297,421,336>;
+    preset Bounds = <341,291,423,330>;
     preset Visible = false;
     preset OnPress = BackToGameRoom;
     preset Label = "Rules";
@@ -5207,7 +5358,7 @@ class Menu : Core::Group
   {
     GameRoom.Visible=true;
 
-    StopPulseColorTimer.Enabled=true;
+    FifthPulseColorTimer.Enabled=true;
   }
 
   // Functionality buttons
@@ -5219,7 +5370,34 @@ class Menu : Core::Group
   // Effetcs
   note group EffetcsNote
   {
-    attr Bounds = <-540,240,-30,640>;
+    attr Bounds = <-540,240,-30,700>;
+  }
+
+  $rect <20,20,160,60>
+  object WidgetSet::PushButton Restart
+  {
+    preset StackingPriority = 9;
+    preset Bounds = <339,353,421,392>;
+    preset Visible = true;
+    preset OnPress = BackToGameRoom;
+    preset Label = "Restart";
+    preset Appearance = ButtonConfig;
+  }
+
+  $rect <-510,480,-300,520>
+  object Core::Timer FifthPulseColorTimer
+  {
+    preset OnTrigger = FifthPulseColor;
+    preset Period = 0;
+    preset Begin = 1000;
+  }
+
+  $rect <-260,480,-60,520>
+  slot FifthPulseColor
+  {
+    Restart.Visible=true;
+
+    StopPulseColorTimer.Enabled=true;
   }
 
   // Directives to adapt the order of the above members according to how these members 
@@ -5255,6 +5433,9 @@ class Menu : Core::Group
   $member ForthPulseColor
   $member FunctionalityButtonsNote
   $member EffetcsNote
+  $member Restart
+  $member FifthPulseColorTimer
+  $member FifthPulseColor
 }
 
 $rect <750,1040,980,1080>
@@ -5395,6 +5576,7 @@ class GuessTheWordMenu : Application::Menu
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
+    Restart.OnPress=OpenGuessingGame;
 
   }
 
@@ -5423,32 +5605,53 @@ class GuessTheWordMenu : Application::Menu
   inherited object Game
   {
     preset StackingPriority = 12;
-    preset Bounds = <327,229,469,261>;
+    preset Bounds = <327,214,469,246>;
   }
 
   $rect <20,20,160,60>
   inherited object GameRoom
   {
     preset StackingPriority = 11;
-    preset Bounds = <328,261,470,315>;
+    preset Bounds = <328,246,470,300>;
   }
 
   $rect <20,20,160,60>
   inherited object Music
   {
-    preset Bounds = <327,191,469,229>;
+    preset Bounds = <327,176,469,214>;
   }
 
   $rect <20,20,160,60>
   inherited object Rules
   {
-    preset Bounds = <353,157,435,196>;
+    preset Bounds = <353,151,435,179>;
   }
 
   $rect <-280,170,-80,210>
   slot OpenRulePage
   {
-    GetRoot().PresentDialog( new Application::GuessingGameRules,Effects::SlideUpCentered, null, null, null, null, null, null, null, false );
+    GetRoot().PresentDialog( new Application::GuessingGameRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
+
+  }
+
+  $rect <20,20,160,60>
+  inherited object Restart
+  {
+    preset Bounds = <358,299,440,327>;
+    preset Visible = false;
+    preset OnPress = OpenGuessingGame;
+  }
+
+  $rect <-280,220,-80,260>
+  slot OpenGuessingGame
+  {
+    Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
+
+    Owner.DismissDialog( this.FindDialogByClass( Application::GuessTheWord), null, null, null, null, null, false );
+
+    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
+
+
 
   }
 
@@ -5468,7 +5671,9 @@ class GuessTheWordMenu : Application::Menu
   $member BlackFilterBackground
   $member Variable
   $member Rules
+  $member Restart
   $member OpenRulePage
+  $member OpenGuessingGame
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
@@ -5508,25 +5713,25 @@ resource Resources::Bitmap MenuBackground
   attr bitmapmode Mode = Default;
 }
 
-$rect <700,1250,910,1290>
+$rect <720,1250,930,1290>
 $output false
 const color DarkOrange = #C67528FF;
 
 // Colors
 note group Colors
 {
-  attr Bounds = <670,1210,1380,1360>;
+  attr Bounds = <690,1210,1400,1360>;
 }
 
-$rect <700,1300,910,1340>
+$rect <720,1300,930,1340>
 $output false
 const color VibrantOrange = #F3A52BFF;
 
-$rect <930,1300,1140,1340>
+$rect <950,1300,1160,1340>
 $output false
 const color LightOrange = #FFD10DFF;
 
-$rect <930,1250,1140,1290>
+$rect <950,1250,1160,1290>
 $output false
 const color Black = #000000FF;
 
@@ -5576,7 +5781,7 @@ resource Resources::Font WordGuessingGameSmallFont
   attr fontrowdistance RowDistance;
 }
 
-$rect <1150,1250,1360,1290>
+$rect <1170,1250,1380,1290>
 $output false
 const color SandColor = #CCC0AFFF;
 
@@ -6022,10 +6227,10 @@ resource Resources::Bitmap sound_off
 // Digits
 note group DigitsNote
 {
-  attr Bounds = <2070,420,2260,890>;
+  attr Bounds = <2080,380,2270,850>;
 }
 
-$rect <2110,470,2210,510>
+$rect <2120,430,2220,470>
 $output false
 resource Resources::Bitmap Digit0
 {
@@ -6037,7 +6242,7 @@ resource Resources::Bitmap Digit0
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,510,2210,550>
+$rect <2120,470,2220,510>
 $output false
 resource Resources::Bitmap Digit1
 {
@@ -6049,7 +6254,7 @@ resource Resources::Bitmap Digit1
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,550,2210,590>
+$rect <2120,510,2220,550>
 $output false
 resource Resources::Bitmap Digit2
 {
@@ -6061,7 +6266,7 @@ resource Resources::Bitmap Digit2
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,590,2210,630>
+$rect <2120,550,2220,590>
 $output false
 resource Resources::Bitmap Digit3
 {
@@ -6073,7 +6278,7 @@ resource Resources::Bitmap Digit3
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,630,2210,670>
+$rect <2120,590,2220,630>
 $output false
 resource Resources::Bitmap Digit4
 {
@@ -6085,7 +6290,7 @@ resource Resources::Bitmap Digit4
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,670,2210,710>
+$rect <2120,630,2220,670>
 $output false
 resource Resources::Bitmap Digit5
 {
@@ -6097,7 +6302,7 @@ resource Resources::Bitmap Digit5
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,710,2210,750>
+$rect <2120,670,2220,710>
 $output false
 resource Resources::Bitmap Digit6
 {
@@ -6109,7 +6314,7 @@ resource Resources::Bitmap Digit6
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,750,2210,790>
+$rect <2120,710,2220,750>
 $output false
 resource Resources::Bitmap Digit7
 {
@@ -6121,7 +6326,7 @@ resource Resources::Bitmap Digit7
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,790,2210,830>
+$rect <2120,750,2220,790>
 $output false
 resource Resources::Bitmap Digit8
 {
@@ -6133,7 +6338,7 @@ resource Resources::Bitmap Digit8
   attr bitmapmode Mode = Default;
 }
 
-$rect <2110,830,2210,870>
+$rect <2120,790,2220,830>
 $output false
 resource Resources::Bitmap Digit9
 {
@@ -6596,7 +6801,6 @@ class GuessingGameRules : Application::Rules
   $rect <-360,210,-160,250>
   slot BackToMenuSlot
   {
-
     Button.Visible=false;
     Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
   }
@@ -6774,6 +6978,7 @@ class MemoryGameMenu : Application::Menu
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
+    Restart.OnPress=OpenMemoryGame;
 
   }
 
@@ -6824,7 +7029,27 @@ class MemoryGameMenu : Application::Menu
   $rect <-280,170,-80,210>
   slot OpenRulePage
   {
-    GetRoot().PresentDialog( new Application::MemoryGameRules,Effects::SlideUpCentered, null, null, null, null, null, null, null, false );
+    GetRoot().PresentDialog( new Application::MemoryGameRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
+
+  }
+
+  $rect <20,20,160,60>
+  inherited object Restart
+  {
+    preset Bounds = <353,302,435,341>;
+    preset Visible = false;
+  }
+
+  $rect <-280,220,-80,260>
+  slot OpenMemoryGame
+  {
+    Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
+
+    Owner.DismissDialog( this.FindDialogByClass( Application::MemoryGame), null, null, null, null, null, false );
+
+    GetRoot().PresentDialog( new Application::MemoryGame,null, null, null, null, null, null, null, null, false );
+
+
 
   }
 
@@ -6843,7 +7068,9 @@ class MemoryGameMenu : Application::Menu
   $member Music
   $member BlackFilterBackground
   $member Rules
+  $member Restart
   $member OpenRulePage
+  $member OpenMemoryGame
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
@@ -7248,6 +7475,7 @@ class TilesPuzzleMenu : Application::Menu
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
+    Restart.OnPress=OpenTilePuzzleGame;
 
   }
 
@@ -7301,7 +7529,27 @@ class TilesPuzzleMenu : Application::Menu
   $rect <-280,170,-80,210>
   slot OpenRulePage
   {
-    GetRoot().PresentDialog( new Application::TilesPuzzleRules,Effects::SlideUpCentered, null, null, null, null, null, null, null, false );
+    GetRoot().PresentDialog( new Application::TilesPuzzleRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
+
+  }
+
+  $rect <20,20,160,60>
+  inherited object Restart
+  {
+    preset Bounds = <357,310,439,349>;
+    preset Visible = false;
+  }
+
+  $rect <-280,220,-80,260>
+  slot OpenTilePuzzleGame
+  {
+    Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
+
+    Owner.DismissDialog( this.FindDialogByClass( Application::TilesPuzzle), null, null, null, null, null, false );
+
+    GetRoot().PresentDialog( new Application::TilesPuzzle,null, null, null, null, null, null, null, null, false );
+
+
 
   }
 
@@ -7321,7 +7569,9 @@ class TilesPuzzleMenu : Application::Menu
   $member BlackFilterBackground
   $member Variable
   $member Rules
+  $member Restart
   $member OpenRulePage
+  $member OpenTilePuzzleGame
 
   // Directives to adapt the order of members belonging to this class so they appear 
   // correctly arranged relative to the members inherited from the ancestor (super) 
