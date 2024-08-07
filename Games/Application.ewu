@@ -1,11 +1,11 @@
 ﻿$version 13.04
 
 // This is the root component of the entire GUI application.
-$rect <1766,990,1966,1030>
+$rect <36,50,236,90>
 $output false
 class Application : Core::Root
 {
-  $rect <-600,295,-400,335>
+  $rect <810,550,1010,590>
   inherited property Bounds = <0,0,800,480>;
 
   $rect <20,20,160,60>
@@ -15,227 +15,7 @@ class Application : Core::Root
     preset Bitmap = Application::BackgroudGamingRoom;
   }
 
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton WordGuessingButton
-  {
-    preset Bounds = <188,683,320,816>;
-    preset OnLeave = null;
-    preset OnEnter = null;
-    preset OnRelease = null;
-    preset OnPress = OnPressGuessingWordGame;
-    preset OnActivate = null;
-    preset IconFrameActive = 2;
-    preset IconFrameFocused = -1;
-    preset IconFrameDisabled = -1;
-    preset IconFrameDefault = -1;
-    preset Icon = Application::WordGuessingLogo;
-    preset Label = "";
-    preset Appearance = TransparentButton;
-  }
-
-  $rect <-610,405,-370,445>
-  object WidgetSet::PushButtonConfig TransparentButton;
-
-  $rect <-290,65,-60,105>
-  slot OpenGuessingWordGame
-  {
-    //if ( IsDialog(false))
-     //Owner.DismissDialog( this, null, null, null, null, null, false );
-    //                     trace "Actual dialog1g", Owner;
-    if ( IsActiveDialog( true ))
-    {
-
-      //GetRoot().PresentDialog( new Application::GuessTheWord,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
-      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
-      GetRoot().SwitchToDialog( new Application::GuessTheWord,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, null, false );
-    //      trace "Actual dialog2g", Owner;
-    }
-
-    var slot sl=this.DisableButtons;
-    signal sl;
-
-  }
-
-  // Starting games
-  note group StartingGames
-  {
-    attr Bounds = <-330,15,-30,225>;
-  }
-
-  // Effects handling
-  note group Effects
-  {
-    attr Bounds = <-330,255,-30,455>;
-  }
-
-  // Timers for the effects
-  note group Timers
-  {
-    attr Bounds = <-650,15,-350,215>;
-  }
-
-  $rect <-600,55,-400,95>
-  object Core::Timer TimerGuessingGame
-  {
-    preset OnTrigger = OpenGuessingWordGame;
-    preset Period = 0;
-    preset Begin = 1300;
-  }
-
-  $rect <-300,305,-50,345>
-  slot OnPressGuessingWordGame
-  {
-    WordGuessingButton.Icon=Application::OnPressWordGuessingLogo;
-
-
-    TimerGuessingGame.Enabled=true;
-
-
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton MemoryGameButton
-  {
-    preset Bounds = <355,680,487,813>;
-    preset OnLeave = null;
-    preset OnEnter = null;
-    preset OnRelease = null;
-    preset OnPress = OnPressMemoryGame;
-    preset OnActivate = null;
-    preset IconFrameActive = 2;
-    preset IconFrameFocused = -1;
-    preset IconFrameDisabled = -1;
-    preset IconFrameDefault = -1;
-    preset Icon = Application::MemoryGameLogo;
-    preset Label = "";
-    preset Appearance = TransparentButton;
-  }
-
-  $rect <-290,115,-60,155>
-  slot OpenMemoryGame
-  {
-    //if ( IsDialog(false))
-     // Owner.DismissDialog( this, null, null, null, null, null, false );
-    //  trace "Actual dialog1m", Owner;
-
-    if ( IsActiveDialog( true ))
-    {
-
-    //  GetRoot().PresentDialog( new Application::MemoryGame,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
-      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
-       GetRoot().SwitchToDialog( new Application::MemoryGame,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, null, false );
-    //                       trace "Actual dialog2m", Owner;
-    }
-
-    var slot sl=this.DisableButtons;
-    signal sl;
-
-
-  }
-
-  $rect <-300,355,-50,395>
-  slot OnPressMemoryGame
-  {
-    MemoryGameButton.Icon=Application::OnPressMemoryGameLogo;
-
-
-    TimerMemoryGame.Enabled=true;
-
-
-  }
-
-  $rect <-600,105,-400,145>
-  object Core::Timer TimerMemoryGame
-  {
-    preset OnTrigger = OpenMemoryGame;
-    preset Period = 0;
-    preset Begin = 1300;
-  }
-
-  $rect <-600,235,-400,275>
-  slot DisableButtons
-  {
-    WordGuessingButton.Enabled=false;
-    WordGuessingButton.Visible=false;
-    MemoryGameButton.Enabled=false;
-    MemoryGameButton.Visible=false;
-    TilesPuzzleGameButton.Enabled=false;
-    TilesPuzzleGameButton.Visible=false;
-    Arrow.Enabled=false;
-    Arrow.Visible=false;
-    Sound.Enabled=false;
-    Sound.Visible=false;
-
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton TilesPuzzleGameButton
-  {
-    preset Bounds = <517,680,664,813>;
-    preset OnLeave = null;
-    preset OnEnter = null;
-    preset OnRelease = null;
-    preset OnPress = OnPressTilesPuzzleGame;
-    preset OnActivate = null;
-    preset IconFrameActive = 2;
-    preset IconFrameFocused = -1;
-    preset IconFrameDisabled = -1;
-    preset IconFrameDefault = -1;
-    preset Icon = Application::TilesPuzzleLogo;
-    preset Label = "";
-    preset Appearance = TransparentButton;
-  }
-
-  $rect <-600,155,-400,195>
-  object Core::Timer TimeTilesPuzzleGame
-  {
-    preset OnTrigger = OpenTilesPuzzleGame;
-    preset Period = 0;
-    preset Begin = 1300;
-  }
-
-  $rect <-290,165,-60,205>
-  slot OpenTilesPuzzleGame
-  {
-    //if ( IsDialog(false))
-     // Owner.DismissDialog( this, null, null, null, null, null, false );
-    //      trace "Actual dialog1t", Owner;
-    if ( IsActiveDialog( true ))
-    {
-
-    //  GetRoot().PresentDialog( new Application::TilesPuzzle,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null, false );
-      //    GetRoot().PresentDialog( new Application::GuessTheWord,null, null, null, null, null, null, null, null, false );
-       GetRoot().SwitchToDialog( new Application::TilesPuzzle,Effects::SlideLeftCentered, Effects::FadeInOutCentered, null, null, null, null, null, null,null, false );
-    //  trace "Actual dialog2t", Owner;
-    }
-
-    var slot sl=this.DisableButtons;
-    signal sl;
-
-
-  }
-
-  $rect <-300,405,-50,445>
-  slot OnPressTilesPuzzleGame
-  {
-    TilesPuzzleGameButton.Icon=Application::OnPressTilesPuzzleLogo;
-
-
-    TimeTilesPuzzleGame.Enabled=true;
-
-
-  }
-
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton Arrow
-  {
-    preset Bounds = <818,340,912,391>;
-    preset Icon = Application::Arrow;
-    preset Label = "Caption";
-    preset Appearance = TransparentButton;
-  }
-
-  $rect <-580,360,-400,395>
+  $rect <610,500,790,540>
   inherited method Init()
   {
     if(MusicPlay==true)
@@ -245,6 +25,8 @@ class Application : Core::Root
     $endif
     MusicPlay=false;
     }
+
+    trace "is here";
     //if ( IsActiveDialog( true ))
     //{
     //
@@ -259,10 +41,10 @@ class Application : Core::Root
 
   }
 
-  $rect <-590,460,-390,500>
+  $rect <810,500,1010,540>
   var bool MusicPlay = true;
 
-  $rect <-280,480,-80,520>
+  $rect <410,500,610,540>
   slot MusicSLot
   {
     $if (!$prototyper)
@@ -272,16 +54,6 @@ class Application : Core::Root
 
   }
 
-  $rect <20,20,160,60>
-  object WidgetSet::PushButton Sound
-  {
-    preset Bounds = <66,553,135,605>;
-    preset OnPress = MusicSLot;
-    preset Icon = Application::sound_off;
-    preset Label = "Caption";
-    preset Appearance = TransparentButton;
-  }
-
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
   // and the expected order of the members don't depend. Merging of changes in the 
@@ -289,30 +61,11 @@ class Application : Core::Root
   $member Init
   $member Bounds
   $member Image
-  $member WordGuessingButton
-  $member TransparentButton
-  $member OpenGuessingWordGame
-  $member StartingGames
-  $member Effects
-  $member Timers
-  $member TimerGuessingGame
-  $member OnPressGuessingWordGame
-  $member MemoryGameButton
-  $member OpenMemoryGame
-  $member OnPressMemoryGame
-  $member TimerMemoryGame
-  $member DisableButtons
-  $member TilesPuzzleGameButton
-  $member TimeTilesPuzzleGame
-  $member OpenTilesPuzzleGame
-  $member OnPressTilesPuzzleGame
-  $member Arrow
   $member MusicPlay
   $member MusicSLot
-  $member Sound
 }
 
-$rect <1420,980,1660,1020>
+$rect <1260,30,1500,70>
 $output false
 resource Resources::Font Font
 {
@@ -328,7 +81,7 @@ resource Resources::Font Font
   attr fontrowdistance RowDistance;
 }
 
-$rect <740,780,980,820>
+$rect <50,1050,290,1090>
 $output false
 resource Resources::Bitmap BackgroudGamingRoom
 {
@@ -343,10 +96,10 @@ resource Resources::Bitmap BackgroudGamingRoom
 // Images
 note group Note
 {
-  attr Bounds = <690,-20,2310,910>;
+  attr Bounds = <0,250,1620,1180>;
 }
 
-$rect <740,460,980,500>
+$rect <50,730,290,770>
 $output false
 resource Resources::Bitmap WordGuessingLogo
 {
@@ -361,17 +114,17 @@ resource Resources::Bitmap WordGuessingLogo
 // Classes
 note group Note1
 {
-  attr Bounds = <1730,940,2220,1180>;
+  attr Bounds = <0,0,490,240>;
 }
 
-$rect <1766,1040,1966,1080>
+$rect <36,100,236,140>
 $output false
 class GuessTheWord : Core::Group
 {
-  $rect <-510,510,-310,550>
+  $rect <900,820,1100,860>
   inherited property Bounds = <0,0,800,496>;
 
-  $rect <-1240,920,-1040,960>
+  $rect <900,910,1100,950>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -400,7 +153,7 @@ class GuessTheWord : Core::Group
     */
   }
 
-  $rect <-1240,880,-1040,920>
+  $rect <900,870,1100,910>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -578,7 +331,7 @@ class GuessTheWord : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-1031,73,-791,113>
+  $rect <1109,63,1349,103>
   object WidgetSet::PushButtonConfig TransparentButton;
 
   $rect <20,20,160,60>
@@ -779,7 +532,7 @@ class GuessTheWord : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-670,450,-490,490>
+  $rect <1390,440,1570,480>
   inherited method Init()
   {
     //Owner.PresentDialog( new Application::GuessTheWord, null, null, null, null, null, null, null, null, false );
@@ -814,7 +567,7 @@ class GuessTheWord : Core::Group
   // Game logic
   note group NoteGameLogic
   {
-    attr Bounds = <-760,0,-150,500>;
+    attr Bounds = <1380,-10,1990,490>;
   }
 
   $rect <20,20,160,60>
@@ -831,7 +584,7 @@ class GuessTheWord : Core::Group
     preset Visible = false;
   }
 
-  $rect <-400,90,-200,130>
+  $rect <1740,80,1940,120>
   slot GuessWord
   {
     var string firstOption="0";
@@ -874,7 +627,7 @@ class GuessTheWord : Core::Group
   $rect <20,20,160,60>
   object Views::Text RandomChoice
   {
-    preset Bounds = <-287,514,-187,544>;
+    preset Bounds = <1853,504,1953,534>;
     preset String = "Text";
     preset Font = Resources::DefaultFont;
   }
@@ -882,10 +635,10 @@ class GuessTheWord : Core::Group
   // Keyboard (for Enter see GuessWord)
   note group Keyboard
   {
-    attr Bounds = <-700,40,-440,230>;
+    attr Bounds = <1440,30,1700,220>;
   }
 
-  $rect <-400,140,-200,180>
+  $rect <1740,130,1940,170>
   slot GuessWordGame
   {
     $if (!$prototyper)
@@ -998,7 +751,7 @@ class GuessTheWord : Core::Group
   // Word choices
   note group WordChoices
   {
-    attr Bounds = <-430,40,-180,230>;
+    attr Bounds = <1710,30,1960,220>;
   }
 
   $rect <20,20,160,60>
@@ -1123,7 +876,7 @@ class GuessTheWord : Core::Group
     preset Visible = false;
   }
 
-  $rect <-690,390,-450,430>
+  $rect <1450,380,1690,420>
   object Core::Timer TimerUnfilledSpaces
   {
     preset OnTrigger = DismissUnfilledSpacesWarning;
@@ -1131,7 +884,7 @@ class GuessTheWord : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-690,340,-450,380>
+  $rect <1450,330,1690,370>
   slot UnfilledSpacesSlot
   {
     UnfilledSpaces.Visible=true;
@@ -1140,14 +893,14 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-690,290,-450,330>
+  $rect <1450,280,1690,320>
   slot DismissUnfilledSpacesWarning
   {
     UnfilledSpaces.Visible=false;
 
   }
 
-  $rect <-670,170,-470,210>
+  $rect <1470,160,1670,200>
   slot PressDelete
   {
     $if (!$prototyper)
@@ -1169,7 +922,7 @@ class GuessTheWord : Core::Group
     else if(FirstLetter.Color!=#111111ff) FirstLetter.String="";
   }
 
-  $rect <-670,120,-470,160>
+  $rect <1470,110,1670,150>
   slot PressLetter
   {
     sender; /* the method is called from the sender object */
@@ -1228,7 +981,7 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1251,33,-1021,73>
+  $rect <889,23,1119,63>
   object Effects::ColorEffect UnfilledSpacesGradient
   {
     preset CycleDuration = 2000;
@@ -1238,10 +991,10 @@ class GuessTheWord : Core::Group
   // Special effects
   note group SpecialEffects
   {
-    attr Bounds = <-1270,0,-770,730>;
+    attr Bounds = <870,-10,1370,780>;
   }
 
-  $rect <-400,300,-200,340>
+  $rect <1740,290,1940,330>
   object Core::Timer ButtonPressed
   {
     preset OnTrigger = PressButtonEffect;
@@ -1252,16 +1005,16 @@ class GuessTheWord : Core::Group
   // Handling unfilled spaces
   note group HandlingUnfilledSpaces
   {
-    attr Bounds = <-700,240,-440,440>;
+    attr Bounds = <1440,230,1700,430>;
   }
 
   // Handling unfilled spaces(also see keyboard above)
   note group HandlingButtonPressed
   {
-    attr Bounds = <-430,240,-170,440>;
+    attr Bounds = <1710,230,1970,430>;
   }
 
-  $rect <-400,350,-200,390>
+  $rect <1740,340,1940,380>
   slot PressButtonEffect
   {
     FilterKeyboard.Visible=false;
@@ -1282,7 +1035,7 @@ class GuessTheWord : Core::Group
     preset Visible = false;
   }
 
-  $rect <-1241,133,-1041,173>
+  $rect <899,123,1099,163>
   slot DisableKeyboard
   {
      k.Enabled=false;
@@ -1315,7 +1068,7 @@ class GuessTheWord : Core::Group
                  delete_key.Enabled=false;
   }
 
-  $rect <-1241,83,-1041,123>
+  $rect <899,73,1099,113>
   slot EnableKeyboard
   {
      k.Enabled=true;
@@ -1350,7 +1103,7 @@ class GuessTheWord : Core::Group
 
   // This autoobject provides the default customization for the 'push button' widget \
   // (WidgetSet::PushButton) in its medium size variant.
-  $rect <-1031,123,-791,163>
+  $rect <1109,113,1349,153>
   object WidgetSet::PushButtonConfig MenuButtonConfig
   {
     preset LabelColorActive = Application::LightOrange;
@@ -1376,7 +1129,7 @@ class GuessTheWord : Core::Group
     preset Appearance = MenuButtonConfig;
   }
 
-  $rect <-1241,490,-1041,530>
+  $rect <899,480,1099,520>
   slot OpenMenu
   {
     //BlackFilterBlackFilter.Visible=true;
@@ -1385,35 +1138,35 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1010,276,-810,316>
+  $rect <1130,266,1330,306>
   object Core::KeyPressHandler LetterKeyHandler
   {
     preset OnPress = PressLetter;
     preset Filter = Core::KeyCode.AlphaKeys;
   }
 
-  $rect <-1010,226,-810,266>
+  $rect <1130,216,1330,256>
   object Core::KeyPressHandler DeleteKeyHandler
   {
     preset OnPress = PressDelete;
     preset Filter = Core::KeyCode.Delete;
   }
 
-  $rect <-1220,226,-1020,266>
+  $rect <920,216,1120,256>
   object Core::KeyPressHandler EnterKeyHandler
   {
     preset OnPress = GuessWord;
     preset Filter = Core::KeyCode.Enter;
   }
 
-  $rect <-1220,276,-1020,316>
+  $rect <920,266,1120,306>
   object Core::KeyPressHandler BackspaceKeyHandler
   {
     preset OnPress = PressDelete;
     preset Filter = Core::KeyCode.Backspace;
   }
 
-  $rect <-1231,380,-1031,420>
+  $rect <909,370,1109,410>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = RevealFilter;
@@ -1424,7 +1177,7 @@ class GuessTheWord : Core::Group
     preset Outlet = ^FilterKeyboard.TintColor;
   }
 
-  $rect <-1241,440,-1031,480>
+  $rect <899,430,1109,470>
   object Core::Timer RevealFilterTimer
   {
     preset OnTrigger = RevealFilter;
@@ -1432,7 +1185,7 @@ class GuessTheWord : Core::Group
     preset Begin = 200;
   }
 
-  $rect <-750,510,-520,550>
+  $rect <900,720,1130,760>
   slot RevealFilter
   {
     FilterEffect.Enabled=true;
@@ -1444,21 +1197,21 @@ class GuessTheWord : Core::Group
 
   }
 
-  $rect <-1011,440,-811,480>
+  $rect <1129,430,1329,470>
   object Core::Timer DisableEffectTimer
   {
     preset OnTrigger = DisableEffect;
     preset Begin = 1500;
   }
 
-  $rect <-1021,490,-811,530>
+  $rect <1119,480,1329,520>
   slot DisableEffect
   {
     FilterEffect.Enabled=false;
     ColorEffect.Enabled=false;
   }
 
-  $rect <-1011,380,-811,420>
+  $rect <1129,370,1329,410>
   object Effects::ColorEffect ColorEffect
   {
     preset Value1 = Application::SandColor;
@@ -1468,16 +1221,16 @@ class GuessTheWord : Core::Group
   // Reveal win effect
   note group RevealWinEffectNote
   {
-    attr Bounds = <-1251,340,-791,550>;
+    attr Bounds = <889,330,1349,540>;
   }
 
   // Physical keyboard
   note group PhysicalKeyboardNote
   {
-    attr Bounds = <-1250,190,-790,330>;
+    attr Bounds = <890,180,1350,320>;
   }
 
-  $rect <-1010,660,-810,700>
+  $rect <1130,650,1330,690>
   slot ChangeNumberTries
   {
     sender; 
@@ -1564,17 +1317,17 @@ class GuessTheWord : Core::Group
     preset Opacity = 200;
   }
 
-  $rect <-1230,-70,-1030,-30>
+  $rect <1150,720,1350,760>
   var int32 Try = 9;
 
-  $rect <-1250,660,-1030,700>
+  $rect <890,650,1110,690>
   object Effects::ColorEffect ChangeNumberTryEffect
   {
     preset Oscillations = 2;
     preset Outlet = ^NumberTry.Color;
   }
 
-  $rect <-1250,610,-1030,650>
+  $rect <890,600,1110,640>
   object Core::Timer StopNumberEffectTimer
   {
     preset OnTrigger = StopNumberEffect;
@@ -1582,7 +1335,7 @@ class GuessTheWord : Core::Group
     preset Begin = 550;
   }
 
-  $rect <-1010,610,-810,650>
+  $rect <1130,600,1330,640>
   slot StopNumberEffect
   {
     sender; 
@@ -1606,7 +1359,7 @@ class GuessTheWord : Core::Group
   // Number tries
   note group NumberTriesNote
   {
-    attr Bounds = <-1260,560,-790,710>;
+    attr Bounds = <880,550,1350,700>;
   }
 
   $rect <20,20,160,60>
@@ -1711,7 +1464,7 @@ class GuessTheWord : Core::Group
   $member Background
 }
 
-$rect <740,830,980,870>
+$rect <50,1100,290,1140>
 $output false
 resource Resources::Bitmap PlaceholderGuessingGame
 {
@@ -1726,10 +1479,10 @@ resource Resources::Bitmap PlaceholderGuessingGame
 // Keyboard
 note group Keyboard
 {
-  attr Bounds = <710,50,1860,390>;
+  attr Bounds = <20,320,1170,660>;
 }
 
-$rect <790,90,990,130>
+$rect <100,360,300,400>
 $output false
 resource Resources::Bitmap q
 {
@@ -1741,7 +1494,7 @@ resource Resources::Bitmap q
   attr bitmapmode Mode = Default;
 }
 
-$rect <1650,140,1850,180>
+$rect <960,410,1160,450>
 $output false
 resource Resources::Bitmap m
 {
@@ -1753,7 +1506,7 @@ resource Resources::Bitmap m
   attr bitmapmode Mode = Default;
 }
 
-$rect <790,140,990,180>
+$rect <100,410,300,450>
 $output false
 resource Resources::Bitmap w
 {
@@ -1765,7 +1518,7 @@ resource Resources::Bitmap w
   attr bitmapmode Mode = Default;
 }
 
-$rect <790,190,990,230>
+$rect <100,460,300,500>
 $output false
 resource Resources::Bitmap e
 {
@@ -1777,7 +1530,7 @@ resource Resources::Bitmap e
   attr bitmapmode Mode = Default;
 }
 
-$rect <790,240,990,280>
+$rect <100,510,300,550>
 $output false
 resource Resources::Bitmap r
 {
@@ -1789,7 +1542,7 @@ resource Resources::Bitmap r
   attr bitmapmode Mode = Default;
 }
 
-$rect <790,290,990,330>
+$rect <100,560,300,600>
 $output false
 resource Resources::Bitmap t
 {
@@ -1801,7 +1554,7 @@ resource Resources::Bitmap t
   attr bitmapmode Mode = Default;
 }
 
-$rect <790,340,990,380>
+$rect <100,610,300,650>
 $output false
 resource Resources::Bitmap y
 {
@@ -1813,7 +1566,7 @@ resource Resources::Bitmap y
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,90,1220,130>
+$rect <330,360,530,400>
 $output false
 resource Resources::Bitmap u
 {
@@ -1825,7 +1578,7 @@ resource Resources::Bitmap u
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,140,1220,180>
+$rect <330,410,530,450>
 $output false
 resource Resources::Bitmap i
 {
@@ -1837,7 +1590,7 @@ resource Resources::Bitmap i
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,190,1220,230>
+$rect <330,460,530,500>
 $output false
 resource Resources::Bitmap o
 {
@@ -1849,7 +1602,7 @@ resource Resources::Bitmap o
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,240,1220,280>
+$rect <330,510,530,550>
 $output false
 resource Resources::Bitmap p
 {
@@ -1861,7 +1614,7 @@ resource Resources::Bitmap p
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,290,1220,330>
+$rect <330,560,530,600>
 $output false
 resource Resources::Bitmap a
 {
@@ -1873,7 +1626,7 @@ resource Resources::Bitmap a
   attr bitmapmode Mode = Default;
 }
 
-$rect <1020,340,1220,380>
+$rect <330,610,530,650>
 $output false
 resource Resources::Bitmap s
 {
@@ -1885,7 +1638,7 @@ resource Resources::Bitmap s
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,90,1430,130>
+$rect <540,360,740,400>
 $output false
 resource Resources::Bitmap d
 {
@@ -1897,7 +1650,7 @@ resource Resources::Bitmap d
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,140,1430,180>
+$rect <540,410,740,450>
 $output false
 resource Resources::Bitmap f
 {
@@ -1909,7 +1662,7 @@ resource Resources::Bitmap f
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,190,1430,230>
+$rect <540,460,740,500>
 $output false
 resource Resources::Bitmap g
 {
@@ -1921,7 +1674,7 @@ resource Resources::Bitmap g
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,240,1430,280>
+$rect <540,510,740,550>
 $output false
 resource Resources::Bitmap h
 {
@@ -1933,7 +1686,7 @@ resource Resources::Bitmap h
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,290,1430,330>
+$rect <540,560,740,600>
 $output false
 resource Resources::Bitmap j
 {
@@ -1945,7 +1698,7 @@ resource Resources::Bitmap j
   attr bitmapmode Mode = Default;
 }
 
-$rect <1230,340,1430,380>
+$rect <540,610,740,650>
 $output false
 resource Resources::Bitmap k
 {
@@ -1957,7 +1710,7 @@ resource Resources::Bitmap k
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,90,1640,130>
+$rect <750,360,950,400>
 $output false
 resource Resources::Bitmap l
 {
@@ -1969,7 +1722,7 @@ resource Resources::Bitmap l
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,140,1640,180>
+$rect <750,410,950,450>
 $output false
 resource Resources::Bitmap z
 {
@@ -1981,7 +1734,7 @@ resource Resources::Bitmap z
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,190,1640,230>
+$rect <750,460,950,500>
 $output false
 resource Resources::Bitmap x
 {
@@ -1993,7 +1746,7 @@ resource Resources::Bitmap x
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,240,1640,280>
+$rect <750,510,950,550>
 $output false
 resource Resources::Bitmap c
 {
@@ -2005,7 +1758,7 @@ resource Resources::Bitmap c
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,290,1640,330>
+$rect <750,560,950,600>
 $output false
 resource Resources::Bitmap v
 {
@@ -2017,7 +1770,7 @@ resource Resources::Bitmap v
   attr bitmapmode Mode = Default;
 }
 
-$rect <1440,340,1640,380>
+$rect <750,610,950,650>
 $output false
 resource Resources::Bitmap b
 {
@@ -2029,7 +1782,7 @@ resource Resources::Bitmap b
   attr bitmapmode Mode = Default;
 }
 
-$rect <1650,90,1850,130>
+$rect <960,360,1160,400>
 $output false
 resource Resources::Bitmap n
 {
@@ -2041,7 +1794,7 @@ resource Resources::Bitmap n
   attr bitmapmode Mode = Default;
 }
 
-$rect <1650,190,1850,230>
+$rect <960,460,1160,500>
 $output false
 resource Resources::Bitmap delete_key
 {
@@ -2053,7 +1806,7 @@ resource Resources::Bitmap delete_key
   attr bitmapmode Mode = Default;
 }
 
-$rect <1650,240,1850,280>
+$rect <960,510,1160,550>
 $output false
 resource Resources::Bitmap enter
 {
@@ -2065,7 +1818,7 @@ resource Resources::Bitmap enter
   attr bitmapmode Mode = Default;
 }
 
-$rect <1420,1030,1660,1070>
+$rect <1260,80,1500,120>
 $output false
 resource Resources::Font WordGuessingGameFont
 {
@@ -2081,7 +1834,7 @@ resource Resources::Font WordGuessingGameFont
   attr fontrowdistance RowDistance;
 }
 
-$rect <740,510,980,550>
+$rect <50,780,290,820>
 $output false
 resource Resources::Bitmap OnPressWordGuessingLogo
 {
@@ -2093,7 +1846,7 @@ resource Resources::Bitmap OnPressWordGuessingLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <1420,1080,1660,1120>
+$rect <1260,130,1500,170>
 $output false
 resource Resources::Font WordGuessingGameFontWin
 {
@@ -2112,16 +1865,16 @@ resource Resources::Font WordGuessingGameFontWin
 // Fonts
 note group Fonts
 {
-  attr Bounds = <1390,940,1690,1180>;
+  attr Bounds = <1230,-10,1530,230>;
 }
 
 // Logos
 note group Logos
 {
-  attr Bounds = <710,420,1010,760>;
+  attr Bounds = <20,690,320,1030>;
 }
 
-$rect <740,560,980,600>
+$rect <50,830,290,870>
 $output false
 resource Resources::Bitmap MemoryGameLogo
 {
@@ -2133,7 +1886,7 @@ resource Resources::Bitmap MemoryGameLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <740,610,980,650>
+$rect <50,880,290,920>
 $output false
 resource Resources::Bitmap OnPressMemoryGameLogo
 {
@@ -2145,14 +1898,14 @@ resource Resources::Bitmap OnPressMemoryGameLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <1986,990,2186,1030>
+$rect <256,50,456,90>
 $output false
 class MemoryGame : Core::Group
 {
-  $rect <-518,540,-318,580>
+  $rect <1510,928,1710,968>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-518,480,-318,520>
+  $rect <1510,868,1710,908>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -2181,7 +1934,7 @@ class MemoryGame : Core::Group
     */
   }
 
-  $rect <-518,440,-318,480>
+  $rect <1510,828,1710,868>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -2279,7 +2032,7 @@ class MemoryGame : Core::Group
     */
   }
 
-  $rect <-810,490,-570,530>
+  $rect <1460,498,1700,538>
   object WidgetSet::PushButtonConfig PushButtonConfig;
 
   $rect <20,20,160,60>
@@ -2415,7 +2168,7 @@ class MemoryGame : Core::Group
     preset Appearance = PushButtonConfig;
   }
 
-  $rect <-1250,190,-1050,230>
+  $rect <1020,198,1220,238>
   inherited method Init()
   {
     OpeningGameTimer.Enabled=true;
@@ -2429,22 +2182,22 @@ class MemoryGame : Core::Group
   // Game logic
   note group GameLogic
   {
-    attr Bounds = <-1350,-20,-70,430>;
+    attr Bounds = <920,-12,2200,438>;
   }
 
   // Designs and effects
   note group Design
   {
-    attr Bounds = <-840,450,-540,650>;
+    attr Bounds = <1430,458,1730,658>;
   }
 
   // The logic for the first show of cards
   note group FirstShowOfCards
   {
-    attr Bounds = <-1300,50,-1000,250>;
+    attr Bounds = <970,58,1270,258>;
   }
 
-  $rect <-1250,90,-1050,130>
+  $rect <1020,98,1220,138>
   object Core::Timer OpeningGameTimer
   {
     preset OnTrigger = OpeningGame;
@@ -2452,7 +2205,7 @@ class MemoryGame : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-1250,140,-1050,180>
+  $rect <1020,148,1220,188>
   slot OpeningGame
   {
     FirstLabyrinth.Icon=Application::GoldPicture;
@@ -2470,7 +2223,7 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-940,90,-720,130>
+  $rect <1330,98,1550,138>
   slot CountActiveCards
   {
     var int32 initialCount=0;
@@ -2496,10 +2249,10 @@ class MemoryGame : Core::Group
   // Cards management
   note group ManageCards
   {
-    attr Bounds = <-970,50,-110,410>;
+    attr Bounds = <1300,58,2160,418>;
   }
 
-  $rect <-940,180,-700,220>
+  $rect <1330,188,1570,228>
   slot FirstLabyrinthPressed
   {
     $if (!$prototyper)
@@ -2519,7 +2272,7 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-940,230,-700,270>
+  $rect <1330,238,1570,278>
   slot SecondLabyrinthPressed
   {
     $if (!$prototyper)
@@ -2540,10 +2293,10 @@ class MemoryGame : Core::Group
   // Revealing cards
   note group RevealingCards
   {
-    attr Bounds = <-960,140,-140,390>;
+    attr Bounds = <1310,148,2130,398>;
   }
 
-  $rect <-939,280,-700,320>
+  $rect <1331,288,1570,328>
   slot FirstBlackLeavesPressed
   {
     $if (!$prototyper)
@@ -2561,7 +2314,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-940,330,-700,370>
+  $rect <1330,338,1570,378>
   slot SecondBlackLeavesPressed
   {
     $if (!$prototyper)
@@ -2579,7 +2332,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-670,180,-430,220>
+  $rect <1600,188,1840,228>
   slot FirstCupPressed
   {
     $if (!$prototyper)
@@ -2597,7 +2350,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-670,230,-430,270>
+  $rect <1600,238,1840,278>
   slot SecondCupPressed
   {
     $if (!$prototyper)
@@ -2615,7 +2368,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-669,280,-430,320>
+  $rect <1601,288,1840,328>
   slot FirstPendantPressed
   {
     $if (!$prototyper)
@@ -2633,7 +2386,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-670,330,-430,370>
+  $rect <1600,338,1840,378>
   slot SecondPendantPressed
   {
     $if (!$prototyper)
@@ -2651,7 +2404,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-410,180,-170,220>
+  $rect <1860,188,2100,228>
   slot FirstCoinsPressed
   {
     $if (!$prototyper)
@@ -2669,7 +2422,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-410,230,-170,270>
+  $rect <1860,238,2100,278>
   slot SecondCoinsPressed
   {
     $if (!$prototyper)
@@ -2687,7 +2440,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-409,280,-170,320>
+  $rect <1861,288,2100,328>
   slot FirstGoldLeavesPressed
   {
     $if (!$prototyper)
@@ -2705,7 +2458,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-410,330,-170,370>
+  $rect <1860,338,2100,378>
   slot SecondGoldLeavesPressed
   {
     $if (!$prototyper)
@@ -2723,7 +2476,7 @@ class MemoryGame : Core::Group
     RevealCardTimer.Enabled=true;
   }
 
-  $rect <-710,90,-510,130>
+  $rect <1560,98,1760,138>
   slot VerifyCards
   {
     if(NumberDifferentPictures%2==0)
@@ -2779,10 +2532,10 @@ class MemoryGame : Core::Group
     }
   }
 
-  $rect <-520,600,-300,640>
+  $rect <1940,8,2160,48>
   var int32 NumberDifferentPictures;
 
-  $rect <-490,90,-290,130>
+  $rect <1780,98,1980,138>
   object Core::Timer RevealCardTimer
   {
     preset OnTrigger = VerifyCards;
@@ -2790,7 +2543,7 @@ class MemoryGame : Core::Group
     preset Begin = 500;
   }
 
-  $rect <-1260,270,-1060,310>
+  $rect <1010,278,1210,318>
   slot VerifyWin
   {
     if(FirstLabyrinth.Icon==Application::Labyrinth && SecondLabyrinth.Icon==Application::Labyrinth && FirstCup.Icon==Application::cup && SecondCup.Icon==Application::cup && FirstPendant.Icon==Application::Pandant && SecondPendant.Icon==Application::Pandant && FirstBlackLeaves.Icon==Application::BlackLeaves && SecondBlackLeaves.Icon==Application::BlackLeaves && FirstCoins.Icon==Application::WhiteCoins && SecondCoins.Icon==Application::WhiteCoins && FirstGoldLeaves.Icon==Application::GoldLeaves && SecondGoldLeaves.Icon==Application::GoldLeaves)
@@ -2830,7 +2583,7 @@ class MemoryGame : Core::Group
     preset Visible = false;
   }
 
-  $rect <-790,540,-590,580>
+  $rect <1480,548,1680,588>
   slot Schaffle
   {
     //
@@ -2849,10 +2602,10 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-290,470,-90,510>
+  $rect <1510,688,1710,728>
   property int32 Rotate;
 
-  $rect <-290,510,-90,550>
+  $rect <1510,738,1710,778>
   onset Rotate
   {
     // The value doesn't change - nothing to do.
@@ -2867,13 +2620,13 @@ class MemoryGame : Core::Group
     // Now you can handle the alternation of the property.
   }
 
-  $rect <-290,550,-90,590>
+  $rect <1510,778,1710,818>
   onget Rotate
   {
     return pure Rotate;
   }
 
-  $rect <-1260,330,-1060,370>
+  $rect <1010,338,1210,378>
   slot OpenMenu
   {
     //BlackFilterBlackFilter.Visible=true;
@@ -2884,7 +2637,7 @@ class MemoryGame : Core::Group
 
   // This autoobject provides the default customization for the 'push button' widget \
   // (WidgetSet::PushButton) in its medium size variant.
-  $rect <-820,590,-580,630>
+  $rect <1450,598,1690,638>
   object WidgetSet::PushButtonConfig MenuButtonConfig
   {
     preset LabelColorActive = Application::LightOrange;
@@ -2910,7 +2663,7 @@ class MemoryGame : Core::Group
     preset Appearance = MenuButtonConfig;
   }
 
-  $rect <-1320,490,-1120,530>
+  $rect <950,498,1150,538>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = null;
@@ -2921,7 +2674,7 @@ class MemoryGame : Core::Group
     preset Outlet = ^FilterKeyboard.TintColor;
   }
 
-  $rect <-1100,490,-910,530>
+  $rect <1170,498,1360,538>
   object Core::Timer RevealFilterWinTimer
   {
     preset OnTrigger = RevealFilterWin;
@@ -2929,7 +2682,7 @@ class MemoryGame : Core::Group
     preset Begin = 200;
   }
 
-  $rect <-1330,590,-1130,630>
+  $rect <940,598,1140,638>
   slot RevealFilterWin
   {
     FilterEffect.Enabled=true;
@@ -2942,21 +2695,21 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-1100,540,-910,580>
+  $rect <1170,548,1360,588>
   object Core::Timer DisableEffectTimer
   {
     preset OnTrigger = DisableEffect;
     preset Begin = 1500;
   }
 
-  $rect <-1110,590,-920,630>
+  $rect <1160,598,1350,638>
   slot DisableEffect
   {
     FilterEffect.Enabled=false;
     ColorEffect.Enabled=false;
   }
 
-  $rect <-1320,540,-1120,580>
+  $rect <950,548,1150,588>
   object Effects::ColorEffect ColorEffect
   {
     preset Value2 = #FFFFFFFF;
@@ -2967,10 +2720,10 @@ class MemoryGame : Core::Group
   // Reveal win or lose effect
   note group RevealWinEffectNote
   {
-    attr Bounds = <-1340,450,-880,690>;
+    attr Bounds = <930,458,1390,698>;
   }
 
-  $rect <-330,0,-130,40>
+  $rect <2000,538,2200,578>
   object Core::Timer LoseGameTimer
   {
     preset OnTrigger = LoseGame;
@@ -2978,7 +2731,7 @@ class MemoryGame : Core::Group
     preset Begin = 60000;
   }
 
-  $rect <-550,0,-350,40>
+  $rect <1780,538,1980,578>
   slot LoseGame
   {
     ColorEffect.Outlet=^LostText.Color;
@@ -2991,7 +2744,7 @@ class MemoryGame : Core::Group
     signal slotFilter;
   }
 
-  $rect <-1330,640,-1130,680>
+  $rect <940,648,1140,688>
   slot RevealFilterLose
   {
     ColorEffect.Outlet=^LostText.Color;
@@ -3041,7 +2794,7 @@ class MemoryGame : Core::Group
     preset Visible = false;
   }
 
-  $rect <-1260,380,-1060,420>
+  $rect <1010,388,1210,428>
   slot DisableCards
   {
     sender; 
@@ -3062,7 +2815,7 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-1110,640,-910,680>
+  $rect <1160,648,1360,688>
   object Core::Timer RevealFilterLoseTimer
   {
     preset OnTrigger = RevealFilterLose;
@@ -3081,7 +2834,7 @@ class MemoryGame : Core::Group
     preset Font = Application::WordGuessingGameFont;
   }
 
-  $rect <600,-70,800,-30>
+  $rect <1780,588,1980,628>
   slot UpdateTimerSlot
   {
     Time--;
@@ -3091,7 +2844,7 @@ class MemoryGame : Core::Group
     }
   }
 
-  $rect <390,-70,590,-30>
+  $rect <2000,588,2200,628>
   object Core::Timer UpdateTimer
   {
     preset OnTrigger = UpdateTimerSlot;
@@ -3099,7 +2852,7 @@ class MemoryGame : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <180,-70,380,-30>
+  $rect <1780,648,1980,688>
   var int32 Time = 60;
 
   $rect <20,20,160,60>
@@ -3110,7 +2863,7 @@ class MemoryGame : Core::Group
     preset Bitmap = Application::BackgroudGamingRoom;
   }
 
-  $rect <10,540,210,580>
+  $rect <2000,488,2200,528>
   object Core::Timer VerifyActivePlayingTimer
   {
     preset OnTrigger = VerifyActivePlaying;
@@ -3118,7 +2871,7 @@ class MemoryGame : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <240,540,440,580>
+  $rect <1780,488,1980,528>
   slot VerifyActivePlaying
   {
     if( this.IsActiveDialog( true )==false)
@@ -3143,8 +2896,14 @@ class MemoryGame : Core::Group
 
   }
 
-  $rect <-230,640,-30,680>
+  $rect <2000,648,2200,688>
   var bool ActiveDialogBool = true;
+
+  // Game timer
+  note group TimerNote
+  {
+    attr Bounds = <1750,448,2230,708>;
+  }
 
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
@@ -3221,9 +2980,10 @@ class MemoryGame : Core::Group
   $member VerifyActivePlayingTimer
   $member VerifyActivePlaying
   $member ActiveDialogBool
+  $member TimerNote
 }
 
-$rect <1050,460,1250,500>
+$rect <360,730,560,770>
 $output false
 resource Resources::Bitmap cup
 {
@@ -3238,10 +2998,10 @@ resource Resources::Bitmap cup
 // Images memory game
 note group Note3
 {
-  attr Bounds = <1030,420,1330,810>;
+  attr Bounds = <340,690,640,1080>;
 }
 
-$rect <1050,510,1250,550>
+$rect <360,780,560,820>
 $output false
 resource Resources::Bitmap WhiteCoins
 {
@@ -3253,7 +3013,7 @@ resource Resources::Bitmap WhiteCoins
   attr bitmapmode Mode = Default;
 }
 
-$rect <1050,560,1250,600>
+$rect <360,830,560,870>
 $output false
 resource Resources::Bitmap BlackLeaves
 {
@@ -3265,7 +3025,7 @@ resource Resources::Bitmap BlackLeaves
   attr bitmapmode Mode = Default;
 }
 
-$rect <1050,610,1250,650>
+$rect <360,880,560,920>
 $output false
 resource Resources::Bitmap GoldLeaves
 {
@@ -3277,7 +3037,7 @@ resource Resources::Bitmap GoldLeaves
   attr bitmapmode Mode = Default;
 }
 
-$rect <1050,660,1250,700>
+$rect <360,930,560,970>
 $output false
 resource Resources::Bitmap Pandant
 {
@@ -3289,7 +3049,7 @@ resource Resources::Bitmap Pandant
   attr bitmapmode Mode = Default;
 }
 
-$rect <1050,710,1250,750>
+$rect <360,980,560,1020>
 $output false
 resource Resources::Bitmap Labyrinth
 {
@@ -3301,7 +3061,7 @@ resource Resources::Bitmap Labyrinth
   attr bitmapmode Mode = Default;
 }
 
-$rect <1050,760,1250,800>
+$rect <360,1030,560,1070>
 $output false
 resource Resources::Bitmap GoldPicture
 {
@@ -3313,7 +3073,7 @@ resource Resources::Bitmap GoldPicture
   attr bitmapmode Mode = Default;
 }
 
-$rect <740,660,980,700>
+$rect <50,930,290,970>
 $output false
 resource Resources::Bitmap TilesPuzzleLogo
 {
@@ -3325,7 +3085,7 @@ resource Resources::Bitmap TilesPuzzleLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <740,710,980,750>
+$rect <50,980,290,1020>
 $output false
 resource Resources::Bitmap OnPressTilesPuzzleLogo
 {
@@ -3337,14 +3097,14 @@ resource Resources::Bitmap OnPressTilesPuzzleLogo
   attr bitmapmode Mode = Default;
 }
 
-$rect <1986,1040,2186,1080>
+$rect <256,100,456,140>
 $output false
 class TilesPuzzle : Core::Group
 {
-  $rect <-960,740,-760,780>
+  $rect <910,756,1110,796>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-500,740,-300,780>
+  $rect <1370,756,1570,796>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -3373,7 +3133,7 @@ class TilesPuzzle : Core::Group
     */
   }
 
-  $rect <-720,740,-520,780>
+  $rect <1150,756,1350,796>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -3488,7 +3248,7 @@ class TilesPuzzle : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-1670,750,-1430,790>
+  $rect <1920,726,2160,766>
   object WidgetSet::PushButtonConfig TransparentButton;
 
   $rect <20,20,160,60>
@@ -3642,64 +3402,64 @@ class TilesPuzzle : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-930,110,-730,150>
+  $rect <940,126,1140,166>
   var int32 FirstPos = 9;
 
-  $rect <-929,160,-729,200>
+  $rect <941,176,1141,216>
   var int32 SecondPos = 1;
 
-  $rect <-930,260,-730,300>
+  $rect <940,276,1140,316>
   var int32 FourthPos = 3;
 
-  $rect <-710,110,-510,150>
+  $rect <1160,126,1360,166>
   var int32 FifthPos = 10;
 
-  $rect <-710,160,-510,200>
+  $rect <1160,176,1360,216>
   var int32 SixthPos = 2;
 
-  $rect <-710,210,-510,250>
+  $rect <1160,226,1360,266>
   var int32 SeventhPos = 6;
 
-  $rect <-710,260,-510,300>
+  $rect <1160,276,1360,316>
   var int32 EighthPos = 4;
 
-  $rect <-490,110,-290,150>
+  $rect <1380,126,1580,166>
   var int32 NinthPos = 13;
 
-  $rect <-490,160,-290,200>
+  $rect <1380,176,1580,216>
   var int32 TenthPos = 0;
 
-  $rect <-490,210,-290,250>
+  $rect <1380,226,1580,266>
   var int32 EleventhPos = 5;
 
-  $rect <-490,260,-290,300>
+  $rect <1380,276,1580,316>
   var int32 TwelfthPos = 7;
 
-  $rect <-270,110,-70,150>
+  $rect <1600,126,1800,166>
   var int32 ThirteenthPos = 14;
 
-  $rect <-270,160,-70,200>
+  $rect <1600,176,1800,216>
   var int32 FourteenthPos = 15;
 
-  $rect <-270,210,-70,250>
+  $rect <1600,226,1800,266>
   var int32 FifteenthPos = 8;
 
-  $rect <-930,210,-730,250>
+  $rect <940,226,1140,266>
   var int32 ThirdPos = 11;
 
   // Tiles' positions
   note group TilesPositions
   {
-    attr Bounds = <-970,50,-40,330>;
+    attr Bounds = <900,66,1830,346>;
   }
 
   // Tiles' movement
   note group TilesMovement
   {
-    attr Bounds = <-970,340,-40,640>;
+    attr Bounds = <900,356,1830,656>;
   }
 
-  $rect <-270,260,-70,300>
+  $rect <1600,276,1800,316>
   var int32 SixteenthPos = 12;
 
   $rect <20,20,160,60>
@@ -3719,7 +3479,7 @@ class TilesPuzzle : Core::Group
     preset Visible = false;
   }
 
-  $rect <-940,390,-740,430>
+  $rect <930,406,1130,446>
   slot FirstTileMovement
   {
     $if (!$prototyper)
@@ -3746,7 +3506,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-940,440,-740,480>
+  $rect <930,456,1130,496>
   slot SecondTileMovement
   {
     $if (!$prototyper)
@@ -3782,7 +3542,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-940,490,-740,530>
+  $rect <930,506,1130,546>
   slot ThirdTileMovement
   {
     $if (!$prototyper)
@@ -3818,7 +3578,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-940,540,-740,580>
+  $rect <930,556,1130,596>
   slot FourthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -3847,7 +3607,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-720,390,-520,430>
+  $rect <1150,406,1350,446>
   slot FifthTileMovement
   {
     $if (!$prototyper)
@@ -3882,7 +3642,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-720,440,-520,480>
+  $rect <1150,456,1350,496>
   slot SixthTileMovement
   {
     $if (!$prototyper)
@@ -3925,7 +3685,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-720,490,-520,530>
+  $rect <1150,506,1350,546>
   slot SeventhTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -3970,7 +3730,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-720,540,-520,580>
+  $rect <1150,556,1350,596>
   slot EighthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4007,7 +3767,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-500,390,-300,430>
+  $rect <1370,406,1570,446>
   slot NinthTileMovement
   {
     $if (!$prototyper)
@@ -4044,7 +3804,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-500,440,-300,480>
+  $rect <1370,456,1570,496>
   slot TenthTileMovement
   {
     $if (!$prototyper)
@@ -4087,7 +3847,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-500,490,-300,530>
+  $rect <1370,506,1570,546>
   slot EleventhTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4134,7 +3894,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-500,540,-300,580>
+  $rect <1370,556,1570,596>
   slot TwelfthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4172,7 +3932,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-280,390,-70,430>
+  $rect <1590,406,1800,446>
   slot ThirteenthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4201,7 +3961,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-280,440,-70,480>
+  $rect <1590,456,1800,496>
   slot FourteenthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4240,7 +4000,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-280,490,-70,530>
+  $rect <1590,506,1800,546>
   slot FifteenthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4280,7 +4040,7 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-280,540,-70,580>
+  $rect <1590,556,1800,596>
   slot SixteenthTileMovement
   {
     sender; /* the method is called from the sender object */
@@ -4309,13 +4069,14 @@ class TilesPuzzle : Core::Group
     signal sl;
   }
 
-  $rect <-950,660,-750,700>
+  $rect <920,676,1120,716>
   slot FindSolution
   {
     if(FirstPos==1 && SecondPos==2 && ThirdPos==3 && FourthPos==4 && FifthPos==5 && SixthPos==6 && SeventhPos==7 && EighthPos==8 && NinthPos==9 && TenthPos==10 && EleventhPos==11 && TwelfthPos==12 && ThirteenthPos==13 && FourteenthPos==14 && FifteenthPos==15 && SixteenthPos==0)
     {
     Guessed=true;
     RevealTilesTimer.Enabled=true;
+    UpdateTimer.Enabled=false;
     }
 
 
@@ -4323,42 +4084,42 @@ class TilesPuzzle : Core::Group
 
   note arrow Note
   {
-    attr Point1 = <-970,90>;
-    attr Point2 = <-1030,110>;
+    attr Point1 = <940,90>;
+    attr Point2 = <960,-40>;
   }
 
   // Game logic
   note group GameLogic
   {
-    attr Bounds = <-990,10,-20,720>;
+    attr Bounds = <880,-14,1850,736>;
   }
 
   // The positions are used to identify the placement of the images at any given \
   // time. They do not move, the images on them change.
   note legend PositionsLegend2
   {
-    attr Bounds = <-1330,100,-1030,300>;
+    attr Bounds = <860,-250,1160,-50>;
   }
 
   // Tiles' movement
   note group TilesMovement1
   {
-    attr Bounds = <-970,340,-40,640>;
+    attr Bounds = <900,356,1830,656>;
   }
 
   // Tiles' positions
   note group TilesPositions1
   {
-    attr Bounds = <-970,50,-40,330>;
+    attr Bounds = <900,66,1830,346>;
   }
 
   // Effects
   note group Effects
   {
-    attr Bounds = <-1720,330,-1020,800>;
+    attr Bounds = <1870,306,2570,776>;
   }
 
-  $rect <-1670,430,-1440,470>
+  $rect <1920,406,2150,446>
   slot RevealCompletedPicture
   {
     Solution.Visible=true;
@@ -4368,7 +4129,7 @@ class TilesPuzzle : Core::Group
 
   }
 
-  $rect <-1670,480,-1440,520>
+  $rect <1920,456,2150,496>
   slot RevealAllTiles
   {
     if(Guessed==true)
@@ -4381,10 +4142,10 @@ class TilesPuzzle : Core::Group
   // Reveal answer
   note group RevealAnswer
   {
-    attr Bounds = <-1680,390,-1070,740>;
+    attr Bounds = <1910,366,2520,716>;
   }
 
-  $rect <-1390,430,-1120,470>
+  $rect <2200,406,2470,446>
   object Core::Timer RevealTilesTimer
   {
     preset OnTrigger = RevealAllTiles;
@@ -4392,7 +4153,7 @@ class TilesPuzzle : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-1390,480,-1120,520>
+  $rect <2200,456,2470,496>
   object Core::Timer RevealPictureTimer
   {
     preset OnTrigger = RevealCompletedPicture;
@@ -4408,7 +4169,7 @@ class TilesPuzzle : Core::Group
     preset Visible = false;
   }
 
-  $rect <-1389,530,-1120,570>
+  $rect <2201,506,2470,546>
   object Core::Timer RevealGuessedTextTimer
   {
     preset OnTrigger = RevealGuessedText;
@@ -4416,7 +4177,7 @@ class TilesPuzzle : Core::Group
     preset Begin = 1200;
   }
 
-  $rect <-1670,530,-1440,570>
+  $rect <1920,506,2150,546>
   slot RevealGuessedText
   {
     if(Guessed==true)
@@ -4441,7 +4202,7 @@ class TilesPuzzle : Core::Group
     preset Visible = false;
   }
 
-  $rect <-1460,690,-1260,730>
+  $rect <2130,666,2330,706>
   object Effects::ColorEffect GuessedTextPulse
   {
     preset OnAnimate = FindSolution;
@@ -4456,7 +4217,7 @@ class TilesPuzzle : Core::Group
     preset Outlet = ^GuessedText.Color;
   }
 
-  $rect <-1390,580,-1120,620>
+  $rect <2200,556,2470,596>
   object Core::Timer RevealFilterTimer
   {
     preset OnTrigger = RevealFilter;
@@ -4464,7 +4225,7 @@ class TilesPuzzle : Core::Group
     preset Begin = 200;
   }
 
-  $rect <-1670,580,-1440,620>
+  $rect <1920,556,2150,596>
   slot RevealFilter
   {
     FilterEffect.Enabled=true;
@@ -4475,7 +4236,7 @@ class TilesPuzzle : Core::Group
 
   }
 
-  $rect <-1670,690,-1470,730>
+  $rect <1920,666,2120,706>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = RevealFilter;
@@ -4486,20 +4247,20 @@ class TilesPuzzle : Core::Group
     preset Outlet = ^FilterKeyboard.TintColor;
   }
 
-  $rect <-1670,630,-1440,670>
+  $rect <1920,606,2150,646>
   slot DisableEffect
   {
     FilterEffect.Enabled=false;
   }
 
-  $rect <-1390,630,-1120,670>
+  $rect <2200,606,2470,646>
   object Core::Timer DisableEffectTimer
   {
     preset OnTrigger = DisableEffect;
     preset Begin = 1500;
   }
 
-  $rect <-270,660,-70,700>
+  $rect <1600,676,1800,716>
   slot OpenMenu
   {
     //BlackFilterBlackFilter.Visible=true;
@@ -4511,7 +4272,7 @@ class TilesPuzzle : Core::Group
 
   // This autoobject provides the default customization for the 'push button' widget \
   // (WidgetSet::PushButton) in its medium size variant.
-  $rect <-1410,750,-1170,790>
+  $rect <2180,726,2420,766>
   object WidgetSet::PushButtonConfig MenuButtonConfig
   {
     preset LabelColorActive = Application::LightOrange;
@@ -4537,7 +4298,7 @@ class TilesPuzzle : Core::Group
     preset Appearance = MenuButtonConfig;
   }
 
-  $rect <-270,740,-90,780>
+  $rect <1600,756,1780,796>
   inherited method Init()
   {
      UpdateTimer.Enabled=true;
@@ -4546,7 +4307,7 @@ class TilesPuzzle : Core::Group
      
   }
 
-  $rect <-1710,270,-1510,310>
+  $rect <1610,16,1810,56>
   var bool Guessed = false;
 
   $rect <20,20,160,60>
@@ -4563,7 +4324,7 @@ class TilesPuzzle : Core::Group
     preset Visible = false;
   }
 
-  $rect <-690,660,-490,700>
+  $rect <1180,676,1380,716>
   slot LostGame
   {
     sender; 
@@ -4573,12 +4334,12 @@ class TilesPuzzle : Core::Group
     //signal sl;
   }
 
-  $rect <-480,660,-280,700>
+  $rect <1390,676,1590,716>
   object Core::Timer LoseGameTimer
   {
     preset OnTrigger = LostGame;
     preset Period = 0;
-    preset Begin = 60000;
+    preset Begin = 120000;
   }
 
   $rect <20,20,160,60>
@@ -4587,11 +4348,11 @@ class TilesPuzzle : Core::Group
     preset Bounds = <702,0,802,53>;
     preset ColorBR = #B38121FF;
     preset ColorTR = #FFC20CFF;
-    preset String = "60";
+    preset String = "";
     preset Font = Application::WordGuessingGameFont;
   }
 
-  $rect <600,-70,800,-30>
+  $rect <2150,96,2350,136>
   slot UpdateTimerSlot
   {
     Time--;
@@ -4601,7 +4362,7 @@ class TilesPuzzle : Core::Group
     }
   }
 
-  $rect <390,-70,590,-30>
+  $rect <1940,96,2140,136>
   object Core::Timer UpdateTimer
   {
     preset OnTrigger = UpdateTimerSlot;
@@ -4609,13 +4370,13 @@ class TilesPuzzle : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <180,-70,380,-30>
-  var int32 Time = 60;
+  $rect <2170,46,2370,86>
+  var int32 Time = 120;
 
-  $rect <-50,-70,150,-30>
+  $rect <1940,46,2140,86>
   var int32 Variable;
 
-  $rect <10,540,210,580>
+  $rect <1930,146,2130,186>
   object Core::Timer VerifyActivePlayingTimer
   {
     preset OnTrigger = VerifyActivePlaying;
@@ -4623,7 +4384,7 @@ class TilesPuzzle : Core::Group
     preset Begin = 1;
   }
 
-  $rect <240,540,440,580>
+  $rect <2160,146,2360,186>
   slot VerifyActivePlaying
   {
     if( this.IsActiveDialog( true )==false)
@@ -4643,8 +4404,14 @@ class TilesPuzzle : Core::Group
 
   }
 
-  $rect <20,620,220,660>
+  $rect <2040,196,2240,236>
   var bool ActiveDialogBool = true;
+
+  // Active playing
+  note group ActivePlayingNote
+  {
+    attr Bounds = <1890,-4,2420,276>;
+  }
 
   // Directives to adapt the order of the above members according to how these members 
   // where arranged when the project content was stored. In this manner the storage 
@@ -4744,15 +4511,16 @@ class TilesPuzzle : Core::Group
   $member VerifyActivePlayingTimer
   $member VerifyActivePlaying
   $member ActiveDialogBool
+  $member ActivePlayingNote
 }
 
 // Images tiles puzzle
 note group ImagesTilesPuzzle
 {
-  attr Bounds = <1360,420,2060,810>;
+  attr Bounds = <670,690,1370,1080>;
 }
 
-$rect <1410,480,1610,520>
+$rect <720,750,920,790>
 $output false
 resource Resources::Bitmap Frame
 {
@@ -4764,7 +4532,7 @@ resource Resources::Bitmap Frame
   attr bitmapmode Mode = Default;
 }
 
-$rect <1410,530,1610,570>
+$rect <720,800,920,840>
 $output false
 resource Resources::Bitmap FirstTile
 {
@@ -4776,7 +4544,7 @@ resource Resources::Bitmap FirstTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1410,580,1610,620>
+$rect <720,850,920,890>
 $output false
 resource Resources::Bitmap SecondTile
 {
@@ -4788,7 +4556,7 @@ resource Resources::Bitmap SecondTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1410,630,1610,670>
+$rect <720,900,920,940>
 $output false
 resource Resources::Bitmap ThirthTile
 {
@@ -4800,7 +4568,7 @@ resource Resources::Bitmap ThirthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1410,680,1610,720>
+$rect <720,950,920,990>
 $output false
 resource Resources::Bitmap ForthTile
 {
@@ -4812,7 +4580,7 @@ resource Resources::Bitmap ForthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1410,730,1610,770>
+$rect <720,1000,920,1040>
 $output false
 resource Resources::Bitmap FifthTile
 {
@@ -4824,7 +4592,7 @@ resource Resources::Bitmap FifthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,480,2030,520>
+$rect <1140,750,1340,790>
 $output false
 resource Resources::Bitmap TwelfthTile
 {
@@ -4836,7 +4604,7 @@ resource Resources::Bitmap TwelfthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,480,1820,520>
+$rect <930,750,1130,790>
 $output false
 resource Resources::Bitmap SixthTile
 {
@@ -4848,7 +4616,7 @@ resource Resources::Bitmap SixthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,530,1820,570>
+$rect <930,800,1130,840>
 $output false
 resource Resources::Bitmap SeventhTile
 {
@@ -4860,7 +4628,7 @@ resource Resources::Bitmap SeventhTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,580,1820,620>
+$rect <930,850,1130,890>
 $output false
 resource Resources::Bitmap EighthTile
 {
@@ -4872,7 +4640,7 @@ resource Resources::Bitmap EighthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,630,1820,670>
+$rect <930,900,1130,940>
 $output false
 resource Resources::Bitmap NinthTile
 {
@@ -4884,7 +4652,7 @@ resource Resources::Bitmap NinthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,680,1820,720>
+$rect <930,950,1130,990>
 $output false
 resource Resources::Bitmap TenthTile
 {
@@ -4896,7 +4664,7 @@ resource Resources::Bitmap TenthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1620,730,1820,770>
+$rect <930,1000,1130,1040>
 $output false
 resource Resources::Bitmap EleventhTile
 {
@@ -4908,7 +4676,7 @@ resource Resources::Bitmap EleventhTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,530,2030,570>
+$rect <1140,800,1340,840>
 $output false
 resource Resources::Bitmap ThirteenTile
 {
@@ -4920,7 +4688,7 @@ resource Resources::Bitmap ThirteenTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,580,2030,620>
+$rect <1140,850,1340,890>
 $output false
 resource Resources::Bitmap ForteenthTile
 {
@@ -4932,7 +4700,7 @@ resource Resources::Bitmap ForteenthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,630,2030,670>
+$rect <1140,900,1340,940>
 $output false
 resource Resources::Bitmap FifteenthTile
 {
@@ -4944,7 +4712,7 @@ resource Resources::Bitmap FifteenthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,680,2030,720>
+$rect <1140,950,1340,990>
 $output false
 resource Resources::Bitmap SixteenthTile
 {
@@ -4956,7 +4724,7 @@ resource Resources::Bitmap SixteenthTile
   attr bitmapmode Mode = Default;
 }
 
-$rect <1025,830,1225,870>
+$rect <335,1100,535,1140>
 $output false
 resource Resources::Bitmap Arrow
 {
@@ -4968,7 +4736,7 @@ resource Resources::Bitmap Arrow
   attr bitmapmode Mode = Default;
 }
 
-$rect <1830,730,2030,770>
+$rect <1140,1000,1340,1040>
 $output false
 resource Resources::Bitmap Medusa
 {
@@ -4983,10 +4751,10 @@ resource Resources::Bitmap Medusa
 // Menus
 note group Menus
 {
-  attr Bounds = <690,940,1030,1190>;
+  attr Bounds = <510,-10,850,240>;
 }
 
-$rect <730,990,980,1030>
+$rect <550,40,800,80>
 $output false
 class Menu : Core::Group
 {
@@ -5141,7 +4909,7 @@ class Menu : Core::Group
     preset Visible = true;
   }
 
-  $rect <-370,100,-170,140>
+  $rect <1010,60,1210,100>
   slot CloseMenu
   {
     Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
@@ -5160,14 +4928,14 @@ class Menu : Core::Group
     preset Visible = true;
   }
 
-  $rect <-440,650,-320,690>
+  $rect <940,610,1060,650>
   inherited method Init()
   {
     ButtonsTimer.Enabled=true;
 
   }
 
-  $rect <-290,589,-50,629>
+  $rect <1090,549,1330,589>
   object WidgetSet::PushButtonConfig ButtonConfig
   {
     preset LabelColorActive = Application::VibrantOrange;
@@ -5181,7 +4949,7 @@ class Menu : Core::Group
     preset LabelFont = Application::WordGuessingGameSmallFont;
   }
 
-  $rect <-510,280,-300,320>
+  $rect <870,240,1080,280>
   object Core::Timer ButtonsTimer
   {
     preset OnTrigger = ShowButtons;
@@ -5189,7 +4957,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-250,280,-60,320>
+  $rect <1130,240,1320,280>
   slot ShowButtons
   {
     FilterEffect.Enabled=true;
@@ -5204,7 +4972,7 @@ class Menu : Core::Group
 
   }
 
-  $rect <-510,330,-300,370>
+  $rect <870,290,1080,330>
   object Core::Timer SecondPulseColorTimer
   {
     preset OnTrigger = SecondPulseColor;
@@ -5212,20 +4980,20 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-250,530,-60,570>
+  $rect <1130,490,1320,530>
   slot StopPulseColor
   {
     FilterEffect.Outlet=null;
   }
 
-  $rect <-250,383,-60,423>
+  $rect <1130,343,1320,383>
   slot ThirdPulseColor
   {
      Game.Visible=true;
     ForthPulseColorTimer.Enabled=true;
   }
 
-  $rect <-510,530,-300,570>
+  $rect <870,490,1080,530>
   object Core::Timer StopPulseColorTimer
   {
     preset OnTrigger = StopPulseColor;
@@ -5233,7 +5001,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-530,590,-330,630>
+  $rect <850,550,1050,590>
   object Effects::ColorEffect FilterEffect
   {
     preset OnAnimate = null;
@@ -5245,7 +5013,7 @@ class Menu : Core::Group
     preset Outlet = ^BlackFilter.TintColor;
   }
 
-  $rect <-510,385,-300,425>
+  $rect <870,345,1080,385>
   object Core::Timer ThirdPulseColorTimer
   {
     preset OnTrigger = ThirdPulseColor;
@@ -5253,7 +5021,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-250,330,-60,370>
+  $rect <1130,290,1320,330>
   slot SecondPulseColor
   {
     //GameRoom.Visible=true;
@@ -5262,7 +5030,7 @@ class Menu : Core::Group
     ThirdPulseColorTimer.Enabled=true;
   }
 
-  $rect <-370,50,-170,90>
+  $rect <1010,10,1210,50>
   slot BackToGameSlot
   {
     //if ( IsDialog(false))
@@ -5279,11 +5047,9 @@ class Menu : Core::Group
 
   }
 
-  $rect <-370,150,-170,190>
+  $rect <1010,110,1210,150>
   slot BackToGameRoom
   {
-
-
      Owner.DismissDialog( this.FindCurrentDialog(), null, null, null, null, null, false ); 
     //  Owner.DismissDialog( Application::Menu, null, null, null, null, null, false );
     //  }
@@ -5293,7 +5059,7 @@ class Menu : Core::Group
 
   }
 
-  $rect <-310,650,-170,690>
+  $rect <1070,610,1210,650>
   slot MusicSLot
   {
     $if (!$prototyper)
@@ -5345,7 +5111,7 @@ class Menu : Core::Group
     preset Appearance = ButtonConfig;
   }
 
-  $rect <-510,430,-300,470>
+  $rect <870,390,1080,430>
   object Core::Timer ForthPulseColorTimer
   {
     preset OnTrigger = ForthPulseColor;
@@ -5353,7 +5119,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-260,431,-60,471>
+  $rect <1120,391,1320,431>
   slot ForthPulseColor
   {
     GameRoom.Visible=true;
@@ -5364,13 +5130,13 @@ class Menu : Core::Group
   // Functionality buttons
   note group FunctionalityButtonsNote
   {
-    attr Bounds = <-420,0,-120,220>;
+    attr Bounds = <960,-40,1260,180>;
   }
 
   // Effetcs
   note group EffetcsNote
   {
-    attr Bounds = <-540,240,-30,700>;
+    attr Bounds = <840,200,1350,660>;
   }
 
   $rect <20,20,160,60>
@@ -5384,7 +5150,7 @@ class Menu : Core::Group
     preset Appearance = ButtonConfig;
   }
 
-  $rect <-510,480,-300,520>
+  $rect <870,440,1080,480>
   object Core::Timer FifthPulseColorTimer
   {
     preset OnTrigger = FifthPulseColor;
@@ -5392,7 +5158,7 @@ class Menu : Core::Group
     preset Begin = 1000;
   }
 
-  $rect <-260,480,-60,520>
+  $rect <1120,440,1320,480>
   slot FifthPulseColor
   {
     Restart.Visible=true;
@@ -5438,7 +5204,7 @@ class Menu : Core::Group
   $member FifthPulseColor
 }
 
-$rect <750,1040,980,1080>
+$rect <570,90,800,130>
 $output false
 class GuessTheWordMenu : Application::Menu
 {
@@ -5572,7 +5338,7 @@ class GuessTheWordMenu : Application::Menu
     */
   }
 
-  $rect <-260,120,-80,160>
+  $rect <850,50,1030,90>
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
@@ -5598,7 +5364,7 @@ class GuessTheWordMenu : Application::Menu
     preset Bounds = <-2,-1,799,486>;
   }
 
-  $rect <-800,40,-600,80>
+  $rect <200,-250,400,-210>
   var int32 Variable = 0;
 
   $rect <20,20,160,60>
@@ -5627,7 +5393,7 @@ class GuessTheWordMenu : Application::Menu
     preset Bounds = <353,151,435,179>;
   }
 
-  $rect <-280,170,-80,210>
+  $rect <830,100,1030,140>
   slot OpenRulePage
   {
     GetRoot().PresentDialog( new Application::GuessingGameRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
@@ -5642,7 +5408,7 @@ class GuessTheWordMenu : Application::Menu
     preset OnPress = OpenGuessingGame;
   }
 
-  $rect <-280,220,-80,260>
+  $rect <830,150,1030,190>
   slot OpenGuessingGame
   {
     Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
@@ -5689,7 +5455,7 @@ class GuessTheWordMenu : Application::Menu
   $reorder Variable 12
 }
 
-$rect <1950,100,2150,140>
+$rect <1260,370,1460,410>
 $output false
 resource Resources::Bitmap MenuFrame
 {
@@ -5701,7 +5467,7 @@ resource Resources::Bitmap MenuFrame
   attr bitmapmode Mode = Default;
 }
 
-$rect <1950,150,2150,190>
+$rect <1260,420,1460,460>
 $output false
 resource Resources::Bitmap MenuBackground
 {
@@ -5713,29 +5479,29 @@ resource Resources::Bitmap MenuBackground
   attr bitmapmode Mode = Default;
 }
 
-$rect <720,1250,930,1290>
+$rect <30,1240,240,1280>
 $output false
 const color DarkOrange = #C67528FF;
 
 // Colors
 note group Colors
 {
-  attr Bounds = <690,1210,1400,1360>;
+  attr Bounds = <0,1200,710,1350>;
 }
 
-$rect <720,1300,930,1340>
+$rect <30,1290,240,1330>
 $output false
 const color VibrantOrange = #F3A52BFF;
 
-$rect <950,1300,1160,1340>
+$rect <260,1290,470,1330>
 $output false
 const color LightOrange = #FFD10DFF;
 
-$rect <950,1250,1160,1290>
+$rect <260,1240,470,1280>
 $output false
 const color Black = #000000FF;
 
-$rect <1950,200,2150,240>
+$rect <1260,470,1460,510>
 $output false
 resource Resources::Bitmap open_menu
 {
@@ -5750,10 +5516,10 @@ resource Resources::Bitmap open_menu
 // Menu images
 note group MenuImages
 {
-  attr Bounds = <1900,50,2200,330>;
+  attr Bounds = <1210,320,1510,600>;
 }
 
-$rect <1950,250,2150,290>
+$rect <1260,520,1460,560>
 $output false
 resource Resources::Bitmap close_icon
 {
@@ -5765,7 +5531,7 @@ resource Resources::Bitmap close_icon
   attr bitmapmode Mode = Default;
 }
 
-$rect <1420,1130,1660,1170>
+$rect <1260,180,1500,220>
 $output false
 resource Resources::Font WordGuessingGameSmallFont
 {
@@ -5781,18 +5547,18 @@ resource Resources::Font WordGuessingGameSmallFont
   attr fontrowdistance RowDistance;
 }
 
-$rect <1170,1250,1380,1290>
+$rect <480,1240,690,1280>
 $output false
 const color SandColor = #CCC0AFFF;
 
-$rect <1770,1090,1970,1130>
+$rect <40,150,240,190>
 $output false
 class GameRoom : Core::Group
 {
-  $rect <-970,20,-770,60>
+  $rect <1510,-10,1710,30>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-970,180,-770,220>
+  $rect <1510,90,1710,130>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -5821,7 +5587,7 @@ class GameRoom : Core::Group
     */
   }
 
-  $rect <-970,140,-770,180>
+  $rect <1510,40,1710,80>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -5919,15 +5685,15 @@ class GameRoom : Core::Group
     */
   }
 
-  $rect <-590,300,-410,340>
+  $rect <1230,330,1410,370>
   inherited method Init()
   {
   }
 
-  $rect <-610,405,-370,445>
+  $rect <1210,380,1450,420>
   object WidgetSet::PushButtonConfig TransparentButton;
 
-  $rect <-290,65,-60,105>
+  $rect <890,40,1120,80>
   slot OpenGuessingWordGame
   {
     //if ( IsDialog(false))
@@ -5950,22 +5716,16 @@ class GameRoom : Core::Group
   // Starting games
   note group StartingGames
   {
-    attr Bounds = <-330,15,-30,225>;
+    attr Bounds = <850,-10,1150,200>;
   }
 
   // Effects handling
   note group Effects
   {
-    attr Bounds = <-330,255,-30,455>;
+    attr Bounds = <850,230,1150,430>;
   }
 
-  // Timers for the effects
-  note group Timers
-  {
-    attr Bounds = <-650,15,-350,215>;
-  }
-
-  $rect <-600,55,-400,95>
+  $rect <1230,60,1430,100>
   object Core::Timer TimerGuessingGame
   {
     preset OnTrigger = OpenGuessingWordGame;
@@ -5973,7 +5733,7 @@ class GameRoom : Core::Group
     preset Begin = 1300;
   }
 
-  $rect <-300,305,-50,345>
+  $rect <880,280,1130,320>
   slot OnPressGuessingWordGame
   {
     WordGuessingButton.Icon=Application::OnPressWordGuessingLogo;
@@ -5984,7 +5744,7 @@ class GameRoom : Core::Group
 
   }
 
-  $rect <-290,115,-60,155>
+  $rect <890,90,1120,130>
   slot OpenMemoryGame
   {
     //if ( IsDialog(false))
@@ -6006,7 +5766,7 @@ class GameRoom : Core::Group
 
   }
 
-  $rect <-300,355,-50,395>
+  $rect <880,330,1130,370>
   slot OnPressMemoryGame
   {
     MemoryGameButton.Icon=Application::OnPressMemoryGameLogo;
@@ -6017,7 +5777,7 @@ class GameRoom : Core::Group
 
   }
 
-  $rect <-600,105,-400,145>
+  $rect <1230,110,1430,150>
   object Core::Timer TimerMemoryGame
   {
     preset OnTrigger = OpenMemoryGame;
@@ -6025,7 +5785,7 @@ class GameRoom : Core::Group
     preset Begin = 1300;
   }
 
-  $rect <-600,235,-400,275>
+  $rect <1230,230,1430,270>
   slot DisableButtons
   {
     WordGuessingButton.Enabled=false;
@@ -6041,7 +5801,7 @@ class GameRoom : Core::Group
 
   }
 
-  $rect <-600,155,-400,195>
+  $rect <1230,160,1430,200>
   object Core::Timer TimeTilesPuzzleGame
   {
     preset OnTrigger = OpenTilesPuzzleGame;
@@ -6049,7 +5809,7 @@ class GameRoom : Core::Group
     preset Begin = 1300;
   }
 
-  $rect <-290,165,-60,205>
+  $rect <890,140,1120,180>
   slot OpenTilesPuzzleGame
   {
     //if ( IsDialog(false))
@@ -6070,7 +5830,7 @@ class GameRoom : Core::Group
 
   }
 
-  $rect <-300,405,-50,445>
+  $rect <880,380,1130,420>
   slot OnPressTilesPuzzleGame
   {
     TilesPuzzleGameButton.Icon=Application::OnPressTilesPuzzleLogo;
@@ -6161,12 +5921,24 @@ class GameRoom : Core::Group
     preset Appearance = TransparentButton;
   }
 
-  $rect <-280,480,-80,520>
+  $rect <1230,280,1430,320>
   slot MusicSLot
   {
     $if (!$prototyper)
     native{isAudioPlaying();}
     $endif 
+  }
+
+  // Effects
+  note group EffectsNote
+  {
+    attr Bounds = <1160,-10,1510,430>;
+  }
+
+  // Timers for the effects
+  note group Timers1
+  {
+    attr Bounds = <1180,20,1480,220>;
   }
 
   // Directives to adapt the order of the above members according to how these members 
@@ -6181,7 +5953,6 @@ class GameRoom : Core::Group
   $member OpenGuessingWordGame
   $member StartingGames
   $member Effects
-  $member Timers
   $member TimerGuessingGame
   $member OnPressGuessingWordGame
   $member OpenMemoryGame
@@ -6198,9 +5969,11 @@ class GameRoom : Core::Group
   $member Arrow
   $member Sound
   $member MusicSLot
+  $member EffectsNote
+  $member Timers1
 }
 
-$rect <1240,830,1440,870>
+$rect <550,1100,750,1140>
 $output false
 resource Resources::Bitmap sound_on
 {
@@ -6212,7 +5985,7 @@ resource Resources::Bitmap sound_on
   attr bitmapmode Mode = Default;
 }
 
-$rect <1460,830,1660,870>
+$rect <770,1100,970,1140>
 $output false
 resource Resources::Bitmap sound_off
 {
@@ -6227,10 +6000,10 @@ resource Resources::Bitmap sound_off
 // Digits
 note group DigitsNote
 {
-  attr Bounds = <2080,380,2270,850>;
+  attr Bounds = <1390,650,1580,1120>;
 }
 
-$rect <2120,430,2220,470>
+$rect <1430,700,1530,740>
 $output false
 resource Resources::Bitmap Digit0
 {
@@ -6242,7 +6015,7 @@ resource Resources::Bitmap Digit0
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,470,2220,510>
+$rect <1430,740,1530,780>
 $output false
 resource Resources::Bitmap Digit1
 {
@@ -6254,7 +6027,7 @@ resource Resources::Bitmap Digit1
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,510,2220,550>
+$rect <1430,780,1530,820>
 $output false
 resource Resources::Bitmap Digit2
 {
@@ -6266,7 +6039,7 @@ resource Resources::Bitmap Digit2
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,550,2220,590>
+$rect <1430,820,1530,860>
 $output false
 resource Resources::Bitmap Digit3
 {
@@ -6278,7 +6051,7 @@ resource Resources::Bitmap Digit3
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,590,2220,630>
+$rect <1430,860,1530,900>
 $output false
 resource Resources::Bitmap Digit4
 {
@@ -6290,7 +6063,7 @@ resource Resources::Bitmap Digit4
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,630,2220,670>
+$rect <1430,900,1530,940>
 $output false
 resource Resources::Bitmap Digit5
 {
@@ -6302,7 +6075,7 @@ resource Resources::Bitmap Digit5
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,670,2220,710>
+$rect <1430,940,1530,980>
 $output false
 resource Resources::Bitmap Digit6
 {
@@ -6314,7 +6087,7 @@ resource Resources::Bitmap Digit6
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,710,2220,750>
+$rect <1430,980,1530,1020>
 $output false
 resource Resources::Bitmap Digit7
 {
@@ -6326,7 +6099,7 @@ resource Resources::Bitmap Digit7
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,750,2220,790>
+$rect <1430,1020,1530,1060>
 $output false
 resource Resources::Bitmap Digit8
 {
@@ -6338,7 +6111,7 @@ resource Resources::Bitmap Digit8
   attr bitmapmode Mode = Default;
 }
 
-$rect <2120,790,2220,830>
+$rect <1430,1060,1530,1100>
 $output false
 resource Resources::Bitmap Digit9
 {
@@ -6353,14 +6126,14 @@ resource Resources::Bitmap Digit9
 // Rules
 note group RulesNote
 {
-  attr Bounds = <1050,940,1370,1190>;
+  attr Bounds = <870,-10,1190,240>;
 }
 
-$rect <1080,990,1330,1030>
+$rect <900,40,1150,80>
 $output false
 class Rules : Core::Group
 {
-  $rect <10,720,210,760>
+  $rect <850,70,1050,110>
   inherited property Bounds = <0,0,800,480>;
 
   $rect <10,880,210,920>
@@ -6541,7 +6314,7 @@ class Rules : Core::Group
     preset Appearance = PushButtonConfig;
   }
 
-  $rect <270,500,510,540>
+  $rect <840,20,1080,60>
   object WidgetSet::PushButtonConfig PushButtonConfig;
 
   $rect <20,20,160,60>
@@ -6552,14 +6325,14 @@ class Rules : Core::Group
   }
 }
 
-$rect <1100,1040,1330,1080>
+$rect <920,90,1150,130>
 $output false
 class GuessingGameRules : Application::Rules
 {
-  $rect <-360,340,-160,380>
+  $rect <860,230,1060,270>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-360,500,-160,540>
+  $rect <860,390,1060,430>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -6588,7 +6361,7 @@ class GuessingGameRules : Application::Rules
     */
   }
 
-  $rect <-360,460,-160,500>
+  $rect <860,350,1060,390>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -6775,7 +6548,7 @@ class GuessingGameRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-350,110,-170,150>
+  $rect <870,0,1050,40>
   inherited method Init()
   {
     Button.OnPress=BackToMenuSlot;
@@ -6798,7 +6571,7 @@ class GuessingGameRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-360,210,-160,250>
+  $rect <860,100,1060,140>
   slot BackToMenuSlot
   {
     Button.Visible=false;
@@ -6828,7 +6601,7 @@ class GuessingGameRules : Application::Rules
   $member BackToMenuSlot
 }
 
-$rect <1680,830,1880,870>
+$rect <990,1100,1190,1140>
 $output false
 resource Resources::Bitmap Button
 {
@@ -6840,7 +6613,7 @@ resource Resources::Bitmap Button
   attr bitmapmode Mode = Default;
 }
 
-$rect <750,1090,980,1130>
+$rect <570,140,800,180>
 $output false
 class MemoryGameMenu : Application::Menu
 {
@@ -6974,7 +6747,7 @@ class MemoryGameMenu : Application::Menu
     */
   }
 
-  $rect <-260,120,-80,160>
+  $rect <850,30,1030,70>
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
@@ -7026,7 +6799,7 @@ class MemoryGameMenu : Application::Menu
     preset Bounds = <353,157,435,196>;
   }
 
-  $rect <-280,170,-80,210>
+  $rect <830,80,1030,120>
   slot OpenRulePage
   {
     GetRoot().PresentDialog( new Application::MemoryGameRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
@@ -7040,7 +6813,7 @@ class MemoryGameMenu : Application::Menu
     preset Visible = false;
   }
 
-  $rect <-280,220,-80,260>
+  $rect <830,130,1030,170>
   slot OpenMemoryGame
   {
     Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
@@ -7085,14 +6858,14 @@ class MemoryGameMenu : Application::Menu
   $reorder MusicSLot 11
 }
 
-$rect <1100,1090,1330,1130>
+$rect <920,140,1150,180>
 $output false
 class MemoryGameRules : Application::Rules
 {
-  $rect <-360,340,-160,380>
+  $rect <860,240,1060,280>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-360,500,-160,540>
+  $rect <860,400,1060,440>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -7121,7 +6894,7 @@ class MemoryGameRules : Application::Rules
     */
   }
 
-  $rect <-360,460,-160,500>
+  $rect <860,360,1060,400>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -7286,7 +7059,7 @@ class MemoryGameRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-350,110,-170,150>
+  $rect <870,10,1050,50>
   inherited method Init()
   {
     Button.OnPress=BackToMenuSlot;
@@ -7309,7 +7082,7 @@ class MemoryGameRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-360,210,-160,250>
+  $rect <860,110,1060,150>
   slot BackToMenuSlot
   {
     Button.Visible=false;
@@ -7337,7 +7110,7 @@ class MemoryGameRules : Application::Rules
   $member BackToMenuSlot
 }
 
-$rect <750,1140,980,1180>
+$rect <570,190,800,230>
 $output false
 class TilesPuzzleMenu : Application::Menu
 {
@@ -7471,7 +7244,7 @@ class TilesPuzzleMenu : Application::Menu
     */
   }
 
-  $rect <-260,120,-80,160>
+  $rect <840,40,1020,80>
   inherited method Init()
   {
     Rules.OnPress=OpenRulePage;
@@ -7526,7 +7299,7 @@ class TilesPuzzleMenu : Application::Menu
     preset Bounds = <353,157,435,196>;
   }
 
-  $rect <-280,170,-80,210>
+  $rect <820,90,1020,130>
   slot OpenRulePage
   {
     GetRoot().PresentDialog( new Application::TilesPuzzleRules,Effects::SlideDownCentered, null, null, null, null, null, null, null, false );
@@ -7540,7 +7313,7 @@ class TilesPuzzleMenu : Application::Menu
     preset Visible = false;
   }
 
-  $rect <-280,220,-80,260>
+  $rect <820,140,1020,180>
   slot OpenTilePuzzleGame
   {
     Owner.DismissDialog( FindCurrentDialog(), null, null, null, null, null, false );
@@ -7587,14 +7360,14 @@ class TilesPuzzleMenu : Application::Menu
   $reorder Variable 12
 }
 
-$rect <1100,1140,1330,1180>
+$rect <920,190,1150,230>
 $output false
 class TilesPuzzleRules : Application::Rules
 {
-  $rect <-360,340,-160,380>
+  $rect <850,240,1050,280>
   inherited property Bounds = <0,0,800,480>;
 
-  $rect <-360,500,-160,540>
+  $rect <850,400,1050,440>
   inherited method UpdateLayout()
   {
     // Always invoke the inherited method.
@@ -7623,7 +7396,7 @@ class TilesPuzzleRules : Application::Rules
     */
   }
 
-  $rect <-360,460,-160,500>
+  $rect <850,360,1050,400>
   inherited method UpdateViewState()
   {
     // Always invoke the inherited method.
@@ -7810,7 +7583,7 @@ class TilesPuzzleRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-350,110,-170,150>
+  $rect <860,10,1040,50>
   inherited method Init()
   {
     Button.OnPress=BackToMenuSlot;
@@ -7833,7 +7606,7 @@ class TilesPuzzleRules : Application::Rules
     preset Color = #8A7429FF;
   }
 
-  $rect <-360,210,-160,250>
+  $rect <850,110,1050,150>
   slot BackToMenuSlot
   {
     Button.Visible=false;

@@ -1,9 +1,9 @@
 $version 1.0
 
-attr active = Application::MemoryGame;
+attr active = Application::TilesPuzzle;
 attr callStackMonitor_Show = false;
 attr connectInspectors = false;
-attr currentCodeInspector = Application::MemoryGame.VerifyActivePlaying;
+attr currentCodeInspector = Application::TilesPuzzle.VerifyActivePlaying;
 attr debug_TrackUpdates = false;
 attr extractDoc_ClassOverview = true;
 attr extractDoc_DeleteOldFiles = false;
@@ -18,7 +18,7 @@ attr generateClut_ReservedColors = 0;
 attr heapMonitor_Show = false;
 attr language = Default;
 attr profile = WebProfile;
-attr profilerMonitor_Show = false;
+attr profilerMonitor_Show = true;
 attr search_CaseSensitive = false;
 attr search_IgnoreDescription = false;
 attr search_IgnoreMosaic = false;
@@ -31,6 +31,7 @@ view Project
 {
   attr aspectRatio = 1.0;
   attr enableGrid = true;
+  attr enableWireMode = false;
   attr grid = 10;
   attr scrollTo = <-240,-236>;
   attr zoom = 0.5;
@@ -42,36 +43,45 @@ view unit Application
   attr enableGrid = true;
   attr enableWireMode = false;
   attr grid = 10;
-  attr scrollTo = <636,819>;
-  attr zoom = 0.5;
-}
-
-view class Application::MemoryGame
-{
-  attr enableWireMode = false;
-  attr scrollTo = <-458,-78>;
-  attr zoom = 0.5;
+  attr scrollTo = <-7,-7>;
+  attr zoom = 1.0;
 }
 
 view class Application::TilesPuzzle
 {
   attr enableWireMode = false;
-  attr scrollTo = <72,-7>;
-  attr zoom = 1.0;
+  attr scrollTo = <684,390>;
+  attr zoom = 0.5;
 }
 
-codeview Application::TilesPuzzle.Init
+codeview Application::TilesPuzzle.FindSolution
 {
   attr codeColSelect = false;
   attr codeFirstPos = <0,0>;
-  attr codeSelEnd = <39,2>;
-  attr codeSelStart = <39,2>;
+  attr codeSelEnd = <1,1>;
+  attr codeSelStart = <1,1>;
 }
 
-codeview Application::MemoryGame.VerifyActivePlaying
+codeview Application::TilesPuzzle.VerifyActivePlaying
 {
   attr codeColSelect = false;
-  attr codeFirstPos = <0,9>;
-  attr codeSelEnd = <36,14>;
-  attr codeSelStart = <36,14>;
+  attr codeFirstPos = <0,3>;
+  attr codeSelEnd = <31,12>;
+  attr codeSelStart = <31,12>;
+}
+
+codeview Application::TilesPuzzle.ThirteenthTileMovement
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
+}
+
+codeview Application::TilesPuzzle.UpdateTimerSlot
+{
+  attr codeColSelect = false;
+  attr codeFirstPos = <0,0>;
+  attr codeSelEnd = <0,0>;
+  attr codeSelStart = <0,0>;
 }
